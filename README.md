@@ -1,9 +1,9 @@
 # Your Project's Title...
-Your project's description...
+NRG Energy
 
 ## Environments
-- Preview: https://main--ise-boilerplate--aemdemos.aem.page/
-- Live: https://main--ise-boilerplate--aemdemos.aem.live/
+- Preview: https://main--summit-nrg--aemdemos.aem.page/
+- Live: https://main--summit-nrg--aemdemos.aem.live/
 
 ## Documentation
 
