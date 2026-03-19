@@ -1,0 +1,116 @@
+/* ---------- full-bleed section ---------- */
+main .cta-banner-container {
+  padding: 0;
+}
+
+main .cta-banner-container > .cta-banner-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* ---------- block layout ---------- */
+main .cta-banner > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+/* dark overlay for text readability */
+main .cta-banner > div::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(0 30 46 / 40%);
+  z-index: 1;
+}
+
+/* ---------- background image ---------- */
+main .cta-banner .cta-banner-image {
+  position: absolute;
+  inset: 0;
+}
+
+main .cta-banner .cta-banner-image picture {
+  display: block;
+  height: 100%;
+}
+
+main .cta-banner .cta-banner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- content overlay ---------- */
+main .cta-banner .cta-banner-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 920px;
+  padding: 60px 24px;
+}
+
+main .cta-banner .cta-banner-content h2 {
+  font-family: var(--heading-font-family);
+  font-size: 30px;
+  line-height: 36px;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+main .cta-banner .cta-banner-content p {
+  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 1.33;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+/* ---------- CTA button — white outline pill ---------- */
+main .cta-banner .cta-banner-content .button-wrapper {
+  margin-top: 24px;
+}
+
+main .cta-banner .cta-banner-content a.button.secondary:any-link {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: 9px 53px;
+  font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
+  font-size: 18px;
+}
+
+main .cta-banner .cta-banner-content a.button.secondary:hover {
+  background-color: #fff;
+  color: var(--text-color);
+}
+
+/* ---------- desktop ---------- */
+@media (width >= 900px) {
+  main .cta-banner > div {
+    min-height: 619px;
+  }
+
+  main .cta-banner .cta-banner-content {
+    padding: 80px 24px;
+  }
+
+  main .cta-banner .cta-banner-content h2 {
+    font-size: 42px;
+    line-height: 56px;
+  }
+
+  main .cta-banner .cta-banner-content p {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  main .cta-banner .cta-banner-content .button-wrapper {
+    margin-top: 40px;
+  }
+}

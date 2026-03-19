@@ -1,7 +1,29 @@
 /* hero design tokens */
 :root {
+  /* layout */
+  --hero-min-height: 400px;
+  --hero-min-height-desktop: 600px;
   --hero-padding: 40px 24px;
-  --hero-padding-desktop: 40px 32px;
-  --hero-min-height: 300px;
-  --hero-heading-max-width: 1200px;
+  --hero-padding-desktop: 0 24px;
+  --hero-content-max-width: 684px;
+
+  /* gradient */
+  --hero-gradient: linear-gradient(225deg, #ffeddf, #ffeddf 0%, #ffecf1 100%, #ffecf1 0%);
+  --hero-overlay: linear-gradient(-190deg, rgb(0 0 0 / 20%) 30%, transparent);
+
+  /* typography */
+  --hero-heading-color: #fff;
+  --hero-description-color: #fff;
+  --hero-description-font-size: 20px;
+  --hero-description-font-size-desktop: 24px;
+  --hero-description-line-height: 1.33;
+  --hero-description-font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  --hero-description-margin-bottom: 32px;
+
+  /* sub-hero */
+  --hero-sub-padding: 24px 24px;
+  --hero-sub-padding-desktop: 30px 24px;
+  --hero-sub-text-color: var(--text-color);
+  --hero-sub-text-font-size: 18px;
+  --hero-sub-max-width: 1440px;
 }
