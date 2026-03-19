@@ -1,22 +1,193 @@
-@import url('./footer-tokens.css');
-
+/* ---------- footer wrapper ---------- */
 footer {
   background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  font-size: var(--body-font-size-m);
 }
 
 footer .footer > div {
-  margin: auto;
-  max-width: var(--footer-max-width);
-  padding: var(--footer-padding);
+  display: flex;
+  flex-direction: column;
 }
 
-footer .footer p {
+/* ---------- dark CTA column (left on desktop) ---------- */
+footer .footer .footer-cta {
+  display: flex !important;
+  flex-direction: column;
+  background-color: var(--dark-color);
+  color: #fff;
+  padding: 48px 24px;
+}
+
+footer .footer .footer-cta h3 {
+  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  font-size: 28px;
+  line-height: 40px;
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+footer .footer .footer-cta p {
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 1.5;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+footer .footer .footer-cta hr {
+  border: none;
+  border-top: 1px solid rgb(255 255 255 / 30%);
+  margin: 24px 0;
+}
+
+/* CTA button — white outline pill */
+footer .footer .footer-cta .button-wrapper {
+  margin-bottom: 8px;
+}
+
+footer .footer .footer-cta a.button.primary:any-link {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: 10px 65px;
+  font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
+  font-size: 18px;
+  display: inline-block;
+  text-align: center;
+}
+
+footer .footer .footer-cta a.button.primary:hover {
+  background-color: #fff;
+  color: var(--dark-color);
+}
+
+/* ---------- nav column (right on desktop) ---------- */
+footer .footer .footer-nav {
+  display: flex !important;
+  flex-direction: column;
+  background-color: var(--light-color);
+  padding: 48px 24px;
+}
+
+footer .footer .footer-nav h3 {
+  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+footer .footer .footer-nav ul {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+}
+
+footer .footer .footer-nav ul li {
+  margin: 0 0 8px;
+}
+
+footer .footer .footer-nav ul li a:any-link {
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+footer .footer .footer-nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* social icons */
+footer .footer .footer-nav .icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+
+footer .footer .footer-nav .icon svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--text-color);
+}
+
+footer .footer .footer-nav p:has(.icon) {
+  display: flex;
+  gap: 12px;
+  margin: 0 0 24px;
+}
+
+footer .footer .footer-nav p:has(.icon) a:any-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+}
+
+/* legal links */
+footer .footer .footer-nav > .default-content-wrapper > p:nth-last-child(2) {
+  font-size: 18px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+  line-height: 2;
+}
+
+footer .footer .footer-nav > .default-content-wrapper > p:nth-last-child(2) a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+footer .footer .footer-nav > .default-content-wrapper > p:nth-last-child(2) a:hover {
+  text-decoration: underline;
+}
+
+/* copyright */
+footer .footer .footer-nav > .default-content-wrapper > p:last-child {
+  font-size: 16px;
+  color: var(--text-color);
   margin: 0;
 }
 
+/* nav column groups */
+footer .footer .footer-nav-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+footer .footer .footer-nav-col h3 {
+  margin-bottom: 16px;
+}
+
+/* ---------- desktop layout ---------- */
 @media (width >= 900px) {
   footer .footer > div {
-    padding: var(--footer-padding-desktop);
+    flex-direction: row;
+  }
+
+  footer .footer .footer-cta {
+    width: 50%;
+    padding: 72px 48px 72px 144px;
+  }
+
+  footer .footer .footer-nav {
+    width: 50%;
+    padding: 48px 48px 48px 142px;
+  }
+
+  /* nav columns side by side */
+  footer .footer .footer-nav-columns {
+    flex-direction: row;
+    gap: 48px;
+  }
+
+  footer .footer .footer-nav-col {
+    flex: 1;
   }
 }
