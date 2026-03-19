@@ -1,39 +1,176 @@
 @import url('./hero-tokens.css');
 
-.hero-container .hero-wrapper {
+/* ---------- container overrides ---------- */
+main .hero-container {
+  background-color: var(--light-color);
+}
+
+main .hero-container > .hero-wrapper {
   max-width: unset;
   padding: 0;
 }
 
-.hero {
+/* ---------- hero block ---------- */
+main .hero {
   position: relative;
-  padding: var(--hero-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   min-height: var(--hero-min-height);
+  padding: var(--hero-padding);
+  overflow: hidden;
 }
 
-.hero h1 {
-  max-width: var(--hero-heading-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
-}
-
-.hero picture {
+/* gradient background layer */
+main .hero::before {
+  content: '';
   position: absolute;
-  z-index: -1;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+  z-index: 0;
+  background: var(--hero-gradient);
 }
 
-.hero img {
-  object-fit: cover;
+/* dark overlay for text readability */
+main .hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--hero-overlay);
+  pointer-events: none;
+}
+
+/* background image */
+main .hero picture {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+main .hero picture img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
+/* content rows — sit above gradient + image */
+main .hero > div {
+  position: relative;
+  z-index: 2;
+}
+
+/* first row = hero content (text column) */
+main .hero > div:first-of-type {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* content column (the div without picture) */
+main .hero > div:first-of-type > div {
+  position: relative;
+  z-index: 2;
+  max-width: var(--hero-content-max-width);
+}
+
+/* heading */
+main .hero h1 {
+  color: var(--hero-heading-color);
+  margin-bottom: 8px;
+}
+
+/* description paragraph */
+main .hero > div:first-of-type p {
+  color: var(--hero-description-color);
+  font-family: var(--hero-description-font-family);
+  font-size: var(--hero-description-font-size);
+  line-height: var(--hero-description-line-height);
+  margin-bottom: var(--hero-description-margin-bottom);
+  max-width: var(--hero-content-max-width);
+}
+
+/* primary CTA — magenta pill */
+main .hero > div:first-of-type a.button:any-link {
+  background-color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  color: var(--light-color);
+  border-radius: var(--border-radius);
+  padding: 9px 53px;
+}
+
+main .hero > div:first-of-type a.button:hover {
+  background-color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+}
+
+/* ---------- sub-hero row (last div) ---------- */
+main .hero > div:last-of-type {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 16px;
+  padding: var(--hero-sub-padding);
+  margin: 0 -24px;
+  width: calc(100% + 48px);
+  background-color: var(--light-color);
+}
+
+main .hero > div:last-of-type p {
+  color: var(--hero-sub-text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--hero-sub-text-font-size);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* sub-hero CTA button wrappers */
+main .hero > div:last-of-type .button-wrapper {
+  display: inline-flex;
+  margin: 0;
+}
+
+/* sub-hero outline buttons */
+main .hero > div:last-of-type a.button:any-link {
+  background-color: transparent;
+  border: 1px solid var(--brand-primary);
+  color: var(--brand-primary);
+  border-radius: var(--border-radius);
+  white-space: nowrap;
+  padding: 9px 53px;
+}
+
+main .hero > div:last-of-type a.button:hover {
+  background-color: var(--brand-primary);
+  color: var(--light-color);
+}
+
+/* ---------- desktop ---------- */
 @media (width >= 900px) {
-  .hero {
+  main .hero {
+    min-height: var(--hero-min-height-desktop);
     padding: var(--hero-padding-desktop);
+    padding-bottom: 60px;
+  }
+
+  main .hero > div:first-of-type p {
+    font-size: var(--hero-description-font-size-desktop);
+  }
+
+  main .hero > div:last-of-type {
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 24px;
+    padding: var(--hero-sub-padding-desktop);
+    margin: 0 -24px;
+    width: calc(100% + 48px);
+  }
+
+  main .hero > div:last-of-type > p:first-child {
+    flex: 1;
+    max-width: 600px;
+  }
+
+  main .hero > div:last-of-type .button-wrapper {
+    flex-shrink: 0;
   }
 }
