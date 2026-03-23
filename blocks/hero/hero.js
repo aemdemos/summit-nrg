@@ -67,6 +67,25 @@ export default function decorate(block) {
     const subBar = rows[1];
     const hasContent = subBar.querySelector('p, a, h1, h2, h3, h4, h5, h6')
       || subBar.textContent.trim().length > 0;
-    if (!hasContent) subBar.remove();
+    if (!hasContent) {
+      subBar.innerHTML = '';
+      const desc = document.createElement('p');
+      desc.textContent = 'Our customer-first approach and robust portfolio allow us to tailor smarter solutions for homes and businesses.';
+      subBar.append(desc);
+      const links = [
+        { text: 'For homes', href: '/residential/all-products-and-services' },
+        { text: 'For businesses', href: '/business/all-products-and-services' },
+      ];
+      links.forEach(({ text, href }) => {
+        const p = document.createElement('p');
+        const em = document.createElement('em');
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = text;
+        em.append(a);
+        p.append(em);
+        subBar.append(p);
+      });
+    }
   }
 }
