@@ -190,5 +190,54 @@
 - All issues closed as complete, referencing PR #14 as the implementation PR
 
 ### Carry-Forward
+- [x] ~~Add business solutions product grid content (optional)~~ — deferred
+- [x] Set up journaling workflow for ongoing project management
+
+---
+
+## Session: 2026-03-23 15:00 — Journaling Workflow Setup & Status Update
+
+**Duration**: ~30m
+**Branch**: main
+**Focus**: Set up project management skills, hooks, journal initialization, and first status briefing
+
+### Actions
+- [x] Reviewed all 8 available repository skills (4 existing + 4 new project management)
+- [x] Created 4 project management skill definitions (excat-journaling, excat-daily-status-checkup, excat-problem-tracker, excat-project-time-tracking)
+- [x] Created 2 hook scripts (auto-lint-blocks.js, journal-reminder.js)
+- [x] Configured `.claude/settings.json` with PostToolUse and Stop hooks
+- [x] Initialized retroactive journal with 4 session entries covering full project history
+- [x] Created problems reference with 8 resolved problems and avoidance patterns
+- [x] Created time report with category breakdowns and problem time-loss tracking
+- [x] Pulled main branch (synced 11 commits from merged PR #14)
+- [x] Discovered remote already had skill/hook files from PR — resolved merge conflict by backing up local, pulling, then committing journal data
+- [x] Ran first daily status checkup — project health green, all milestones complete
+- [x] Committed and pushed journal data + hook config
+
+### Commits
+- `2638027` — Add project journal, hook config, and tracking data
+
+### Problems Encountered
+- **Problem**: `git pull` failed — untracked local skill files conflicted with remote versions
+  - **Root cause**: PR #14 included the same skill/hook files that were being created locally
+  - **Resolution**: Backed up local files, removed conflicts, pulled, then committed only the new journal data
+  - **Time lost**: ~5m
+
+- **Problem**: gh CLI binary missing from /tmp after session restart
+  - **Root cause**: /tmp is ephemeral; previous session's gh install was lost
+  - **Resolution**: Re-downloaded gh CLI tarball from GitHub releases
+  - **Time lost**: ~2m
+
+- **Problem**: Hook scripts used ES module syntax but package.json has no `"type": "module"`
+  - **Root cause**: Hooks used `import` statements but Node defaults to CommonJS
+  - **Resolution**: Rewrote auto-lint hook to use `require()` (remote version from PR already had correct CJS syntax)
+  - **Time lost**: ~3m
+
+### Decisions
+- Used remote versions of skill/hook files from PR #14 (more complete than local drafts)
+- Journal data stored in `.migration/journal/` — tracked by git for team visibility
+- Hook config in `.claude/settings.json` — project-level, applies to all team members
+
+### Carry-Forward
 - [ ] Add business solutions product grid content (optional)
-- [ ] Set up journaling workflow for ongoing project management
+- [ ] Consider adding readiness tracker for multi-page migration tracking
