@@ -280,11 +280,61 @@ export function decorateSections(main) {
 }
 
 /**
+ * Map of image alt text → local fallback path for DA content with broken images.
+ * DA may store "about:error" when original images could not be fetched at author time.
+ */
+const IMAGE_FALLBACKS = new Map([
+  ['NRG CERAWeek hero image', '/media/nrg/hero-ceraweek.jpg'],
+  ['family on lawn', '/media/nrg/feature-family-lawn.jpg'],
+  ['Mother and daughter with tablet', '/media/nrg/feature-mother-daughter.jpg'],
+  ['Energy plans', '/media/nrg/grid-energy-plans.jpg'],
+  ['Smart home', '/media/nrg/grid-smart-home.jpg'],
+  ['Smart home icon', '/media/nrg/icon-smart-home.svg'],
+  ['Sustainable living', '/media/nrg/grid-sustainable-living.jpg'],
+  ['Sustainable living icon', '/media/nrg/icon-sustainable-living.svg'],
+  ['EV driving', '/media/nrg/grid-ev-driving.jpg'],
+  ['Backup power', '/media/nrg/grid-backup-power.jpg'],
+  ['Backup power icon', '/media/nrg/icon-backup-power.svg'],
+  ['Home services', '/media/nrg/grid-home-services.jpg'],
+  ['Home services icon', '/media/nrg/icon-home-services.svg'],
+  ['Power', '/media/nrg/grid-power.jpg'],
+  ['Natural gas', '/media/nrg/grid-natural-gas.jpg'],
+  ['Load management', '/media/nrg/grid-load-management.jpg'],
+  ['Load management icon', '/media/nrg/icon-load-management.svg'],
+  ['Sustainability & renewables', '/media/nrg/grid-sustainability-renewables.jpg'],
+  ['Energy brokers', '/media/nrg/grid-energy-brokers.jpg'],
+  ['Energy brokers icon', '/media/nrg/icon-energy-brokers.svg'],
+  ['Collaborative team meeting', '/media/nrg/news-collaborative-team.jpg'],
+  ['Energy market analysis', '/media/nrg/news-energy-market.jpg'],
+  ['Ellie Schweiker portrait', '/media/nrg/news-ellie-schweiker.jpg'],
+  ['Energy legislation analysis', '/media/nrg/news-energy-legislation.jpg'],
+  ['Community engagement', '/media/nrg/news-community-engagement.jpg'],
+  ['NRG Employees', '/media/nrg/cta-nrg-employees.jpg'],
+]);
+
+/**
+ * Replaces broken "about:error" image sources with local fallbacks.
+ * DA content may contain "about:error" when original images could not be
+ * fetched at author time (e.g. Scene7 CORS restrictions).
+ * @param {Element} main The main container
+ */
+function fixBrokenImages(main) {
+  main.querySelectorAll('img').forEach((img) => {
+    if (!img.src.includes('about:error')) return;
+    const fallback = IMAGE_FALLBACKS.get(img.alt);
+    if (fallback) {
+      img.src = fallback;
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
+  fixBrokenImages(main);
   // hopefully forward compatible button decoration
   decorateIcons(main);
   buildAutoBlocks(main);
