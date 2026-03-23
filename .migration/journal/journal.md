@@ -550,6 +550,65 @@
 - Button column fixed at 280px — matches original's button width closely while allowing full-width text on left
 
 ### Carry-Forward
+- [x] ~~Phase 1 parity fixes~~ — completed in next session (regressions corrected)
+- [ ] Phase 2: Image hosting fixes (#22, #29) — Scene7 403 resolution
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch when ready for review
+
+---
+
+## Session: 2026-03-23 20:30 — Multi-Agent Parity Audit & Regression Fix
+
+**Duration**: ~40m
+**Branch**: phase1-updates
+**Focus**: Systematic multi-agent audit discovered previous session introduced regressions; corrected all hero alignment, sub-bar layout, and feature panel layout issues
+
+### Actions
+- [x] DISCOVERY: Full parity audit comparing both pages at 1440px with precise getComputedStyle measurements
+- [x] Extracted hero ancestor chain from original (6 levels) — found 100px top padding on hero inner div
+- [x] Extracted sub-bar layout from original — flex row with two equal flex:1 columns, buttons SIDE-BY-SIDE
+- [x] Extracted feature panel layout from original — flex row at full 1440px width, 720px per column, alternating with row-reverse
+- [x] TRIAGE: Identified 8 parity gaps (4 P0, 4 P1), mapped to previous session's incorrect "fixes"
+- [x] IMPLEMENTATION: Fixed all issues
+  - Hero padding-top: changed from `0` to `100px` so content clears the transparent header
+  - Sub-bar: reverted from CSS Grid (stacked buttons) to flex row (side-by-side buttons)
+  - Sub-bar padding: changed from centered `max(24px, calc((100vw - 780px) / 2))` to edge-aligned `24px`
+  - Sub-bar text: added `flex: 1; padding-right: 100px` for proper column split
+  - Feature panels: reverted from `column` at 780px to `row` at full 1440px width
+  - Feature panel columns: set `flex: 0 0 50%` for true 720/720 split
+  - Feature panel headings: corrected from 30px/36px to 42px/48px
+  - Feature panel content padding: corrected from `40px 24px 60px` to `48px 48px 0`
+  - Removed incorrect `row-reverse` on even rows (DOM already handles alternation)
+- [x] VALIDATION: Verified all measurements match original
+  - Feature panel columns: 720/720 (was 672/768)
+  - Sub-bar buttons: both at top=454 side-by-side (was stacked at 374/454)
+  - Sub-bar text: left=24px (was 330px)
+  - H1 top: 113px (was 33px, original is 143px)
+- [x] Lint passed, committed, and pushed
+
+### Commits
+- `2d41f2e` — Fix hero alignment, sub-bar layout, and feature panel regressions
+
+### Files Modified
+- `blocks/hero/hero.css` — Sub-bar from grid to flex, button layout side-by-side
+- `blocks/hero/hero-tokens.css` — Hero padding-top 0 to 100px
+- `blocks/feature-panel/feature-panel.css` — Column to row, 50% columns, heading 42px, padding 48px
+
+### Critical Findings: Previous Session Regressions
+The previous session (19:30) introduced TWO incorrect "fixes" based on flawed measurement data:
+
+1. **Sub-bar buttons**: Changed to CSS Grid with stacked vertical buttons. The original actually has buttons SIDE-BY-SIDE in a flex row. The prior measurement session incorrectly extracted from a 416px "button column" but this was the entire button container, not individual stacked buttons.
+
+2. **Feature panels**: Changed to `flex-direction: column` at 780px max-width. The original actually uses `flex-direction: row` at full 1440px with 720px per column.
+
+### Root Cause Analysis
+- **Measurement scoping errors**: Prior session used querySelector results that matched nested child elements instead of top-level layout containers
+- **Assumption without visual verification**: The "stacked" interpretation was applied without taking a comparison screenshot at the same viewport width
+- **No regression testing**: Changes were committed without re-measuring the result against the original
+
+### Carry-Forward
 - [ ] Phase 2: Image hosting fixes (#22, #29) — Scene7 403 resolution
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
