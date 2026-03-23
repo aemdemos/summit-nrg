@@ -10,8 +10,8 @@ export default function decorate(block) {
   const tabs = [];
   rows.forEach((row) => {
     const cols = [...row.children];
-    const icon = cols[0]?.querySelector('picture');
-    const image = cols[1]?.querySelector('picture');
+    const icon = cols[0]?.querySelector('picture') || cols[0]?.querySelector('img');
+    const image = cols[1]?.querySelector('picture') || cols[1]?.querySelector('img');
     const content = cols[2];
     const title = content?.querySelector('h3')?.textContent || '';
     tabs.push({
