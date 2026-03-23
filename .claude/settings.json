@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /workspace/.agents/skills/hooks/auto-lint-blocks.js",
+            "timeout": 20000
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /workspace/.agents/skills/hooks/journal-reminder.js",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}
