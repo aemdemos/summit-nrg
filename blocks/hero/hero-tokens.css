@@ -4,7 +4,7 @@
   --hero-min-height: 400px;
   --hero-min-height-desktop: 600px;
   --hero-padding: 40px 24px;
-  --hero-padding-desktop: 0 24px;
+  --hero-padding-desktop: 100px 24px 0;
   --hero-content-max-width: 684px;
 
   /* gradient */

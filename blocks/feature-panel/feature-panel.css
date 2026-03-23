@@ -99,9 +99,12 @@ main .feature-panel .feature-panel-row:nth-child(even) {
 /* ---------- desktop ---------- */
 @media (width >= 900px) {
   main .feature-panel .feature-panel-row {
-    flex-direction: column;
-    max-width: 780px;
-    margin: 0 auto;
+    flex-direction: row;
+  }
+
+  main .feature-panel .feature-panel-image,
+  main .feature-panel .feature-panel-content {
+    flex: 0 0 50%;
   }
 
   main .feature-panel .feature-panel-image {
@@ -109,11 +112,11 @@ main .feature-panel .feature-panel-row:nth-child(even) {
   }
 
   main .feature-panel .feature-panel-content {
-    padding: 40px 24px 60px;
+    padding: 48px 48px 0;
   }
 
   main .feature-panel h2 {
-    font-size: 30px;
-    line-height: 36px;
+    font-size: 42px;
+    line-height: 48px;
   }
 }

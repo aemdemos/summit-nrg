@@ -176,26 +176,22 @@ main .hero > div:last-of-type a.button:hover {
   }
 
   main .hero > div:last-of-type {
-    display: grid;
-    grid-template-columns: 1fr 280px;
+    display: flex;
+    flex-flow: row nowrap;
     align-items: center;
-    gap: 12px 40px;
-    padding: 30px max(24px, calc((100vw - 780px) / 2));
+    gap: 0;
+    padding: 30px 24px;
     margin: 0 -24px;
     width: calc(100% + 48px);
   }
 
   main .hero > div:last-of-type > p:first-child {
-    grid-column: 1;
-    grid-row: 1 / -1;
+    flex: 1;
+    padding-right: 100px;
   }
 
   main .hero > div:last-of-type .button-wrapper {
-    grid-column: 2;
-  }
-
-  main .hero > div:last-of-type .button-wrapper a.button:any-link {
-    width: 100%;
-    text-align: center;
+    display: inline-flex;
+    margin: 0 8px 0 0;
   }
 }
