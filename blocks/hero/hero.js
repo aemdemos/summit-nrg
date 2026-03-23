@@ -78,12 +78,13 @@ export default function decorate(block) {
       ];
       links.forEach(({ text, href }) => {
         const p = document.createElement('p');
-        const em = document.createElement('em');
+        p.className = 'button-wrapper';
         const a = document.createElement('a');
         a.href = href;
         a.textContent = text;
-        em.append(a);
-        p.append(em);
+        a.title = text;
+        a.className = 'button secondary';
+        p.append(a);
         subBar.append(p);
       });
     }
