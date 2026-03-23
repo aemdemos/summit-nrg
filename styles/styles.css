@@ -305,3 +305,14 @@ main .section.highlight {
   margin: 0;
   padding: var(--section-spacing) 0;
 }
+
+/* --- NRG section backgrounds and vertical spacing --- */
+main .section.product-grid-container {
+  background-color: var(--background-color);
+  padding: 45px 0;
+}
+
+main .section.news-carousel-container {
+  background-color: var(--light-color);
+  padding: 45px 0;
+}
