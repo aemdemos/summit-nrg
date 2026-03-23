@@ -365,8 +365,65 @@
 - Phase 1 focused on content-only issues; block code (JS/CSS) was already correct for handling additional tabs/slides
 
 ### Carry-Forward
+- [x] ~~Phase 1 content fixes~~ — completed
+- [ ] Phase 1 styling fixes — hero/header CSS (see next session)
 - [ ] Phase 2: Image hosting fixes (#22, #29) — Scene7 403 resolution
-- [ ] Phase 3: Header overhaul (#15 transparent bg, #16 search icon)
+- [ ] Phase 3: Header overhaul (#16 search icon)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#21 sub-bar buttons, #27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch when ready for review
+
+---
+
+## Session: 2026-03-23 17:40 — Hero & Header Styling Fixes
+
+**Duration**: ~20m
+**Branch**: phase1-updates
+**Focus**: Fix CSS styling issues identified after Phase 1 content fixes — hero CTA layout, header transparency, button variants
+
+### Actions
+- [x] Compared migrated hero vs original NRG.com side-by-side via Playwright
+- [x] Extracted CSS properties from original NRG.com (header bg, CTA layout, sub-bar colors)
+- [x] Fixed header to be transparent with white text/icons (`header.css`)
+  - Background: `#fff` → `transparent`
+  - Removed border-bottom
+  - All nav text, link colors, icon fills changed to `#fff`
+  - Hamburger button background changed to transparent
+- [x] Fixed hero CTA buttons to display side-by-side (`hero.css`)
+  - Added `display: inline-flex` to `.button-wrapper` elements
+- [x] Added secondary CTA styling for "Speaker Schedule" button
+  - Transparent background with white border (`border: 1px solid #fff`)
+  - Hover state with subtle white overlay
+- [x] Fixed hero extending behind header
+  - Removed `background-color: var(--light-color)` from `.hero-container`
+  - Added `margin-top: calc(-1 * var(--nav-height))` to pull hero behind transparent header
+  - Used `main > .hero-container:first-of-type` selector to beat specificity of `main > .section:first-of-type { margin-top: 0 }`
+- [x] Sub-bar visual contrast restored (removing container bg means light sub-bar contrasts with dark hero image above)
+- [x] Lint passed clean (only pre-existing footer.js warning)
+- [x] Committed and pushed to `phase1-updates`
+
+### Commits
+- `d48b9e8` — Fix hero and header styling: transparent header, side-by-side CTAs, secondary button variant
+
+### Issues Addressed
+- **#15** (P0): Header transparent on homepage — white bg removed, nav text white, hero extends behind header
+- **#17** (P0): Hero styling — CTAs side-by-side, secondary button outlined, text alignment correct
+- **#21** (P2): Partially addressed — hero button styling now correct; sub-bar buttons were already styled correctly
+
+### Problems Encountered
+- **Problem**: `margin-top: calc(-1 * var(--nav-height))` not applied to hero-container
+  - **Root cause**: `main > .section:first-of-type { margin-top: 0; }` in styles.css had specificity 0-2-1, overriding `main .hero-container` at 0-1-1
+  - **Resolution**: Changed selector to `main > .hero-container:first-of-type` (specificity 0-2-1, wins by cascade order since hero.css loads after styles.css)
+  - **Time lost**: ~5m
+
+### Decisions
+- Made header globally transparent (not homepage-specific) — acceptable for Summit demo since only homepage exists
+- Hero pulls behind header via negative margin rather than removing header height placeholder — keeps layout intact for non-hero pages
+- Sub-bar background kept as `var(--light-color)` = `#f4f4f4` — matches original NRG.com (verified via computed style extraction)
+
+### Carry-Forward
+- [ ] Phase 2: Image hosting fixes (#22, #29) — Scene7 403 resolution
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Open PR for phase1-updates branch when ready for review
