@@ -2,11 +2,10 @@
 
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: #fff;
+  background-color: transparent;
   width: 100%;
   z-index: 2;
   position: fixed;
-  border-bottom: 1px solid rgb(0 30 46 / 10%);
 }
 
 header nav {
@@ -22,7 +21,7 @@ header nav {
   height: var(--nav-height);
   padding: var(--header-nav-padding);
   font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
-  color: var(--dark-color);
+  color: #fff;
 }
 
 header nav[aria-expanded='true'] {
@@ -55,7 +54,7 @@ header nav p {
 }
 
 header nav a:any-link {
-  color: var(--dark-color);
+  color: #fff;
   text-decoration: none;
 }
 
@@ -73,7 +72,7 @@ header nav .nav-hamburger button {
   border: 0;
   border-radius: 0;
   padding: 0;
-  background-color: #fff;
+  background-color: transparent;
   color: inherit;
   overflow: initial;
   text-overflow: initial;
@@ -296,7 +295,7 @@ header nav .nav-tools p {
 }
 
 header nav .nav-tools a:any-link {
-  color: var(--dark-color);
+  color: #fff;
   text-decoration: none;
 }
 
@@ -336,7 +335,7 @@ header nav .nav-tools .icon {
 header nav .nav-tools .icon svg {
   width: 20px;
   height: 20px;
-  fill: var(--dark-color);
+  fill: #fff;
 }
 
 /* breadcrumbs */

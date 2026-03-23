@@ -1,8 +1,8 @@
 @import url('./hero-tokens.css');
 
 /* ---------- container overrides ---------- */
-main .hero-container {
-  background-color: var(--light-color);
+main > .hero-container:first-of-type {
+  margin-top: calc(-1 * var(--nav-height));
 }
 
 main .hero-container > .hero-wrapper {
@@ -90,6 +90,12 @@ main .hero > div:first-of-type p {
   max-width: var(--hero-content-max-width);
 }
 
+/* hero CTA buttons — side by side */
+main .hero > div:first-of-type .button-wrapper {
+  display: inline-flex;
+  margin: 0 16px 0 0;
+}
+
 /* primary CTA — magenta pill */
 main .hero > div:first-of-type a.button:any-link {
   background-color: var(--brand-primary);
@@ -102,6 +108,17 @@ main .hero > div:first-of-type a.button:any-link {
 main .hero > div:first-of-type a.button:hover {
   background-color: var(--link-hover-color);
   border-color: var(--link-hover-color);
+}
+
+/* secondary CTA — transparent with white border */
+main .hero > div:first-of-type a.button.secondary:any-link {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+main .hero > div:first-of-type a.button.secondary:hover {
+  background-color: rgb(255 255 255 / 15%);
 }
 
 /* ---------- sub-hero row (last div) ---------- */
