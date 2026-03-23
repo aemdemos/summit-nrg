@@ -609,8 +609,59 @@ The previous session (19:30) introduced TWO incorrect "fixes" based on flawed me
 - **No regression testing**: Changes were committed without re-measuring the result against the original
 
 ### Carry-Forward
+- [x] ~~Section backgrounds and padding~~ — completed next session
 - [ ] Phase 2: Image hosting fixes (#22, #29) — Scene7 403 resolution
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Open PR for phase1-updates branch when ready for review
+
+---
+
+## Session: 2026-03-23 21:30 — Section Styling & Page Critique
+
+**Duration**: ~45m
+**Branch**: phase1-updates
+**Focus**: Fix section-level backgrounds and padding to match original NRG.com, run full page critique with correct migrated URL
+
+### Actions
+- [x] DISCOVERY: Extracted section-level CSS from original NRG.com using getComputedStyle ancestor chain walking
+  - Found `SectionContainer` wrappers with specific bg colors and padding
+  - Products home: `rgb(255,255,255)` white, 45px vertical padding
+  - Products business: `rgb(255,255,255)` white, 45px vertical padding
+  - "The latest": `rgb(244,244,244)` gray, 45px vertical padding
+  - Hero gradient fallback: `linear-gradient(225deg, #ffeddf → #ffecf1)` — warm peach-to-pink
+- [x] Verified migrated page sections had transparent backgrounds and 0px padding (the gap)
+- [x] Applied section background and padding fixes to `styles/styles.css`
+  - `.section.product-grid-container`: white bg + 45px padding
+  - `.section.news-carousel-container`: light gray bg + 45px padding
+- [x] Verified hero gradient tokens already match original (no changes needed)
+- [x] Verified feature panel alternating backgrounds already correct (odd=white, even=gray)
+- [x] Lint passed clean
+- [x] Committed and pushed (`e8b8f58`)
+- [x] Ran full page critique with element-inspector + visual-comparator
+  - Captured 93 migrated elements from correct URL (`/content/index`)
+  - Captured 33 original elements from nrg.com
+  - Visual comparison: **57% similarity** (up from stale 47%)
+
+### Commits
+- `e8b8f58` — Add section backgrounds and padding to match original NRG.com
+
+### Files Modified
+- `styles/styles.css` — Section background and padding rules for product-grid and news-carousel
+
+### Page Critique Results (57% Similarity)
+
+**HIGH:** Feature panel images broken (Scene7 403), news carousel layout, footer email form missing
+**MEDIUM:** Header search icon, footer social icons, footer legal links
+**LOW:** Header chevrons, hero external link icon, feature panel bg false positive
+
+### Key Finding
+Previous critique (47.2%) was invalid — inspector captured a 404 page due to wrong URL (`/content/index.html`). Correct URL is `/content/index`. The 57% score reflects actual state; remaining gaps are primarily infrastructure (Scene7 CDN 403) not CSS.
+
+### Carry-Forward
+- [ ] Phase 2: Image hosting fixes (#22, #29) — biggest visual impact
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23, #25, #24, #30)
+- [ ] Phase 5: Polish (#27, #28)
+- [ ] Open PR for phase1-updates branch
