@@ -13,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 const WORKSPACE = process.env.CLAUDE_PROJECT_DIR || '/workspace';
-const JOURNAL_FILE = path.join(WORKSPACE, 'journal', 'journal.md');
+const JOURNAL_FILE = path.join(WORKSPACE, '.migration', 'journal', 'journal.md');
 
 let input = '';
 process.stdin.setEncoding('utf8');
