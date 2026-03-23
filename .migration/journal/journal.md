@@ -239,5 +239,71 @@
 - Hook config in `.claude/settings.json` — project-level, applies to all team members
 
 ### Carry-Forward
-- [ ] Add business solutions product grid content (optional)
+- [x] ~~Add business solutions product grid content (optional)~~ — captured as issue #18
 - [ ] Consider adding readiness tracker for multi-page migration tracking
+
+---
+
+## Session: 2026-03-23 16:00 — Homepage Parity QA Audit
+
+**Duration**: ~1h
+**Branch**: main
+**Focus**: Systematic homepage parity audit comparing original NRG.com to migrated EDS page, creating GitHub issues for all discrepancies
+
+### Actions
+- [x] Captured full-page screenshots of original NRG.com at 1440px viewport
+- [x] Captured full-page screenshots of migrated EDS page at 1440px viewport
+- [x] Compared accessibility snapshots section-by-section (header, hero, feature panels, product grid, news carousel, CTA banner, footer)
+- [x] Identified 16 parity issues across all severity levels
+- [x] Created 16 GitHub issues (#15–#30) with detailed problem descriptions, proposed solutions, and acceptance criteria
+- [x] Fixed journal-reminder hook path and committed
+- [x] Re-installed gh CLI (ephemeral /tmp lost between sessions)
+
+### Commits
+- `6f3b77d` — Log session 2026-03-23: journaling workflow setup and status update
+- `94f19bf` — Fix journal reminder hook path to .migration/journal/journal.md
+
+### Issues Created (QA Audit)
+
+**P0 — Parity-Breaking (4 issues):**
+- #15: Header uses white background instead of transparent overlay on hero
+- #16: Search icon and search functionality missing from header
+- #17: Hero content differs — different headline, missing badge, missing dual CTAs
+- #18: Business solutions product grid section entirely missing
+- #19: Residential product grid missing 3 tabs (EV driving, Backup power, Home services)
+
+**P1 — UX Issues (6 issues):**
+- #20: News carousel shows 1 of 1 instead of 1 of 5 articles
+- #21: Hero sub-bar CTA buttons missing pill/outline styling
+- #22: Feature panel images broken (Scene7 CDN 403)
+- #23: Footer missing email signup form
+- #24: Footer missing "Your Privacy Choices" button
+- #25: Footer layout single-column instead of two-column grid
+- #29: CTA banner image broken (Scene7 CDN 403)
+
+**P2 — Minor (4 issues):**
+- #26: Page title mismatch
+- #27: Feature panel link arrows use text "→" instead of styled icons
+- #28: Product grid shows stray "→ →" text
+- #30: Footer "Contact us" renders as outlined link instead of magenta button
+
+### Problems Encountered
+- **Problem**: gh CLI binary missing from /tmp (again)
+  - **Root cause**: /tmp is ephemeral across sessions
+  - **Resolution**: Re-downloaded gh CLI tarball
+  - **Time lost**: ~2m
+
+- **Problem**: Journal reminder hook kept firing despite journal being updated
+  - **Root cause**: Hook was checking wrong path (`/workspace/journal/journal.md` vs `/workspace/.migration/journal/journal.md`)
+  - **Resolution**: Fixed path in hook script, committed `94f19bf`
+  - **Time lost**: ~5m
+
+### Decisions
+- Treated NRG's current live content as the source of truth (hero content rotates)
+- Classified Scene7 CDN 403 issues as P1 (not P0) since images work in production; the fix is to host locally
+- Separated content issues (missing tabs, articles) from code issues (styling, layout)
+
+### Carry-Forward
+- [ ] Address P0 issues first: header transparency, search, hero content, business product grid
+- [ ] Then P1: images, footer form, carousel articles
+- [ ] Then P2: title, arrow styling, stray text
