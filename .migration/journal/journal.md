@@ -487,8 +487,71 @@
 5. Scope `querySelector` carefully — always scope to correct container first
 
 ### Carry-Forward
-- [ ] Implement Fix #1: Sub-bar button layout (CSS Grid, stacked)
-- [ ] Implement Fix #2: Feature panel layout (stacked, max-width)
-- [ ] Implement Fix #3: Button letter-spacing (1px)
-- [ ] Implement Fix #4: Sub-bar font size (16px)
-- [ ] Verify all fixes visually, lint, commit, push
+- [x] ~~Implement Fix #1: Sub-bar button layout (CSS Grid, stacked)~~ — done
+- [x] ~~Implement Fix #2: Feature panel layout (stacked, max-width)~~ — done
+- [x] ~~Implement Fix #3: Button letter-spacing (1px)~~ — done
+- [x] ~~Implement Fix #4: Sub-bar font size (16px)~~ — done
+- [x] ~~Verify all fixes visually, lint, commit, push~~ — done
+
+---
+
+## Session: 2026-03-23 19:30 — Phase 1 Parity Fixes: Implementation & Push
+
+**Duration**: ~30m
+**Branch**: phase1-updates
+**Focus**: Implement all 4 parity fixes identified in the audit, verify visually, lint, commit, and push
+
+### Actions
+- [x] Implemented Fix #1: Sub-bar button layout — CSS Grid with stacked vertical buttons
+  - Changed desktop sub-bar from `flex-flow: row nowrap` to `display: grid; grid-template-columns: 1fr 280px`
+  - Text paragraph spans all rows with `grid-row: 1 / -1`
+  - Viewport-responsive centering: `padding: 30px max(24px, calc((100vw - 780px) / 2))`
+  - Buttons placed in column 2, naturally stacking vertically across grid rows
+- [x] Implemented Fix #2: Feature panel layout — stacked column at desktop
+  - Changed desktop `flex-direction` from `row` to `column`
+  - Added `max-width: 780px; margin: 0 auto` to center content
+  - Image min-height: 480px, content padding: `40px 24px 60px`
+  - Heading: `font-size: 30px; line-height: 36px`
+- [x] Implemented Fix #3: Button letter-spacing — added `letter-spacing: 1px` to both hero CTA and sub-bar button rules
+- [x] Implemented Fix #4: Sub-bar text font size — changed `--hero-sub-text-font-size` from `18px` to `16px`
+- [x] Verified all fixes via Playwright screenshots
+- [x] Fixed stylelint error: replaced `column-gap: 40px; row-gap: 12px` with shorthand `gap: 12px 40px`
+- [x] Lint passed clean (only pre-existing footer.js warning)
+- [x] Committed and pushed to `phase1-updates`
+
+### Commits
+- `f64358c` — Fix Phase 1 parity: sub-bar layout, feature panels, button spacing, font size
+
+### Files Modified
+- `blocks/hero/hero.css` — Sub-bar grid layout, button letter-spacing
+- `blocks/hero/hero-tokens.css` — Sub-bar text font size (18px → 16px)
+- `blocks/feature-panel/feature-panel.css` — Stacked column layout at desktop, 780px max-width
+- `.migration/journal/journal.md` — Prior session audit entry
+
+### Problems Encountered
+- **Problem**: Sub-bar grid layout attempt #1 (`grid-template-columns: 1fr auto`) pushed buttons too far right
+  - **Root cause**: `auto` column sized to button content width, leaving excessive gap
+  - **Resolution**: Changed to `1fr 280px` with fixed button column width
+  - **Time lost**: ~5m
+
+- **Problem**: Sub-bar grid attempt #2 — text paragraph only spanned one row, leaving excess vertical space
+  - **Root cause**: Text paragraph was placed in row 1 only; button wrappers created additional rows below
+  - **Resolution**: Added `grid-row: 1 / -1` to text paragraph so it spans all rows
+  - **Time lost**: ~3m
+
+- **Problem**: Stylelint rejected `column-gap` + `row-gap` as redundant longhand properties
+  - **Root cause**: Stylelint `declaration-block-no-redundant-longhand-properties` rule requires shorthand `gap`
+  - **Resolution**: Replaced with `gap: 12px 40px` (row-gap column-gap)
+  - **Time lost**: ~1m
+
+### Decisions
+- Used CSS Grid (not flexbox) for sub-bar layout — grid naturally places items into rows in column 2, achieving vertical stacking without extra markup
+- Feature panel centered with `max-width: 780px; margin: 0 auto` — matches original NRG.com's 780px content container
+- Button column fixed at 280px — matches original's button width closely while allowing full-width text on left
+
+### Carry-Forward
+- [ ] Phase 2: Image hosting fixes (#22, #29) — Scene7 403 resolution
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch when ready for review
