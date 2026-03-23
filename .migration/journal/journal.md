@@ -427,3 +427,68 @@
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Open PR for phase1-updates branch when ready for review
+
+---
+
+## Session: 2026-03-23 18:30 — Systematic Parity Audit & Fix Plan
+
+**Duration**: ~40m
+**Branch**: phase1-updates
+**Focus**: Comprehensive section-by-section visual comparison of migrated page vs original NRG.com, identifying all remaining CSS/layout differences within Phase 1 scope
+
+### Actions
+- [x] Set viewport to 1440×900 on both pages for consistent comparison
+- [x] Took full-page and section-by-section screenshots of both our page and original NRG.com
+- [x] Extracted detailed computed styles from original NRG.com:
+  - Walked ancestor chain on "Explore" CTA to discover pill styling comes from grandparent `Cta` component (`border: 1px solid`, `border-radius: 25px`)
+  - Extracted sub-bar `CtaTeaser` layout: `display: flex`, `flex-direction: row`, `padding: 30px 0px`
+  - Confirmed sub-bar button column uses `display: block` (buttons stack vertically) with width 416px
+  - Extracted feature panel `FeaturedContent` layout: `display: block` (stacked, not side-by-side), width 780px
+  - Got button letter-spacing: `1px` (vs our `0.2px`)
+  - Got sub-bar text font-size: `16px` (vs our `18px`)
+- [x] Extracted matching computed styles from our page for direct comparison
+- [x] Identified 4 actionable parity differences (2 significant, 2 minor)
+- [x] Compiled fix plan with priority ordering
+- [x] Wrote retrospective on why each issue was missed initially
+- [x] Documented 5 prevention strategies for future sessions
+
+### Parity Differences Found
+
+**Significant:**
+1. **Sub-bar button layout**: Original stacks "For homes"/"For businesses" vertically in a right column (~416px wide). Ours places them side-by-side horizontally as inline pills.
+2. **Feature panel layout**: Original uses stacked layout (text block above, full-width image below) in ~780px container. Ours uses 50/50 side-by-side columns at full width.
+
+**Minor:**
+3. **Button letter-spacing**: Original uses `1px` on all CTA buttons; ours uses `0.2px` (global default).
+4. **Sub-bar text font size**: Original uses `16px`; ours uses `18px` (from `--hero-sub-text-font-size` token).
+
+### Fix Plan (Priority Order)
+1. Hero sub-bar → CSS Grid with stacked buttons in right column
+2. Feature panel → Change desktop from `flex-direction: row` to `column`, add max-width
+3. Button letter-spacing → Add `letter-spacing: 1px` to hero button rules
+4. Sub-bar font size → Change `--hero-sub-text-font-size` from `18px` to `16px`
+
+### Problems Encountered
+- **Problem**: Initial CSS extraction for "For homes" button accidentally selected nav dropdown link instead of hero sub-bar button
+  - **Root cause**: `querySelector('a[href*="all-products"][href*="residential"]')` matched the nav link first (index 0) before the hero link (index 1)
+  - **Resolution**: Scoped query to `.hero > div:last-of-type` container to target correct element
+  - **Time lost**: ~5m
+
+### Retrospective: Why Issues Were Missed
+1. **Sub-bar buttons**: Applied "side-by-side" directive to both hero CTAs AND sub-bar CTAs without independently verifying the sub-bar layout against the original
+2. **Feature panel layout**: Block created in prior session with generic two-column pattern; never visually compared rendered result against original at desktop
+3. **Typography details**: Relied on design tokens already in codebase rather than extracting precise values from original site
+
+### Prevention Strategies Documented
+1. Always screenshot-compare BEFORE coding — side-by-side at same scroll positions
+2. Extract CSS from original for EVERY element being styled — use `getComputedStyle()`
+3. Verify each block independently — don't batch assumptions across blocks
+4. Check full ancestor chain — NRG React SPA puts styling on wrapper divs, not on `<a>` tags
+5. Scope `querySelector` carefully — always scope to correct container first
+
+### Carry-Forward
+- [ ] Implement Fix #1: Sub-bar button layout (CSS Grid, stacked)
+- [ ] Implement Fix #2: Feature panel layout (stacked, max-width)
+- [ ] Implement Fix #3: Button letter-spacing (1px)
+- [ ] Implement Fix #4: Sub-bar font size (16px)
+- [ ] Verify all fixes visually, lint, commit, push

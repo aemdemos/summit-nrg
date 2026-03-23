@@ -24,6 +24,6 @@
   --hero-sub-padding: 24px 24px;
   --hero-sub-padding-desktop: 30px 24px;
   --hero-sub-text-color: var(--text-color);
-  --hero-sub-text-font-size: 18px;
+  --hero-sub-text-font-size: 16px;
   --hero-sub-max-width: 1440px;
 }

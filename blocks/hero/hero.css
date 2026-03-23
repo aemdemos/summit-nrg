@@ -103,6 +103,7 @@ main .hero > div:first-of-type a.button:any-link {
   color: var(--light-color);
   border-radius: var(--border-radius);
   padding: 9px 53px;
+  letter-spacing: 1px;
 }
 
 main .hero > div:first-of-type a.button:hover {
@@ -154,6 +155,7 @@ main .hero > div:last-of-type a.button:any-link {
   border-radius: var(--border-radius);
   white-space: nowrap;
   padding: 9px 53px;
+  letter-spacing: 1px;
 }
 
 main .hero > div:last-of-type a.button:hover {
@@ -174,20 +176,26 @@ main .hero > div:last-of-type a.button:hover {
   }
 
   main .hero > div:last-of-type {
-    flex-flow: row nowrap;
+    display: grid;
+    grid-template-columns: 1fr 280px;
     align-items: center;
-    gap: 24px;
-    padding: var(--hero-sub-padding-desktop);
+    gap: 12px 40px;
+    padding: 30px max(24px, calc((100vw - 780px) / 2));
     margin: 0 -24px;
     width: calc(100% + 48px);
   }
 
   main .hero > div:last-of-type > p:first-child {
-    flex: 1;
-    max-width: 600px;
+    grid-column: 1;
+    grid-row: 1 / -1;
   }
 
   main .hero > div:last-of-type .button-wrapper {
-    flex-shrink: 0;
+    grid-column: 2;
+  }
+
+  main .hero > div:last-of-type .button-wrapper a.button:any-link {
+    width: 100%;
+    text-align: center;
   }
 }
