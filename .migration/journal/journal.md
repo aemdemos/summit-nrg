@@ -1097,6 +1097,50 @@ The user noticed that the hero heading and buttons were not left-aligned with th
 None — straightforward token adjustment.
 
 ### Carry-Forward
+- [x] Hero vertical centering (done in next session)
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
+- [ ] Update DA content to use new columns section for sub-bar (requires author access)
+- [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
+
+---
+
+## Session: 2026-03-24 (cont.) — Vertically Center Hero Text Content
+
+**Duration**: ~15m
+**Branch**: `phase1-updates`
+**Focus**: Fix hero text vertical positioning — content was pushed to the bottom instead of being centered like the original nrg.com
+
+### Context
+The user identified that the hero text (heading, description, CTA buttons) was positioned too low in the hero area compared to the original nrg.com. Investigation revealed the original uses `align-items: center` to vertically center the ~229px content block within the 600px hero (accounting for 100px top padding and 30px bottom padding). Our site used `justify-content: flex-end` on both the content area and inner div, pushing everything to the bottom.
+
+### Actions
+- [x] Measured our hero layout (~3m) — h1 at y=240, CTA bottom at y=540, padding-bottom 60px
+- [x] Measured original nrg.com hero (~5m) — h1 at y=220, CTA bottom at y=449, padding-bottom 30px, `align-items: center`
+- [x] Fixed `hero.css` vertical centering (~3m) — pass
+  - Changed `.hero-content-area` from `justify-content: flex-end` → `justify-content: center`
+  - Simplified `.hero-content-area > div` — removed redundant flex/justify-content: flex-end properties
+  - Changed desktop `padding-bottom` from `60px` → `30px` to match original
+- [x] Verified: h1 at y=185, CTA bottom at y=485, content centered in 600px hero (~2m) — pass
+- [x] Linted, committed (`19ea5e0`), pushed (~2m) — pass
+
+### Commits
+- `19ea5e0` — Vertically center hero text content to match original nrg.com
+
+### Files Changed
+- `blocks/hero/hero.css` — Changed flex alignment to center, reduced padding-bottom, simplified inner div styles
+
+### Net Impact
+- 3 insertions, 7 deletions — simplified flex layout
+- Hero text block now vertically centered within the hero area, matching original nrg.com
+- Content no longer crammed near the bottom edge of the hero
+
+### Problems Encountered
+None — clean CSS changes.
+
+### Carry-Forward
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
