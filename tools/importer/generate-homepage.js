@@ -18,15 +18,31 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const WORKSPACE = join(__dirname, '..', '..');
 const OUTPUT = join(WORKSPACE, 'content', 'index.plain.html');
 
-/* ── Scene7 image helper ── */
-function s7(id, { wid = 750, hei, fmt = 'webp-alpha', dpr = 'off' } = {}) {
-  const base = `https://s7d9.scene7.com/is/image/nrgenergy/${id}`;
-  const params = [`fmt=${fmt}`, `wid=${wid}`];
-  if (hei) params.push(`hei=${hei}`);
-  params.push(`dpr=${dpr}`);
-  return `${base}?${params.join('&')}`;
-}
+/* ── Local image paths (raster only — SVG icons stay on external CDNs) ── */
+const LOCAL_IMAGES = {
+  'desktopImage-1393': '/media/nrg/hero-ceraweek.jpg',
+  'GettyImages-1284976355-1800x1200': '/media/nrg/feature-family-lawn.jpg',
+  'home-story-beyond-our-solutions-712x475': '/media/nrg/feature-mother-daughter.jpg',
+  'electricity-plans-toogle': '/media/nrg/grid-energy-plans.jpg',
+  'smart_home_product_grid': '/media/nrg/grid-smart-home.jpg',
+  'solar-home-toggle-1530x1020-new21': '/media/nrg/grid-sustainable-living.jpg',
+  'ev-1530x1020': '/media/nrg/grid-ev-driving.jpg',
+  'backup_power_1530x1020_2-1': '/media/nrg/grid-backup-power.jpg',
+  'edgar-castrejon-CX8ooha2yLA-unsplash': '/media/nrg/grid-home-services.jpg',
+  'Homepage-Business-Power-1530x1020': '/media/nrg/grid-power.jpg',
+  'Homepage-Business-NatGas-1530x1020': '/media/nrg/grid-natural-gas.jpg',
+  'Homepage-Business-LoadMngmnt-1530x1020': '/media/nrg/grid-load-management.jpg',
+  'Homepage-Business-Susty-Renewables-1530x1020': '/media/nrg/grid-sustainability-renewables.jpg',
+  'Homepage-Business-Brokers-1530x1020': '/media/nrg/grid-energy-brokers.jpg',
+  'desktopImage-1451': '/media/nrg/news-collaborative-team.jpg',
+  'desktopImage-1443': '/media/nrg/news-energy-market.jpg',
+  'mobileImage-1012': '/media/nrg/news-ellie-schweiker.jpg',
+  'image-1450': '/media/nrg/news-energy-legislation.jpg',
+  'image-1466': '/media/nrg/news-community-engagement.jpg',
+  'homepage-image-swap-join-our-2400x1352-A': '/media/nrg/cta-nrg-employees.jpg',
+};
 
+/* ── SVG icon helpers (kept on external CDNs) ── */
 function s7content(id) {
   return `https://s7d9.scene7.com/is/content/nrgenergy/${id}`;
 }
@@ -36,7 +52,7 @@ function nrgAsset(path) {
 }
 
 function picture(id, alt, {
-  desktopWid = 1500, desktopHei, mobileWid = 750, loading = 'lazy',
+  desktopWid = 1500, desktopHei, loading = 'lazy',
   isContent = false, isAsset = false, assetPath = '',
 } = {}) {
   if (isContent) {
@@ -49,11 +65,9 @@ function picture(id, alt, {
           <img loading="${loading}" alt="${alt}" src="${nrgAsset(assetPath)}" width="48" height="48">
         </picture>`;
   }
-  const desktopSrc = s7(id, { wid: desktopWid, hei: desktopHei });
-  const mobileSrc = s7(id, { wid: mobileWid });
+  const localPath = LOCAL_IMAGES[id];
   return `<picture>
-          <source type="image/webp" srcset="${desktopSrc}" media="(min-width: 600px)">
-          <img loading="${loading}" alt="${alt}" src="${mobileSrc}" width="${desktopWid}" height="${desktopHei || Math.round(desktopWid * 0.67)}">
+          <img loading="${loading}" alt="${alt}" src="${localPath}" width="${desktopWid}" height="${desktopHei || Math.round(desktopWid * 0.67)}">
         </picture>`;
 }
 

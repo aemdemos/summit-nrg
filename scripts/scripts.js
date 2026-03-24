@@ -281,7 +281,9 @@ export function decorateSections(main) {
 
 /**
  * Map of image alt text → local fallback path for DA content with broken images.
- * DA may store "about:error" when original images could not be fetched at author time.
+ * DA may store "about:error" when original images could not be fetched at author time
+ * (e.g. Scene7 CORS restrictions). Local content already uses /media/nrg/ paths directly;
+ * this map is only needed for DA-authored content served on the remote preview.
  */
 const IMAGE_FALLBACKS = new Map([
   ['NRG CERAWeek hero image', '/media/nrg/hero-ceraweek.jpg'],
