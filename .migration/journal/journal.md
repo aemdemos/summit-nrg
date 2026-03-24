@@ -907,6 +907,41 @@ The hero `<picture>` element had `position: absolute; inset: 0` which made it co
 | Header bg (scrolled) | white | transparent | white |
 
 ### Carry-Forward
+- [x] ~~Fix header z-index~~ — completed next session
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
+
+---
+
+## Session: 2026-03-24 (cont.) — Header Z-Index Fix
+
+**Duration**: ~5m
+**Branch**: phase1-updates
+**Focus**: Fix hero buttons scrolling over the fixed header/nav bar instead of under it
+
+### Context
+User reported (with screenshot) that when scrolling down, the hero CTA buttons ("Explore the World of NRG", "Speaker Schedule") appeared on top of the white header/nav bar rather than sliding underneath it.
+
+### Root Cause
+The header `.nav-wrapper` had `z-index: 2`, which matched the hero content elements' `z-index: 2` (set on `.hero-content-area > div` for stacking above the gradient/overlay pseudo-elements). With equal z-index values, the later-in-DOM hero content painted on top of the fixed header.
+
+### Fix
+Changed `header .nav-wrapper` z-index from `2` to `10` in `header.css`. This ensures the fixed header always renders above all page content layers.
+
+### Verification
+- Local preview at scroll position 350: header stays on top, hero buttons scroll underneath
+- Remote preview (`phase1-updates--summit-nrg--aemdemos.aem.page`): confirmed matching behavior
+- Stylelint passes clean
+
+### Commits
+- `f19dbe9` — Fix header z-index so hero content scrolls under the nav bar
+
+### Files Changed
+- `blocks/header/header.css` — `z-index: 2` → `z-index: 10` on `.nav-wrapper`
+
+### Carry-Forward
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
