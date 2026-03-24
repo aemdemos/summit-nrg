@@ -1141,6 +1141,46 @@ The user identified that the hero text (heading, description, CTA buttons) was p
 None — clean CSS changes.
 
 ### Carry-Forward
+- [ ] Hero typography fine-tuning (button letter-spacing and desc-to-buttons gap)
+
+---
+
+## Session: 2026-03-24 (cont.) — Hero Typography Fine-Tuning
+
+**Duration**: ~20m
+**Branch**: `phase1-updates`
+**Focus**: Measure and fix hero button letter-spacing and description-to-buttons gap to match original nrg.com
+
+### Context
+Following the vertical centering fix, the user asked about remaining hero typography differences. Systematic side-by-side measurement of every hero property (H1, description, CTA buttons) revealed that most values already matched — the only two mismatches were button letter-spacing and the gap between description text and CTA buttons.
+
+### Actions
+- [x] Measured our hero typography via Playwright evaluate (~5m) — all font sizes, families, weights, line-heights, and border-radius matched
+- [x] Re-verified original nrg.com button styling (~5m) — discovered that `border-radius: 0px` was misleading (styling lives on a wrapper div, not the `<a>` tag; actual border-radius is 25px matching ours)
+- [x] Identified two mismatches (~2m):
+  - Button `letter-spacing`: ours 1px vs original 0.2px
+  - Description-to-buttons gap: ours 32px vs original ~39px
+- [x] Fixed `hero.css` button letter-spacing: `1px` → `0.2px` (~1m) — pass
+- [x] Fixed `hero-tokens.css` description margin-bottom: `32px` → `40px` (~1m) — pass
+- [x] Verified via Playwright: letter-spacing 0.2px, gap 40px (~2m) — pass
+- [x] CSS lint clean, committed (`f7ad253`), pushed (~2m) — pass
+
+### Commits
+- `f7ad253` — Match hero button letter-spacing and description gap to original
+
+### Files Changed
+- `blocks/hero/hero.css` — Button letter-spacing 1px → 0.2px
+- `blocks/hero/hero-tokens.css` — Description margin-bottom 32px → 40px
+
+### Net Impact
+- 2 insertions, 2 deletions — two token adjustments
+- Hero CTA buttons now have tighter letter-spacing matching the original
+- Proper 40px breathing room between description and buttons
+
+### Problems Encountered
+- Initial measurements of original's `<a>` tag showed `border-radius: 0px` and `border: 0px none`, which was misleading. The visual styling (25px pill, magenta background, 1px border) is on a React wrapper div two levels up. Walking up the parent chain revealed the true values match ours.
+
+### Carry-Forward
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
