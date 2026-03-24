@@ -60,6 +60,15 @@ export default function decorate(block) {
     if (contentCol) {
       contentCol.querySelectorAll('div:empty').forEach((div) => div.remove());
     }
+
+    /* Wrap picture + content in a container so the absolute image
+       only covers the hero content area, not the sub-bar below it. */
+    const contentArea = document.createElement('div');
+    contentArea.className = 'hero-content-area';
+    const picture = block.querySelector('picture');
+    if (picture) contentArea.append(picture);
+    if (rows[0]) contentArea.append(rows[0]);
+    block.prepend(contentArea);
   }
 
   /* ---- Row 2: sub-hero bar ---- */
