@@ -6,6 +6,12 @@ header .nav-wrapper {
   width: 100%;
   z-index: 2;
   position: fixed;
+  transition: background-color 0.3s ease;
+}
+
+header .nav-wrapper.scrolled {
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
 
 header nav {
@@ -56,6 +62,26 @@ header nav p {
 header nav a:any-link {
   color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* scrolled state — dark text and logo */
+header .nav-wrapper.scrolled nav {
+  color: var(--text-color);
+}
+
+header .nav-wrapper.scrolled nav a:any-link {
+  color: var(--text-color);
+}
+
+header .nav-wrapper.scrolled .nav-brand img {
+  filter: brightness(0) saturate(100%);
+}
+
+header .nav-wrapper.scrolled nav .nav-hamburger-icon,
+header .nav-wrapper.scrolled nav .nav-hamburger-icon::before,
+header .nav-wrapper.scrolled nav .nav-hamburger-icon::after {
+  background: var(--text-color);
 }
 
 /* hamburger */
@@ -297,13 +323,22 @@ header nav .nav-tools p {
 header nav .nav-tools a:any-link {
   color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 header nav .nav-tools a:hover {
   text-decoration: underline;
 }
 
-/* Contact us CTA — magenta pill */
+header .nav-wrapper.scrolled nav .nav-tools a:any-link {
+  color: var(--text-color);
+}
+
+/* Contact us CTA — magenta pill (stays magenta in both states) */
+header .nav-wrapper.scrolled nav .nav-tools a.button.primary:any-link {
+  color: #fff;
+}
+
 header nav .nav-tools .button-wrapper {
   margin: 0;
 }

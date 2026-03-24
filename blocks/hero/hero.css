@@ -124,8 +124,6 @@ main .hero > div:last-of-type {
   flex-flow: column wrap;
   gap: 16px;
   padding: var(--hero-sub-padding);
-  margin: 0 -24px;
-  width: calc(100% + 48px);
   background-color: var(--light-color);
 }
 
@@ -177,8 +175,6 @@ main .hero > div:last-of-type a.button:hover {
     align-items: center;
     gap: 0;
     padding: 30px 24px;
-    margin: 0 -24px;
-    width: calc(100% + 48px);
   }
 
   main .hero > div:last-of-type > p:first-child {
