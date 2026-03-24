@@ -120,6 +120,8 @@ main .hero .hero-content-area a.button.secondary:hover {
     min-height: var(--hero-min-height-desktop);
     padding: var(--hero-padding-desktop);
     padding-bottom: 30px;
+    padding-left: max(24px, calc(50% - 696px));
+    padding-right: max(24px, calc(50% - 696px));
   }
 
   main .hero .hero-content-area p {
