@@ -69,4 +69,10 @@ export default function decorate(block) {
     if (rows[0]) contentArea.append(rows[0]);
     block.prepend(contentArea);
   }
+
+  /* Remove any extra rows (e.g. legacy sub-bar from DA content).
+     The sub-bar is now authored as a separate columns section. */
+  [...block.children].forEach((child) => {
+    if (child !== block.firstElementChild) child.remove();
+  });
 }
