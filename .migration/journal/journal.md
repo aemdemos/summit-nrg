@@ -1181,6 +1181,59 @@ Following the vertical centering fix, the user asked about remaining hero typogr
 - Initial measurements of original's `<a>` tag showed `border-radius: 0px` and `border: 0px none`, which was misleading. The visual styling (25px pill, magenta background, 1px border) is on a React wrapper div two levels up. Walking up the parent chain revealed the true values match ours.
 
 ### Carry-Forward
+- [ ] Hero content alignment on wide viewports (see next entry)
+
+---
+
+## Session: 2026-03-24 (cont.) — Hero Content Alignment on Wide Viewports
+
+**Duration**: ~25m
+**Branch**: `phase1-updates`
+**Focus**: Fix hero content left padding to align with the 1440px nav container on viewports wider than 1440px
+
+### Context
+The user pointed out (with annotated screenshots) that the hero text, heading, and buttons were flush against the left edge (~24px) while the NRG logo in the header was substantially inset (~264px at 1920px). This was because the header nav has `max-width: 1440px` with auto margins (centering it on wide viewports), but the hero content area was full-bleed with only `24px` of fixed side padding. On any viewport wider than 1440px, the nav content shifts inward while the hero content stays at 24px — a growing misalignment.
+
+### Root Cause Analysis (requested by user)
+**Why this was repeatedly missed across multiple sessions:**
+1. **Always measured at 1440px viewport** — at that exact width, the nav's 1440px max-width fills the full viewport, so both nav and hero content are at 24px from the edge, appearing perfectly aligned
+2. **The bug only manifests on wider viewports** (1920px+) where the nav's max-width + auto margins create centering that the hero didn't match
+3. **Focused on micro-typography** (letter-spacing, line-height, font-size) instead of the macro-layout issue clearly visible in the user's screenshots
+4. **When previously asked about "left margins"**, made a wrong-direction 8px adjustment (32px → 24px header padding) instead of recognizing the viewport-dependent container alignment problem
+
+### Actions
+- [x] Measured original nrg.com at 1920px viewport (~5m) — hero content at left=264px, inside a `BasePadding` component with `max-width: 1440px`, `margin-left: 240px` (auto centering), `padding-left: 24px`
+- [x] Measured our site at 1920px (~3m) — header nav at left=240 (correct, has max-width: 1440px), hero h1 at left=24 (wrong, no max-width container)
+- [x] Computed fix formula (~2m): `max(24px, calc(50% - 696px))` where 696 = (1440/2) - 24
+  - At 1440px: max(24, calc(720-696)) = 24px
+  - At 1920px: max(24, calc(960-696)) = 264px
+- [x] Applied responsive padding to hero content-area desktop media query (~2m) — pass
+- [x] Verified at 3 viewport widths (~5m):
+  - 1200px: logo=24, h1=24, padding=24px
+  - 1440px: logo=24, h1=24, padding=24px
+  - 1920px: logo=264, h1=264, padding=264px
+- [x] CSS lint clean, committed (`f3b20cd`), pushed (~3m) — pass
+
+### Commits
+- `f3b20cd` — Align hero content with 1440px nav container on wide viewports
+
+### Files Changed
+- `blocks/hero/hero.css` — Added `padding-left: max(24px, calc(50% - 696px))` and matching `padding-right` to desktop media query
+
+### Net Impact
+- 2 insertions — two padding lines in desktop media query
+- Hero content now aligns with the 1440px nav container at all viewport widths
+- Background image remains full-bleed (unaffected — it's `position: absolute; inset: 0`)
+
+### Problems Encountered
+- None in the fix itself. The problem was diagnostic — measuring at the wrong viewport width across multiple sessions masked the issue.
+
+### Lessons Learned
+- **Always test at 1920px (or wider) in addition to 1440px** when comparing layout with an original site that uses max-width containers
+- **When a user points to a layout issue with screenshots, match their viewport width first** before measuring any properties
+- **Full-bleed hero blocks in EDS need explicit responsive padding** to align content with the site's max-width grid, since the wrapper's max-width is unset
+
+### Carry-Forward
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
