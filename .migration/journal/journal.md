@@ -1013,3 +1013,54 @@ Chose to use the **existing columns block** in a new section with `section-metad
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Open PR for phase1-updates branch
 - [ ] Update DA content to use new columns section for sub-bar (requires author access)
+
+---
+
+## Session: 2026-03-24 (cont.) — Move Raster Images from Scene7 to Local Paths
+
+**Duration**: ~10m
+**Branch**: `phase1-updates`
+**Focus**: Replace all Scene7 CDN raster image URLs with local `/media/nrg/` paths in content and import script
+
+### Context
+Scene7 images return 403 errors when accessed from non-nrg.com origins. The project already had local copies of all raster images downloaded to `/media/nrg/` from prior sessions, but the content HTML and import script still referenced Scene7 URLs. The `IMAGE_FALLBACKS` runtime fixup in scripts.js was patching `about:error` images at load time — a fragile workaround. The user requested moving raster images into the document directly while leaving SVG icons on their external CDNs.
+
+### Actions
+- [x] Updated `tools/importer/generate-homepage.js` with `LOCAL_IMAGES` mapping (~3m) — pass
+  - Replaced `s7()` Scene7 URL builder with a map of 20 Scene7 IDs → `/media/nrg/` local paths
+  - Simplified `picture()` function to emit `<img src="/media/nrg/...">` (no `<source>` elements)
+  - Kept `s7content()` and `nrgAsset()` helpers for SVG icons (unchanged per user request)
+- [x] Regenerated `content/index.plain.html` via import script (~1m) — pass
+  - All 20 raster images now use local paths; zero `<source>` elements remain
+  - 11 SVG icon references remain on external CDNs (as requested)
+- [x] Updated `IMAGE_FALLBACKS` comment in `scripts/scripts.js` (~1m) — pass
+  - Clarified the map is only needed for DA-authored content on remote preview
+- [x] Verified local preview at localhost:3000 (~3m) — pass
+  - Hero, feature panels, product grids, news carousel, CTA banner all render correctly
+  - SVG icons load from external CDNs without issues
+- [x] Linted and committed (~2m) — pass
+
+### Commits
+- `feb990f` — Use local /media/nrg/ paths for raster images instead of Scene7 CDN
+
+### Files Changed
+- `tools/importer/generate-homepage.js` — Replaced `s7()` with `LOCAL_IMAGES` map; simplified `picture()` function
+- `scripts/scripts.js` — Updated `IMAGE_FALLBACKS` JSDoc comment
+- `content/index.plain.html` — Regenerated with 20 local raster image paths (no `<source>` elements)
+
+### Net Impact
+- **31 insertions, 15 deletions** in committed code
+- All raster images now served from local `/media/nrg/` — no Scene7 dependency for local content
+- `IMAGE_FALLBACKS` retained for DA content compatibility (remote preview still needs it)
+- Content HTML reduced: 20 `<source>` elements removed, simpler `<picture>` markup
+
+### Problems Encountered
+None — clean implementation with no errors.
+
+### Carry-Forward
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
+- [ ] Update DA content to use new columns section for sub-bar (requires author access)
+- [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
