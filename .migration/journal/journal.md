@@ -815,3 +815,43 @@ This means any DOM modifications in block `decorate()` functions happen AFTER `d
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Open PR for phase1-updates branch
+
+---
+
+## Session: 2026-03-24 — Hero Sub-Bar Overlap Fix
+
+**Duration**: ~20m
+**Branch**: phase1-updates
+**Focus**: Fix hero sub-bar overlapping the hero image instead of appearing below it
+
+### Context
+User reported the sub-bar element (`/html/body/main/div[1]/div/div/div[2]`) — containing "Our customer-first approach..." text and "For homes"/"For businesses" buttons — was cutting through the middle of the hero image instead of appearing below it.
+
+### Root Cause
+The hero `<picture>` element had `position: absolute; inset: 0` which made it cover the **entire** `.hero` block, including the sub-bar. The `::before` (gradient) and `::after` (overlay) pseudo-elements also used `inset: 0` on `.hero`, covering everything. The sub-bar appeared *on top* of the image (via z-index) rather than *below* it.
+
+### Fix
+**hero.js** — Created a new `.hero-content-area` wrapper div:
+- Wraps `<picture>` and the content div (row 0) inside this wrapper
+- Sub-bar (row 1) stays outside as a sibling flex child of `.hero`
+
+**hero.css** — Moved positioning context from `.hero` to `.hero .hero-content-area`:
+- `.hero` simplified to `display: flex; flex-direction: column`
+- `.hero-content-area` gets `position: relative; overflow: hidden; min-height; padding`
+- `::before`, `::after`, `picture` selectors all scoped to `.hero-content-area`
+- Consolidated three duplicate `.hero-content-area > div` selectors into one
+- Desktop media query updated to target `.hero-content-area`
+
+### Verification
+- **Local**: Content area = 0–600px (600px height), sub-bar starts at exactly 600px
+- **Remote**: Confirmed matching layout on `phase1-updates--summit-nrg--aemdemos.aem.page`
+- Both lint checks pass (ESLint + Stylelint)
+
+### Commits
+- `6520f6f` — Fix hero sub-bar overlapping hero image
+
+### Carry-Forward
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
