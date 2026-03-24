@@ -175,6 +175,29 @@ async function buildBreadcrumbs() {
 }
 
 /**
+ * Replaces the brand <img> with an inline SVG so CSS can
+ * target individual fills (e.g. text vs coloured dots) on scroll.
+ */
+async function inlineBrandSvg(navBrand) {
+  const img = navBrand.querySelector('img');
+  if (!img) return;
+  try {
+    const resp = await fetch(img.src);
+    if (!resp.ok) return;
+    const svgText = await resp.text();
+    // eslint-disable-next-line secure-coding/no-xxe-injection -- same-origin SVG from /icons/
+    const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+    const svg = doc.querySelector('svg');
+    if (!svg) return;
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', img.alt || 'Logo');
+    img.replaceWith(svg);
+  } catch {
+    // keep the <img> fallback
+  }
+}
+
+/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -202,6 +225,9 @@ export default async function decorate(block) {
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
   }
+
+  // Inline the SVG logo so CSS can target individual fills on scroll
+  await inlineBrandSvg(navBrand);
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {

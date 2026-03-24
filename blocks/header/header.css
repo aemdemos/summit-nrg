@@ -74,8 +74,9 @@ header .nav-wrapper.scrolled nav a:any-link {
   color: var(--text-color);
 }
 
-header .nav-wrapper.scrolled .nav-brand img {
-  filter: brightness(0) saturate(100%);
+/* scrolled: only the text paths turn dark; colored dots keep their fills */
+header .nav-wrapper.scrolled .nav-brand svg .cls-1 {
+  fill: var(--text-color);
 }
 
 header .nav-wrapper.scrolled nav .nav-hamburger-icon,
@@ -174,7 +175,8 @@ header .nav-brand {
   line-height: 1;
 }
 
-header nav .nav-brand img {
+header nav .nav-brand img,
+header nav .nav-brand svg {
   width: var(--header-brand-width);
   height: auto;
 }
