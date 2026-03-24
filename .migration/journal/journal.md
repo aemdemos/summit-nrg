@@ -1064,3 +1064,42 @@ None — clean implementation with no errors.
 - [ ] Open PR for phase1-updates branch
 - [ ] Update DA content to use new columns section for sub-bar (requires author access)
 - [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
+
+---
+
+## Session: 2026-03-24 (cont.) — Align Header Nav with Hero Content
+
+**Duration**: ~10m
+**Branch**: `phase1-updates`
+**Focus**: Fix left-margin alignment so NRG logo, hero text, and CTA buttons share the same left edge
+
+### Context
+The user noticed that the hero heading and buttons were not left-aligned with the NRG logo in the header. On the original nrg.com, the logo (26px) and hero h1 (24px) are visually aligned (~2px tolerance). On our site, the header nav had `padding-left: 32px` while the hero content area used `padding: 24px`, creating an 8px gap.
+
+### Actions
+- [x] Measured current alignment on local preview (~2m) — logo at 32px, hero text at 24px
+- [x] Measured original nrg.com alignment (~3m) — logo SVG at 26px, h1 at 24px, CTA at 25px
+- [x] Changed `--header-nav-padding-desktop` from `0 32px` to `0 24px` in header-tokens.css (~1m)
+- [x] Verified alignment: logo, h1, buttons, sub-bar text all at 24px (~2m) — pass
+- [x] Linted, committed, pushed (~2m) — pass
+
+### Commits
+- `c96ff8f` — Align header nav padding with hero content (32px → 24px)
+
+### Files Changed
+- `blocks/header/header-tokens.css` — `--header-nav-padding-desktop: 0 32px` → `0 24px`
+
+### Net Impact
+- Single token change aligns the entire header with hero and sub-bar content
+- Matches the original nrg.com layout where logo and hero text share the same left edge
+
+### Problems Encountered
+None — straightforward token adjustment.
+
+### Carry-Forward
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
+- [ ] Update DA content to use new columns section for sub-bar (requires author access)
+- [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
