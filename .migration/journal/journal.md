@@ -942,7 +942,74 @@ Changed `header .nav-wrapper` z-index from `2` to `10` in `header.css`. This ens
 - `blocks/header/header.css` — `z-index: 2` → `z-index: 10` on `.nav-wrapper`
 
 ### Carry-Forward
+- [x] ~~Extract hero sub-bar into own section~~ — completed next session
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Open PR for phase1-updates branch
+
+---
+
+## Session: 2026-03-24 (cont.) — Extract Hero Sub-Bar into Columns Section
+
+**Duration**: ~25m
+**Branch**: phase1-updates
+**Focus**: Refactor non-standard hero block by extracting the sub-bar into its own section using the existing columns block
+
+### Context
+The hero block had two rows — Row 1 (image + H1 + CTAs) and Row 2 (sub-bar with description text + "For homes"/"For businesses" buttons). This was non-standard EDS authoring that forced complex JS logic in hero.js including hardcoded content injection for DA compatibility. User requested breaking the sub-bar out into its own block/section.
+
+### Design Decision
+Chose to use the **existing columns block** in a new section with `section-metadata style: sub-bar` rather than creating a new custom block. This is the most EDS-idiomatic approach:
+- Columns block already handles responsive 2-column layout
+- `<em><a>` pattern gives automatic `button secondary` classes via `decorateButtons()`
+- Section-scoped CSS handles visual differences (compact padding, magenta buttons)
+- No new blocks needed — reuses existing infrastructure
+
+### Actions
+- [x] Moved sub-bar content from hero Row 2 into new section with columns block + section-metadata
+- [x] Simplified hero.js: removed 27 lines of sub-bar logic (content injection, button class application)
+- [x] Cleaned hero.css: removed ~57 lines of sub-bar CSS (`div:last-of-type` selectors, mobile + desktop)
+- [x] Cleaned hero-tokens.css: removed 6 sub-bar tokens (`--hero-sub-padding`, `--hero-sub-text-color`, etc.)
+- [x] Added `sub-bar` section style to styles.css (light gray bg, responsive layout, magenta button overrides)
+- [x] Updated import script: split `buildHero()`, added `buildSubBar()` function
+- [x] Added legacy row cleanup in hero.js for DA content compatibility
+- [x] Verified on local (measurements match: bg=#f4f4f4, text-left=24px, font=16px, btn-color=magenta)
+- [x] Verified on remote (legacy sub-bar row cleanly removed, hero renders correctly)
+- [x] Lint passes (ESLint + Stylelint)
+
+### Commits
+- `d918b7c` — Extract hero sub-bar into its own section with columns block
+- `0db55a8` — Remove legacy sub-bar rows from hero block on DA content
+
+### Files Changed
+- `blocks/hero/hero.js` — Removed sub-bar logic (lines 74-100), added legacy row cleanup
+- `blocks/hero/hero.css` — Removed sub-bar CSS rules (lines 121-158, 172-188)
+- `blocks/hero/hero-tokens.css` — Removed sub-hero tokens (lines 23-29)
+- `styles/styles.css` — Added `.section.sub-bar` style with layout, typography, button overrides
+- `tools/importer/generate-homepage.js` — Split buildHero(), added buildSubBar()
+- `content/index.plain.html` — Restructured: hero single-row, new columns section for sub-bar
+
+### Net Impact
+- **80 insertions, 99 deletions** — net reduction of 19 lines
+- Hero block simplified from complex two-purpose block to clean single-row hero
+- Sub-bar now uses standard EDS authoring pattern (columns block + section-metadata)
+- Eliminated hardcoded content injection and EDS timing workarounds from hero.js
+
+### Problems Encountered
+- **Problem**: Remote DA content still had sub-bar as hero row 2 (legacy structure)
+  - **Root cause**: DA content is authored externally and can't be updated programmatically (no IMS auth)
+  - **Resolution**: Added cleanup in hero.js that removes any extra rows after the content area, keeping the hero clean. Sub-bar won't appear on remote until DA content is updated to match new structure.
+  - **Time lost**: ~5m
+
+- **Problem**: ESLint `padded-blocks` error after removing sub-bar code left trailing blank line
+  - **Root cause**: Deleting the `if (rows[1])` block left a blank line before the closing brace
+  - **Resolution**: Removed the extra blank line
+  - **Time lost**: ~1m
+
+### Carry-Forward
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
+- [ ] Update DA content to use new columns section for sub-bar (requires author access)
