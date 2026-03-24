@@ -1234,6 +1234,51 @@ The user pointed out (with annotated screenshots) that the hero text, heading, a
 - **Full-bleed hero blocks in EDS need explicit responsive padding** to align content with the site's max-width grid, since the wrapper's max-width is unset
 
 ### Carry-Forward
+- [ ] Logo SVG scroll behavior (see next entry)
+
+---
+
+## Session: 2026-03-24 (cont.) — Logo SVG Scroll Color Fix
+
+**Duration**: ~15m
+**Branch**: `phase1-updates`
+**Focus**: On scroll, only the "nrg" text in the logo should turn dark — the colored dots should keep their original colors
+
+### Context
+The NRG logo SVG has two visual groups: white text paths (`.cls-1`) and colored dots (`.cls-2` through `.cls-6` — yellow, green, blue, cyan, magenta). The scrolled header state was using `filter: brightness(0) saturate(100%)` on the `<img>` tag, which turned everything black including the colored dots. The original nrg.com preserves the dot colors on scroll.
+
+### Actions
+- [x] Inspected SVG structure (~2m) — `.cls-1` = white text, `.cls-2`–`.cls-6` = colored dots
+- [x] Identified root cause (~1m) — CSS `filter` on `<img>` can't target individual SVG elements
+- [x] Created `inlineBrandSvg()` helper in `header.js` (~5m):
+  - Fetches the SVG file, parses with `DOMParser` (avoids innerHTML XSS lint issue)
+  - Replaces `<img>` with inline `<svg>`, preserving `role="img"` and `aria-label`
+  - Extracted as separate function to keep `decorate()` cognitive complexity under limit
+- [x] Updated `header.css` (~2m):
+  - Replaced `filter: brightness(0) saturate(100%)` on `.nav-brand img` with `fill: var(--text-color)` targeting `.nav-brand svg .cls-1`
+  - Added `svg` alongside `img` in brand sizing rule
+- [x] Verified both states via Playwright (~3m):
+  - Top: text white (`rgb(255,255,255)`), dots colored ✅
+  - Scrolled: text dark (`rgb(0,30,46)`), yellow `rgb(255,210,0)`, magenta `rgb(236,0,140)` ✅
+- [x] Lint clean (JS + CSS), committed (`9bf5b44`), pushed (~2m) — pass
+
+### Commits
+- `9bf5b44` — Preserve colored logo dots on scroll, only darken text
+
+### Files Changed
+- `blocks/header/header.js` — Added `inlineBrandSvg()` helper (fetches + inlines SVG via DOMParser)
+- `blocks/header/header.css` — Replaced `filter` on `img` with targeted `fill` on `svg .cls-1`; added `svg` to brand sizing rule
+
+### Net Impact
+- 31 insertions, 3 deletions
+- Logo colored dots now preserved on scroll, matching original nrg.com behavior
+- SVG inlined at runtime enables future CSS-based logo customization
+
+### Problems Encountered
+- ESLint flagged `innerHTML` (XSS) and `DOMParser` (XXE) — fixed by using `DOMParser` with `image/svg+xml` type and adding eslint-disable for the same-origin SVG fetch
+- ESLint flagged cognitive complexity on `decorate()` — fixed by extracting SVG inlining into separate `inlineBrandSvg()` function
+
+### Carry-Forward
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
