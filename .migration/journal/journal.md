@@ -1279,9 +1279,43 @@ The NRG logo SVG has two visual groups: white text paths (`.cls-1`) and colored 
 - ESLint flagged cognitive complexity on `decorate()` — fixed by extracting SVG inlining into separate `inlineBrandSvg()` function
 
 ### Carry-Forward
+- [x] ~~Open PR for phase1-updates branch~~ — PR #31 created next session
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
-- [ ] Open PR for phase1-updates branch
+- [ ] Update DA content to use new columns section for sub-bar (requires author access)
+- [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
+
+---
+
+## Session: 2026-03-24 (cont.) — Phase 1 PR Creation
+
+**Duration**: ~5m
+**Branch**: `phase1-updates`
+**Focus**: Create pull request for Phase 1 work (phase1-updates → main)
+
+### Actions
+- [x] Attempted `gh pr create` — `gh` CLI not installed in environment
+- [x] Created PR via GitHub REST API with `curl` and PAT authentication
+- [x] PR #31 opened successfully: "Phase 1: Homepage content parity and visual fixes"
+
+### PR Details
+- **PR**: #31 — https://github.com/aemdemos/summit-nrg/pull/31
+- **Branch**: `phase1-updates` → `main`
+- **Scope**: 37 commits, 46 files changed (+1,884 / -140)
+- **Fixes**: #17, #18, #19, #20, #26
+- **Test URLs**:
+  - Before: https://main--summit-nrg--aemdemos.aem.page/
+  - After: https://phase1-updates--summit-nrg--aemdemos.aem.page/
+
+### Problems Encountered
+- **Problem**: `gh` CLI not available in the environment
+  - **Resolution**: Used GitHub REST API via `curl` with PAT authentication to create the PR
+  - **Time lost**: ~2m
+
+### Carry-Forward
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Update DA content to use new columns section for sub-bar (requires author access)
 - [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
