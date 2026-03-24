@@ -2,11 +2,16 @@
 
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: #fff;
+  background-color: transparent;
   width: 100%;
-  z-index: 2;
+  z-index: 10;
   position: fixed;
-  border-bottom: 1px solid rgb(0 30 46 / 10%);
+  transition: background-color 0.3s ease;
+}
+
+header .nav-wrapper.scrolled {
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
 
 header nav {
@@ -22,7 +27,7 @@ header nav {
   height: var(--nav-height);
   padding: var(--header-nav-padding);
   font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
-  color: var(--dark-color);
+  color: #fff;
 }
 
 header nav[aria-expanded='true'] {
@@ -55,8 +60,29 @@ header nav p {
 }
 
 header nav a:any-link {
-  color: var(--dark-color);
+  color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* scrolled state — dark text and logo */
+header .nav-wrapper.scrolled nav {
+  color: var(--text-color);
+}
+
+header .nav-wrapper.scrolled nav a:any-link {
+  color: var(--text-color);
+}
+
+/* scrolled: only the text paths turn dark; colored dots keep their fills */
+header .nav-wrapper.scrolled .nav-brand svg .cls-1 {
+  fill: var(--text-color);
+}
+
+header .nav-wrapper.scrolled nav .nav-hamburger-icon,
+header .nav-wrapper.scrolled nav .nav-hamburger-icon::before,
+header .nav-wrapper.scrolled nav .nav-hamburger-icon::after {
+  background: var(--text-color);
 }
 
 /* hamburger */
@@ -73,7 +99,7 @@ header nav .nav-hamburger button {
   border: 0;
   border-radius: 0;
   padding: 0;
-  background-color: #fff;
+  background-color: transparent;
   color: inherit;
   overflow: initial;
   text-overflow: initial;
@@ -149,7 +175,8 @@ header .nav-brand {
   line-height: 1;
 }
 
-header nav .nav-brand img {
+header nav .nav-brand img,
+header nav .nav-brand svg {
   width: var(--header-brand-width);
   height: auto;
 }
@@ -296,15 +323,24 @@ header nav .nav-tools p {
 }
 
 header nav .nav-tools a:any-link {
-  color: var(--dark-color);
+  color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 header nav .nav-tools a:hover {
   text-decoration: underline;
 }
 
-/* Contact us CTA — magenta pill */
+header .nav-wrapper.scrolled nav .nav-tools a:any-link {
+  color: var(--text-color);
+}
+
+/* Contact us CTA — magenta pill (stays magenta in both states) */
+header .nav-wrapper.scrolled nav .nav-tools a.button.primary:any-link {
+  color: #fff;
+}
+
 header nav .nav-tools .button-wrapper {
   margin: 0;
 }
@@ -336,7 +372,7 @@ header nav .nav-tools .icon {
 header nav .nav-tools .icon svg {
   width: 20px;
   height: 20px;
-  fill: var(--dark-color);
+  fill: #fff;
 }
 
 /* breadcrumbs */

@@ -100,22 +100,23 @@ main .feature-panel .feature-panel-row:nth-child(even) {
 @media (width >= 900px) {
   main .feature-panel .feature-panel-row {
     flex-direction: row;
-    min-height: 480px;
+  }
+
+  main .feature-panel .feature-panel-image,
+  main .feature-panel .feature-panel-content {
+    flex: 0 0 50%;
   }
 
   main .feature-panel .feature-panel-image {
-    flex: 1;
-    min-height: unset;
+    min-height: 480px;
   }
 
   main .feature-panel .feature-panel-content {
-    flex: 1;
-    padding: 60px 80px;
+    padding: 48px 48px 0;
   }
 
   main .feature-panel h2 {
     font-size: 42px;
     line-height: 48px;
   }
-
 }

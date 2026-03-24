@@ -16,7 +16,7 @@ export default function decorate(block) {
 
   rows.forEach((row) => {
     const cols = [...row.children];
-    const hasImage = cols[0]?.querySelector('picture');
+    const hasImage = cols[0]?.querySelector('picture') || cols[0]?.querySelector('img');
     if (hasImage) {
       slides.push(row);
     } else {
