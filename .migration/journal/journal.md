@@ -851,6 +851,62 @@ The hero `<picture>` element had `position: absolute; inset: 0` which made it co
 - `6520f6f` — Fix hero sub-bar overlapping hero image
 
 ### Carry-Forward
+- [ ] Fix sub-bar alignment, logo color, header scroll behavior
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+- [ ] Open PR for phase1-updates branch
+
+---
+
+## Session: 2026-03-24 (cont.) — Header/Hero Visual Fixes
+
+**Duration**: ~25m
+**Branch**: phase1-updates
+**Focus**: Fix sub-bar alignment, logo color, and header scroll behavior to match original NRG.com
+
+### Actions
+- [x] Checked content image paths — only `/icons/nrg-logo.svg` in nav (standard EDS pattern); page images use external Scene7 URLs
+- [x] Fixed hero sub-bar text alignment (was left: 0px, now left: 24px matching original)
+- [x] Changed NRG logo SVG text fill from dark navy (#001e2e) to white (#fff) for transparent header
+- [x] Added header scroll behavior: transparent → white background with 0.3s CSS transition
+- [x] Verified all fixes on both local and remote preview
+
+### Root Causes & Fixes
+
+**Sub-bar text misalignment**:
+- Root cause: `margin: 0 -24px; width: calc(100% + 48px)` on sub-bar was a bleed hack from when the wrapper had padding. Since `.hero-wrapper` now has `padding: 0`, the negative margin pushed the sub-bar to x=-24, and 24px padding only brought text back to x=0 instead of x=24.
+- Fix: Removed the negative margin/width hack from both mobile and desktop rules.
+
+**Logo color**:
+- Root cause: SVG `.cls-1` paths used `fill:#001e2e` (dark navy) but original NRG.com renders them as `rgb(255,255,255)` (white) via CSS override.
+- Fix: Changed SVG fill to `#fff`. When scrolled, CSS `filter: brightness(0) saturate(100%)` darkens the logo.
+
+**Header scroll behavior**:
+- Added passive scroll listener in `header.js` toggling `.scrolled` class on `.nav-wrapper` when `scrollY > 10`
+- CSS transitions: `background-color`, `color`, `box-shadow` all animate at 0.3s ease
+- Scrolled state: white background, dark text (`var(--text-color)`), shadow `0 2px 8px rgb(0 0 0 / 10%)`
+- "Contact us" button retains magenta styling in both states via specificity override
+
+### Files Changed
+- `blocks/hero/hero.css` — Removed negative margin/width hack from sub-bar (mobile + desktop)
+- `blocks/header/header.css` — Added `.scrolled` state styles, color transitions, logo filter
+- `blocks/header/header.js` — Added scroll listener with `.scrolled` class toggle
+- `icons/nrg-logo.svg` — Changed text fill from #001e2e to #fff
+
+### Commits
+- `20b47ed` — Fix header/hero visual issues to match original NRG.com
+
+### Measurements Comparison (1440px viewport)
+| Element | Original | Before Fix | After Fix |
+|---------|----------|------------|-----------|
+| H1 left position | 24px | 24px | 24px |
+| Sub-bar text left | 24px | 0px | 24px |
+| Logo text color | white | dark navy | white |
+| Header bg (top) | transparent | transparent | transparent |
+| Header bg (scrolled) | white | transparent | white |
+
+### Carry-Forward
 - [ ] Phase 3: Header search icon (#16)
 - [ ] Phase 4: Footer fixes (#23 email form, #25 layout, #24 privacy, #30 CTA styling)
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
