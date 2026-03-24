@@ -16,12 +16,12 @@ main .hero {
   flex-direction: column;
 }
 
-/* ---------- hero content area (image + text, above sub-bar) ---------- */
+/* ---------- hero content area (image + text) ---------- */
 main .hero .hero-content-area {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   min-height: var(--hero-min-height);
   padding: var(--hero-padding);
   overflow: hidden;
@@ -63,10 +63,6 @@ main .hero .hero-content-area picture img {
 main .hero .hero-content-area > div {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: flex-end;
   max-width: var(--hero-content-max-width);
 }
 
@@ -123,7 +119,7 @@ main .hero .hero-content-area a.button.secondary:hover {
   main .hero .hero-content-area {
     min-height: var(--hero-min-height-desktop);
     padding: var(--hero-padding-desktop);
-    padding-bottom: 60px;
+    padding-bottom: 30px;
   }
 
   main .hero .hero-content-area p {
