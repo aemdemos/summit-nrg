@@ -32,9 +32,8 @@ function promoteHeroImage(block, pictureCol) {
 /**
  * Decorates the hero block.
  *
- * Expected authored structure (two rows):
- * Row 1: [image] [h1 + description + CTA link]
- * Row 2: [description text + CTA links for "For homes" / "For businesses"]
+ * Expected authored structure (single row):
+ * Row 1: [image] [h1 + description + CTA links]
  *
  * @param {Element} block The hero block element
  */
@@ -62,40 +61,12 @@ export default function decorate(block) {
     }
 
     /* Wrap picture + content in a container so the absolute image
-       only covers the hero content area, not the sub-bar below it. */
+       only covers the hero content area. */
     const contentArea = document.createElement('div');
     contentArea.className = 'hero-content-area';
     const picture = block.querySelector('picture');
     if (picture) contentArea.append(picture);
     if (rows[0]) contentArea.append(rows[0]);
     block.prepend(contentArea);
-  }
-
-  /* ---- Row 2: sub-hero bar ---- */
-  if (rows[1]) {
-    const subBar = rows[1];
-    const hasContent = subBar.querySelector('p, a, h1, h2, h3, h4, h5, h6')
-      || subBar.textContent.trim().length > 0;
-    if (!hasContent) {
-      subBar.innerHTML = '';
-      const desc = document.createElement('p');
-      desc.textContent = 'Our customer-first approach and robust portfolio allow us to tailor smarter solutions for homes and businesses.';
-      subBar.append(desc);
-      const links = [
-        { text: 'For homes', href: '/residential/all-products-and-services' },
-        { text: 'For businesses', href: '/business/all-products-and-services' },
-      ];
-      links.forEach(({ text, href }) => {
-        const p = document.createElement('p');
-        p.className = 'button-wrapper';
-        const a = document.createElement('a');
-        a.href = href;
-        a.textContent = text;
-        a.title = text;
-        a.className = 'button secondary';
-        p.append(a);
-        subBar.append(p);
-      });
-    }
   }
 }

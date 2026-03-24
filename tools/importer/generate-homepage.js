@@ -77,10 +77,27 @@ function buildHero() {
         <p><em><a href="/insights/energy-education/ceraweek-speaker-schedule.html" title="Speaker Schedule">Speaker Schedule</a></em></p>
       </div>
     </div>
+  </div>
+</div>`;
+}
+
+function buildSubBar() {
+  return `<div>
+  <div class="columns">
     <div>
-      <p>Our customer-first approach and robust portfolio allow us to tailor smarter solutions for homes and businesses.</p>
-      <p><em><a href="/residential/all-products-and-services.html" title="For homes">For homes</a></em></p>
-      <p><em><a href="/business/all-products-and-services.html" title="For businesses">For businesses</a></em></p>
+      <div>
+        <p>Our customer-first approach and robust portfolio allow us to tailor smarter solutions for homes and businesses.</p>
+      </div>
+      <div>
+        <p><em><a href="/residential/all-products-and-services.html" title="For homes">For homes</a></em></p>
+        <p><em><a href="/business/all-products-and-services.html" title="For businesses">For businesses</a></em></p>
+      </div>
+    </div>
+  </div>
+  <div class="section-metadata">
+    <div>
+      <div>style</div>
+      <div>sub-bar</div>
     </div>
   </div>
 </div>`;
@@ -370,6 +387,7 @@ function buildMetadata() {
 function generate() {
   const sections = [
     buildHero(),
+    buildSubBar(),
     buildFeaturePanel(),
     buildResidentialGrid(),
     buildBusinessGrid(),

@@ -19,11 +19,4 @@
   --hero-description-line-height: 1.33;
   --hero-description-font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
   --hero-description-margin-bottom: 32px;
-
-  /* sub-hero */
-  --hero-sub-padding: 24px 24px;
-  --hero-sub-padding-desktop: 30px 24px;
-  --hero-sub-text-color: var(--text-color);
-  --hero-sub-text-font-size: 16px;
-  --hero-sub-max-width: 1440px;
 }

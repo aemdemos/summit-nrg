@@ -118,45 +118,6 @@ main .hero .hero-content-area a.button.secondary:hover {
   background-color: rgb(255 255 255 / 15%);
 }
 
-/* ---------- sub-hero row (last div) ---------- */
-main .hero > div:last-of-type {
-  display: flex;
-  flex-flow: column wrap;
-  gap: 16px;
-  padding: var(--hero-sub-padding);
-  background-color: var(--light-color);
-}
-
-main .hero > div:last-of-type p {
-  color: var(--hero-sub-text-color);
-  font-family: var(--body-font-family);
-  font-size: var(--hero-sub-text-font-size);
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* sub-hero CTA button wrappers */
-main .hero > div:last-of-type .button-wrapper {
-  display: inline-flex;
-  margin: 0;
-}
-
-/* sub-hero outline buttons */
-main .hero > div:last-of-type a.button:any-link {
-  background-color: transparent;
-  border: 1px solid var(--brand-primary);
-  color: var(--brand-primary);
-  border-radius: var(--border-radius);
-  white-space: nowrap;
-  padding: 9px 53px;
-  letter-spacing: 1px;
-}
-
-main .hero > div:last-of-type a.button:hover {
-  background-color: var(--brand-primary);
-  color: var(--light-color);
-}
-
 /* ---------- desktop ---------- */
 @media (width >= 900px) {
   main .hero .hero-content-area {
@@ -167,23 +128,5 @@ main .hero > div:last-of-type a.button:hover {
 
   main .hero .hero-content-area p {
     font-size: var(--hero-description-font-size-desktop);
-  }
-
-  main .hero > div:last-of-type {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: 0;
-    padding: 30px 24px;
-  }
-
-  main .hero > div:last-of-type > p:first-child {
-    flex: 1;
-    padding-right: 100px;
-  }
-
-  main .hero > div:last-of-type .button-wrapper {
-    display: inline-flex;
-    margin: 0 8px 0 0;
   }
 }

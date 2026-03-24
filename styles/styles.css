@@ -316,3 +316,59 @@ main .section.news-carousel-container {
   background-color: var(--light-color);
   padding: 45px 0;
 }
+
+/* --- Sub-bar: compact columns section below hero --- */
+main .section.sub-bar {
+  background-color: var(--light-color);
+  margin: 0;
+  padding: 0;
+}
+
+main .section.sub-bar p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+main .section.sub-bar .button-wrapper {
+  margin: 8px 0 0;
+}
+
+main .section.sub-bar a.button.secondary:any-link {
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  padding: 9px 53px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+main .section.sub-bar a.button.secondary:hover {
+  background-color: var(--brand-primary);
+  color: var(--light-color);
+}
+
+@media (width >= 900px) {
+  main .section.sub-bar > div {
+    padding: 30px 24px;
+  }
+
+  main .section.sub-bar .columns > div {
+    align-items: center;
+    gap: 0;
+  }
+
+  main .section.sub-bar .columns > div > div:first-child {
+    flex: 1;
+    padding-right: 100px;
+  }
+
+  main .section.sub-bar .columns > div > div:last-child {
+    flex: none;
+    display: flex;
+    gap: 8px;
+  }
+
+  main .section.sub-bar .button-wrapper {
+    margin: 0;
+  }
+}
