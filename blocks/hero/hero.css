@@ -95,7 +95,7 @@ main .hero .hero-content-area a.button:any-link {
   color: var(--light-color);
   border-radius: var(--border-radius);
   padding: 9px 53px;
-  letter-spacing: 1px;
+  letter-spacing: 0.2px;
 }
 
 main .hero .hero-content-area a.button:hover {
