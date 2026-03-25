@@ -77,7 +77,7 @@ function buildPrivacyButton(navSection) {
 
   // Find the legal links paragraph (contains "Legal" link)
   const paragraphs = [...wrapper.querySelectorAll('p')];
-  const legalP = paragraphs.find((p) => p.querySelector('a[href*="legal.html"]'));
+  const legalP = paragraphs.find((p) => p.querySelector('a[href$="/legal"], a[href$="/legal.html"]'));
   if (!legalP) return;
 
   const separator = document.createTextNode(' · ');

@@ -1,4 +1,4 @@
-import { createSliderControls, initSlider } from '../../scripts/slider.js';
+import { createSliderControls, initSlider, showSlide } from '../../scripts/slider.js';
 
 /**
  * Decorates the news-carousel block.
@@ -112,14 +112,18 @@ export default function decorate(block) {
   }
 
   /* ── init slider ── */
-  initSlider(block, {
+  const sliderOpts = {
     slidesContainer: '.news-carousel-slides',
     slideSelector: '.news-carousel-slide',
     prevSelector: '.slide-prev',
     nextSelector: '.slide-next',
     activeSlideAttr: 'activeSlide',
     slideIndexAttr: 'slideIndex',
-  });
+  };
+  initSlider(block, sliderOpts);
+
+  /* force initial position to slide 0 */
+  showSlide(block, 0, 'auto', sliderOpts);
 
   /* ── update counter on slide change ── */
   const observer = new MutationObserver(() => {

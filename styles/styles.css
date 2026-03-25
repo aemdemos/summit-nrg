@@ -306,6 +306,16 @@ main .section.highlight {
   padding: var(--section-spacing) 0;
 }
 
+/* --- section dividers (gray HR between major sections) --- */
+main .section.feature-panel-container::after,
+main .section.product-grid-container::after {
+  content: '';
+  display: block;
+  max-width: 1392px;
+  margin: 0 auto;
+  border-bottom: 1px solid #c5c6c9;
+}
+
 /* --- NRG section backgrounds and vertical spacing --- */
 main .section.product-grid-container {
   background-color: var(--background-color);
@@ -325,8 +335,9 @@ main .section.sub-bar {
 }
 
 main .section.sub-bar p {
-  font-size: 16px;
-  line-height: 1.5;
+  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  font-size: 24px;
+  line-height: 32px;
   margin: 0;
 }
 
