@@ -1319,3 +1319,27 @@ The NRG logo SVG has two visual groups: white text paths (`.cls-1`) and colored 
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Update DA content to use new columns section for sub-bar (requires author access)
 - [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
+
+---
+
+## Session: 2026-03-25 — Phase Review & Planning
+
+**Duration**: ~5m
+**Branch**: `phase1-updates`
+**Focus**: Review remaining open issues and confirm next phases
+
+### Actions
+- [x] Listed all 11 open GitHub issues with priorities
+- [x] Confirmed Phase 2 (image hosting #22, #29) was already completed within Phase 1
+- [x] Identified that #15, #21, #22, #29 will auto-close when PR #31 merges
+
+### Open Issues Summary (post-merge)
+- **Phase 3**: #16 (header search icon)
+- **Phase 4**: #23 (footer email form), #24 (privacy button), #25 (footer layout), #30 (footer CTA styling)
+- **Phase 5**: #27 (arrow icons), #28 (stray text)
+
+### Carry-Forward
+- [ ] Phase 3: Header search icon (#16)
+- [ ] Phase 4: Footer fixes (#23, #24, #25, #30)
+- [ ] Phase 5: Polish (#27, #28)
+- [ ] Merge PR #31 to close Phase 1 issues
