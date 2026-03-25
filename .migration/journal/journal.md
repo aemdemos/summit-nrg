@@ -1444,3 +1444,51 @@ Phase 4 addressed four footer issues: two-column layout (#25), Contact us button
 
 ### Carry-Forward
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 5: Polish (#27, #28)
+
+**Duration**: ~20m
+**Branch**: `phase2-updates`
+**Focus**: Replace text arrow characters with SVG arrow icons; fix stray accessibility text in product grid
+
+### Context
+Issue #27 reported that feature panel CTA links used a literal `→` Unicode character instead of a styled arrow icon. Issue #28 reported stray `→ → → → →` text appearing in the product grid's accessibility tree from hidden panels' `::after` pseudo-element text content.
+
+### Actions
+- [x] Inspected original nrg.com arrow implementation:
+  - Uses `::after` with `content: ""` (empty) + `background-image: url(arrow-right-brand.svg)`
+  - SVG is a Tabler icon set right arrow, 24×24, stroke `#b8006b` (brand magenta)
+  - No text content = purely decorative, not announced by screen readers
+- [x] Confirmed our implementation used `content: '→'` (text character) in three blocks:
+  - `feature-panel.css` — `.feature-panel-content a::after`
+  - `product-grid.css` — `.product-grid-panel-text a::after`
+  - `news-carousel.css` — `.news-carousel-footer a::after`
+- [x] Confirmed no literal `→` characters in content HTML — all from CSS pseudo-elements
+- [x] Confirmed stray `→ → → → →` in product grid was `::after` text from hidden panels leaking into accessibility tree (panels correctly had `display: none` but pseudo-element text was still reported)
+- [x] Created `icons/arrow-right-brand.svg` — magenta Tabler right arrow matching original
+- [x] Updated all three CSS files: replaced `content: '→'` with `content: ''; background: url('/icons/arrow-right-brand.svg')` pattern
+- [x] Verified on preview: SVG arrows render correctly in feature panels, product grid, and news carousel
+- [x] Verified accessibility tree: no more `→` text in any link, no stray arrow text in product grid
+- [x] Stylelint passes clean
+- [x] Committed and pushed
+
+### Commits
+- `6dbccd6` — Replace text arrow characters with SVG arrow icons (closes #27, #28)
+
+### Files Changed
+- `icons/arrow-right-brand.svg` — New magenta arrow SVG icon
+- `blocks/feature-panel/feature-panel.css` — SVG background arrow replacing text arrow
+- `blocks/product-grid/product-grid.css` — SVG background arrow replacing text arrow
+- `blocks/news-carousel/news-carousel.css` — SVG background arrow replacing text arrow
+
+### Decisions
+- Used SVG background-image approach (matching original nrg.com) rather than CSS border-based chevron
+- Single SVG file shared across all three blocks for consistency
+- Arrow is purely decorative (`content: ''`) — not announced by screen readers
+
+### Carry-Forward
+- All phases complete (Phase 1–5)
+- All open issues addressed: #16, #23, #24, #25, #27, #28, #30
+- Ready for PR from `phase2-updates` → `main`
