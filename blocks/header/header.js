@@ -198,6 +198,47 @@ async function inlineBrandSvg(navBrand) {
 }
 
 /**
+ * Replaces the search link with a toggle button and expandable input field.
+ */
+function buildSearchToggle(navTools, searchLink) {
+  const wrapper = searchLink.closest('p') || searchLink.parentElement;
+
+  // Build search container
+  const searchContainer = document.createElement('div');
+  searchContainer.className = 'nav-search';
+
+  // Toggle button (magnifying glass icon)
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Search');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.className = 'nav-search-toggle';
+  const icon = searchLink.querySelector('.icon');
+  if (icon) btn.append(icon);
+
+  // Search form (hidden by default)
+  const form = document.createElement('form');
+  form.className = 'nav-search-form';
+  form.setAttribute('role', 'search');
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.placeholder = 'Enter search...';
+  input.setAttribute('aria-label', 'Enter search');
+  form.append(input);
+  form.addEventListener('submit', (e) => e.preventDefault());
+
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    searchContainer.classList.toggle('expanded', !expanded);
+    if (!expanded) input.focus();
+  });
+
+  searchContainer.append(btn, form);
+  wrapper.replaceWith(searchContainer);
+}
+
+/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -249,9 +290,9 @@ export default async function decorate(block) {
 
   const navTools = nav.querySelector('.nav-tools');
   if (navTools) {
-    const search = navTools.querySelector('a[href*="search"]');
-    if (search && search.textContent === '') {
-      search.setAttribute('aria-label', 'Search');
+    const searchLink = navTools.querySelector('a[href*="search"]');
+    if (searchLink) {
+      buildSearchToggle(navTools, searchLink);
     }
   }
 
