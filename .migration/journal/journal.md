@@ -1547,3 +1547,58 @@ Issue #27 reported that feature panel CTA links used a literal `→` Unicode cha
 ### Carry-Forward
 - Close 6 stale issues (#15, #21, #22, #25, #29, #30) on GitHub
 - All implementation phases complete
+
+---
+
+## Session: 2026-03-25 (cont.) — Comprehensive Parity Audit
+
+**Duration**: ~60m
+**Branch**: `main`
+**Focus**: Full pixel-perfect comparison between original nrg.com and migrated EDS site
+
+### Actions
+- [x] Set viewport to 1440x900, captured full-page screenshots of both original and migrated sites
+- [x] Extracted comprehensive computed styles from original site (all 10 sections: header, hero, sub-bar, feature panels, product grids ×2, news carousel, CTA banner, footer CTA, footer nav)
+- [x] Extracted comprehensive computed styles from migrated site (same 10 sections)
+- [x] Performed targeted visual comparisons on 10 specific areas (buttons, fonts, layout, spacing)
+- [x] Investigated footer structural root cause: `<hr>` in footer.plain.html causes EDS to split 1 section into 2, creating 3-column layout instead of 2
+- [x] Compiled complete delta inventory with 9 issues (6 P1, 3 P2)
+- [x] Created 9 GitHub issues (#33–#41) with detailed measurements, root causes, fixes, and resolution criteria
+- [x] Wrote full audit document at `.migration/parity-audit.md`
+- [x] Defined phased remediation plan (3A: footer fix, 3B: typography/sizing, 3C: polish)
+
+### Issues Created
+
+**P1 — High Priority:**
+| Issue | Title |
+|-------|-------|
+| #33 | Footer renders 3 columns instead of 2 — structural layout mismatch |
+| #34 | Footer nav has magenta links, disc bullets, and wrong heading font |
+| #35 | Sub-bar text uses wrong font family and size |
+| #36 | Missing social media icons in footer |
+| #37 | Product grid info box is 16% narrower and 20% shorter than original |
+| #38 | News carousel category text overridden by paragraph styles |
+
+**P2 — Medium Priority:**
+| Issue | Title |
+|-------|-------|
+| #39 | Feature panel body text uses wrong font weight and size |
+| #40 | Feature panel images 60px taller than original (540px vs 480px) |
+| #41 | Section separator HR color slightly off (#D1D1D1 vs #C5C6C9) |
+
+### Key Findings
+- Overall visual fidelity: ~85-90%
+- Major structural elements all present and functional
+- Biggest root cause: footer `<hr>` splitting sections (causes 3 cascading issues)
+- Several "Effra W01 Light" font usages defaulting to "Regular" instead
+- Header, hero, CTA buttons, product grid tabs, and CTA banner all match well
+
+### Artifacts
+- `.migration/parity-audit.md` — Full audit document with delta inventory, measurements, and remediation plan
+- `/tmp/playwright/audit-original-full.png` — Original site full-page screenshot
+- `/tmp/playwright/audit-migrated-full.png` — Migrated site full-page screenshot
+
+### Carry-Forward
+- Phase 3A: Fix footer structure (remove HR, update JS, add social icons) — #33, #34, #36
+- Phase 3B: Fix typography and sizing (sub-bar, product grid, carousel meta) — #35, #37, #38
+- Phase 3C: Polish (feature panel text/height, HR color) — #39, #40, #41

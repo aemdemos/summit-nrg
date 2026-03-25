@@ -325,8 +325,9 @@ main .section.sub-bar {
 }
 
 main .section.sub-bar p {
-  font-size: 16px;
-  line-height: 1.5;
+  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  font-size: 24px;
+  line-height: 32px;
   margin: 0;
 }
 

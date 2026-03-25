@@ -129,8 +129,8 @@ main .news-carousel .news-carousel-slide-content {
   justify-content: center;
 }
 
-/* meta line */
-main .news-carousel .news-carousel-meta {
+/* meta line — higher specificity to override .news-carousel-slide-content p */
+main .news-carousel .news-carousel-slide-content .news-carousel-meta {
   font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
   font-size: 14px;
   color: #5e6972;
