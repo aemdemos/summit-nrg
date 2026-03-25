@@ -1602,3 +1602,114 @@ Issue #27 reported that feature panel CTA links used a literal `→` Unicode cha
 - Phase 3A: Fix footer structure (remove HR, update JS, add social icons) — #33, #34, #36
 - Phase 3B: Fix typography and sizing (sub-bar, product grid, carousel meta) — #35, #37, #38
 - Phase 3C: Polish (feature panel text/height, HR color) — #39, #40, #41
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 3.1: P1 Parity Fixes
+
+**Duration**: ~30m
+**Branch**: `phase3-updates`
+**Focus**: Implement and commit all 6 P1 parity fixes from the visual audit
+
+### Actions
+- [x] Continued from previous session where all 6 P1 fixes were implemented and verified
+- [x] Reviewed git status and full diff of all changes
+- [x] Staged all modified files: footer.plain.html, footer.js, footer.css, news-carousel.css, product-grid.css, styles.css, parity-audit.md, journal.md
+- [x] Committed as "Phase 3.1: Fix all P1 parity issues from visual audit" (c684ea7)
+- [x] Pushed `phase3-updates` branch to remote
+
+### Files Changed
+| File | Change |
+|------|--------|
+| `footer.plain.html` | Removed `<hr>` that caused EDS 3-section split |
+| `blocks/footer/footer.js` | Fixed `buildPrivacyButton` selector for `/legal` links |
+| `blocks/footer/footer.css` | Replaced HR rule with CSS border-top; added letter-spacing/min-width to CTA button |
+| `styles/styles.css` | Sub-bar paragraph: Effra W01 Light 24px/32px |
+| `blocks/product-grid/product-grid.css` | Info box: width 564px, min-height 248px, padding 24px |
+| `blocks/news-carousel/news-carousel.css` | Meta selector specificity bump to override paragraph styles |
+| `.migration/parity-audit.md` | New: full audit document |
+| `.migration/journal/journal.md` | Added audit session entry |
+
+### Issues Addressed
+| Issue | Title | Status |
+|-------|-------|--------|
+| #33 | Footer 3-column → 2-column layout | Fixed |
+| #34 | Footer nav magenta links, disc bullets, wrong heading font | Fixed |
+| #35 | Sub-bar text wrong font family and size | Fixed |
+| #36 | Missing social media icons in footer | Fixed |
+| #37 | Product grid info box 16% narrower and 20% shorter | Fixed |
+| #38 | News carousel category text overridden by paragraph styles | Fixed |
+
+### Carry-Forward
+- P2 tickets remain: #39 (feature panel body text), #40 (feature panel image height), #41 (HR separator color)
+- Branch `phase3-updates` ready for PR to `main`, or can continue with P2 fixes first
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 3.2 P2 Fixes + Phase 3.3 Major Parity Audit
+
+**Duration**: ~90m
+**Branch**: `phase3-updates`
+**Focus**: Complete P2 fixes, then deep analysis and issue filing for 9 newly identified parity problems
+
+### Actions
+
+#### Phase 3.2 — P2 Fixes (committed: edeb91d)
+- [x] Fixed feature panel body text: changed to Effra W01 Light 20px/28px (#39)
+- [x] Fixed feature panel image height: added max-height 480px (#40)
+- [x] Fixed HR separator color: changed from #d1d1d1 to #c5c6c9 (#41)
+- [x] Verified all 3 fixes in local preview
+- [x] Committed and pushed to `phase3-updates`
+
+#### Phase 3.3 — Deep Parity Analysis
+- [x] Navigated original site (nrg.com) at 1440x900, took full-page screenshot
+- [x] Navigated migrated site (localhost:3000), took full-page screenshot
+- [x] Extracted comprehensive measurements from both sites:
+  - Feature panel: content structure, width, margins, DOM order
+  - Logo position for alignment reference (left edge at 24px)
+  - HR separators: original has 4 visible HRs in main, migrated has 2 (only in news carousel)
+  - Product grid: H2 spacing (margin-bottom 32px vs 8px), image-to-bottom gap (168px short)
+  - CTA banner: original uses NO CSS overlay (pre-darkened image), ours uses navy `rgb(0 30 46 / 40%)`
+  - Footer left: original uses SVG wave pattern (`bg-footer.svg`, base color `#1D1B53`), ours uses solid `#001E2E`
+  - Footer right: multiple alignment issues vs original
+- [x] Fetched and analyzed original footer SVG background pattern
+- [x] Launched subagent to analyze CTA banner overlay — confirmed zero CSS overlay on original
+- [x] Created 9 GitHub issues (#42–#50) with detailed measurements, root causes, and fix plans
+- [x] Wrote root cause analysis: 4 systematic audit methodology gaps identified
+- [x] Wrote 5-point remediation plan for future audits
+- [x] Updated `.migration/parity-audit.md` with all new deltas (D10–D18)
+- [x] Committed and pushed (589979e)
+
+### Issues Created
+
+| Issue | Title | Priority |
+|-------|-------|--------|
+| #42 | Feature panel missing content vs original | P1 |
+| #43 | Feature panel too wide — missing side margins | P1 |
+| #44 | Missing HR separators between sections | P1 |
+| #45 | Product grid heading spacing wrong | P1 |
+| #46 | Product grid images don't extend to panel bottom | P1 |
+| #47 | News carousel navigation broken | P1 |
+| #48 | CTA banner wrong overlay color | P1 |
+| #49 | Footer left column wrong background (SVG pattern) | P1 |
+| #50 | Footer right column severe misalignment | P1 |
+
+### Key Findings — Root Cause Analysis
+
+Four systematic audit methodology gaps identified:
+1. **Content existence not verified** — audits measured CSS properties of elements that exist but never counted whether all elements exist
+2. **Isolated measurements miss spatial relationships** — absolute dimensions pass but relative alignment fails
+3. **Static audits miss interactive bugs** — carousel looks right in screenshots but navigation is broken
+4. **Macro visual comparison misses implementation details** — solid navy and SVG-patterned indigo both "look dark" but are completely different
+
+### Files Changed
+| File | Change |
+|------|--------|
+| `blocks/feature-panel/feature-panel.css` | P2: font + max-height fixes |
+| `blocks/news-carousel/news-carousel.css` | P2: HR color fix |
+| `.migration/parity-audit.md` | Added D10–D18, RCA, remediation plan |
+
+### Carry-Forward
+- 9 P1 issues (#42–#50) need implementation — all on `phase3-updates` branch
+- Branch has 3 commits: Phase 3.1 (P1 fixes), Phase 3.2 (P2 fixes), Phase 3.3 (audit docs)
+- No PR created yet — waiting for issue fixes before merging to main
