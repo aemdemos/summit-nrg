@@ -1396,3 +1396,51 @@ Issue #16 reported a missing search magnifying glass icon in the header utility 
 ### Carry-Forward
 - [ ] Phase 4: Footer fixes (#23, #24, #25, #30)
 - [ ] Phase 5: Polish (#27, #28)
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 4: Footer Fixes (#23, #24, #25, #30)
+
+**Duration**: ~15m
+**Branch**: `phase2-updates`
+**Focus**: Add email signup form and privacy choices button to footer; verify layout and Contact us button
+
+### Context
+Phase 4 addressed four footer issues: two-column layout (#25), Contact us button styling (#30), email signup form (#23), and "Your Privacy Choices" button (#24).
+
+### Actions
+- [x] Extracted original nrg.com footer measurements:
+  - Email input: 306×48px, 2px solid white border, 25px radius, white bg
+  - Submit button: magenta circular button inside the input field
+  - Contact us button: transparent bg, 1px solid white, 25px radius, 306×48px
+  - Legal links: flex list with "Your Privacy Choices" as final button
+- [x] Compared original vs local footer screenshots
+- [x] Confirmed layout (#25) already correct — two-column flex at 900px breakpoint, 50/50 split
+- [x] Confirmed Contact us button (#30) already correct — white outline pill on dark background matches original
+- [x] Created `buildEmailForm()` in `footer.js`:
+  - Builds `<form>` with email `<input>` (placeholder "Enter Email") + circular magenta submit `<button>`
+  - Appends to CTA section's `.default-content-wrapper`
+  - Submit prevented (demo-only)
+- [x] Created `buildPrivacyButton()` in `footer.js`:
+  - Finds the legal links paragraph (contains `a[href*="legal.html"]`)
+  - Appends " · " separator + `<button>` with "Your Privacy Choices" text
+- [x] Added CSS for email form: white rounded input with magenta circular submit positioned inside
+- [x] Added CSS for privacy button: unstyled button matching legal link text appearance
+- [x] Verified on preview: email form visible with correct styling, privacy button in legal links
+- [x] ESLint + Stylelint pass clean
+- [x] Committed and pushed
+
+### Commits
+- `1365a78` — Add email signup form and privacy choices button to footer (closes #23, #24)
+
+### Files Changed
+- `blocks/footer/footer.js` — Added `buildEmailForm()` and `buildPrivacyButton()` functions
+- `blocks/footer/footer.css` — Added email form styles and privacy choices button styles
+
+### Decisions
+- Issues #25 and #30 required no code changes — existing implementation already matched the original site
+- Email form uses `role="search"` and `aria-label` for accessibility
+- Submit button uses `→` arrow character for the magenta circular submit icon
+
+### Carry-Forward
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
