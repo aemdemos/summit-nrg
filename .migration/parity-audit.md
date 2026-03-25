@@ -193,3 +193,89 @@ The migrated page reproduces the original NRG homepage at approximately 85-90% v
 1. Fix feature panel body text to 20px "Effra W01 Light"
 2. Constrain feature panel image height to 480px
 3. Update HR separator color from #d1d1d1 to #c5c6c9
+
+---
+
+## Phase 3.3 — Major Parity Issues (2026-03-25 continued)
+
+Issues #42–#50 identified from second comprehensive review.
+
+### D10 — Feature panel missing content (P1) — Issue #42
+
+The feature panel block is missing content compared to the original's FeaturedContent component at XPath section[2].
+
+### D11 — Feature panel too wide / margins (P1) — Issue #43
+
+Feature panel content spans full 1440px without the 24px side margins that align with the NRG logo and hero text on the original.
+
+### D12 — Missing HR separators (P1) — Issue #44
+
+Original has `<hr>` elements (1392px wide, 24px offset, gray) between feature panels and product grids. Our version has none.
+
+### D13 — Product grid heading spacing (P1) — Issue #45
+
+Product grid H2 has `margin-bottom: 32px` (should be 8px) and section padding doesn't match original.
+
+### D14 — Product grid image doesn't reach bottom (P1) — Issue #46
+
+Image stops 168px short of panel bottom. Original image fills the full panel height; text card creates a bottom-left cut-in.
+
+### D15 — News carousel navigation broken (P1) — Issue #47
+
+Carousel sometimes starts on slide 5; forward button stuck after slide 2; backward button navigates in random order. Root cause: IntersectionObserver race condition and scroll position detection issues in slider.js.
+
+### D16 — CTA banner wrong overlay color (P1) — Issue #48
+
+CSS overlay uses `rgb(0 30 46 / 40%)` (navy tint). Original uses NO CSS overlay — image is pre-darkened. Fix: change to neutral `rgba(0, 0, 0, 0.45)`.
+
+### D17 — Footer left column wrong background (P1) — Issue #49
+
+Uses solid `#001E2E` (var(--dark-color)). Original uses dark indigo `#1D1B53` with repeating SVG wave pattern (`bg-footer.svg`).
+
+### D18 — Footer right column misaligned (P1) — Issue #50
+
+Multiple sub-issues: heading font weight (Light vs Regular), social icon size/style, legal links wrapping to two lines, vertical rhythm/spacing throughout.
+
+---
+
+## Root Cause Analysis — Why These Issues Keep Getting Missed
+
+### Problem Statement
+
+After three audit passes (initial migration, Phase 3.1, Phase 3.2), significant visual parity issues remain. This section analyzes WHY these defects recur and HOW the audit process must change.
+
+### Category 1: Structural/Content Gaps (Issues #42, #44)
+
+**Why missed:** The audit process compared visual CSS properties (font sizes, colors, spacing) but did NOT systematically compare the DOM structure section-by-section. Missing content and missing HR elements are structural gaps that CSS-focused audits cannot detect. The feature panel was checked for font/size/color but nobody verified "does this section have the same NUMBER of elements?"
+
+**Pattern:** Audits measured properties of elements that DO exist, rather than checking whether all elements EXIST.
+
+### Category 2: Layout Geometry (Issues #43, #45, #46, #50)
+
+**Why missed:** The audit extracted individual element dimensions (width, height, margin) but did NOT compare how those elements relate to each other spatially. Checking "is the feature panel 1440px wide?" returns TRUE for both sites — but the CONTENT alignment within that 1440px was never compared. Similarly, checking "does the product grid image exist?" misses the fact that it doesn't fill the panel height.
+
+**Pattern:** Audits measured absolute values of isolated elements, not their relative positioning within the layout flow.
+
+### Category 3: Behavioral/Interactive Bugs (Issue #47)
+
+**Why missed:** Parity audits have been purely visual (screenshots, computed styles). The news carousel was visually correct in static screenshots but broken in interactive use. Nobody clicked the navigation buttons to verify carousel advancement.
+
+**Pattern:** Static audit methodology cannot detect dynamic/interactive defects.
+
+### Category 4: Asset/Resource Gaps (Issues #48, #49)
+
+**Why missed:** The footer background SVG and CTA banner overlay were evaluated by looking at the rendered visual result, not by inspecting WHAT CSS/assets produce that result. The footer "looked dark" in both versions so it passed visual comparison, but the actual implementation (solid color vs SVG pattern, navy overlay vs pre-darkened image) was never inspected.
+
+**Pattern:** Audits compared visual output at a macro level without decomposing HOW the visual output is produced (inspecting background-image vs background-color, CSS overlay vs baked-in image processing).
+
+### Remediation Plan for Future Audits
+
+1. **Structural audit phase**: Before any CSS comparison, walk the DOM section-by-section and verify every element EXISTS in both versions. Count children, count HRs, count images, count headings. A missing element cannot be caught by CSS inspection.
+
+2. **Spatial relationship audit**: Don't just measure individual elements. Measure how they relate: "Does the feature panel content left-edge align with the hero left-edge?" "Does the image fill its parent container?" Use relative measurements, not just absolute ones.
+
+3. **Interactive audit phase**: After visual checks, manually test every interactive element: click every button, advance every carousel, expand every accordion, hover every link. Record behavior, not just appearance.
+
+4. **Implementation decomposition**: For every visual section, inspect not just the COMPUTED STYLE but the SOURCE of that style. Is the background a solid color, a gradient, an SVG, or an image? Is the overlay a CSS pseudo-element or baked into the image? Is the font weight coming from the font-family name or the font-weight property?
+
+5. **Section-by-section sign-off**: Instead of spot-checking properties, create a checklist for EVERY section on the page. Each section must pass: (a) correct content, (b) correct layout geometry, (c) correct styling, (d) correct interactivity, (e) correct asset implementation.
