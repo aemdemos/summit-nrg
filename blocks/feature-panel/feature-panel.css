@@ -1,6 +1,7 @@
 /* ---------- container overrides ---------- */
 main .feature-panel-container > .feature-panel-wrapper {
-  max-width: unset;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 0;
 }
 
