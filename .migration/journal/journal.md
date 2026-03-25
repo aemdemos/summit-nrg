@@ -5,6 +5,37 @@
 
 ---
 
+## Session: 2026-03-25 — Phase 3.5: Feature Panel Width Fix
+
+**Duration**: ~15m
+**Branch**: `phase3-updates`
+**Commit**: `5e99305`
+
+### Summary
+
+Fixed critical layout issue where feature panels stretched full-width at viewports wider than 1440px, instead of being constrained and centered like the original NRG.com site.
+
+### Root Cause
+
+The feature-panel wrapper CSS had `max-width: unset` which removed the default 1440px constraint from `styles.css`. At 1920px viewport the original site uses a `BasePadding` container with `max-width: 1440px` centered with auto margins, resulting in 240px margins on each side. Our version had no such constraint.
+
+### Fix
+
+Changed `.feature-panel-container > .feature-panel-wrapper` from `max-width: unset` to `max-width: 1440px; margin: 0 auto` — a 2-line change in `feature-panel.css`.
+
+### Verification
+
+Measured at 1920×1080 viewport:
+- **Before**: panels at `left: 0, right: 1920, width: 1920` (full viewport)
+- **After**: panels at `left: 240, right: 1680, width: 1440` (centered, matching original)
+
+### Key Learnings
+
+- Overriding `max-width: unset` on section wrappers removes the global 1440px cap — always test at viewports wider than 1440px to catch this.
+- User-reported "missing content" was actually a layout/width issue — content was there but stretched so wide it looked wrong. Always verify content presence before assuming it's missing.
+
+---
+
 ## Session: 2026-03-25 — Phase 3.4: Fix All P1 Parity Issues (#42-#50)
 
 **Duration**: ~90m
