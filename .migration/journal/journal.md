@@ -5,6 +5,37 @@
 
 ---
 
+## Session: 2026-03-25 — Phase 3.4: Fix All P1 Parity Issues (#42-#50)
+
+**Duration**: ~90m
+**Branch**: `phase3-updates`
+**Commit**: `6d1cc10`
+
+### Summary
+
+Implemented all 9 parity fixes from the deep audit (issues #42–#50). Each fix was verified visually against the original site at 1440x900 viewport using Playwright.
+
+### Changes
+
+| Issue | Fix | Files |
+|-------|-----|-------|
+| #42/#43 | Feature panel alternating layout — removed erroneous row-reverse (DOM order already correct) | `feature-panel.css` |
+| #44 | HR section dividers via CSS `::after` pseudo-elements between feature-panel and product-grid sections | `styles.css` |
+| #45 | Product grid H2 margin-bottom 32px → 8px | `product-grid.css` |
+| #46 | Product grid image fills full panel with absolute positioning; text card at bottom-left | `product-grid.css` |
+| #47 | News carousel: fixed IntersectionObserver race condition, added programmatic scroll guard, forced initial slide 0, `showSlide` now calls `updateActiveSlide` directly | `slider.js`, `news-carousel.js` |
+| #48 | CTA banner overlay `rgb(0 30 46 / 40%)` → `rgb(0 0 0 / 45%)` | `cta-banner.css` |
+| #49 | Footer left column: dark indigo `#1D1B53` + SVG wave pattern | `footer.css`, `icons/bg-footer.svg` |
+| #50 | Footer right column: social icons 30px, nav column gap 60px, legal links spacing | `footer.css` |
+
+### Key Learnings
+
+- DOM order matters: Panel 2 already had content-first/image-second in DOM, so `row-reverse` was wrong — always verify computed styles before applying CSS direction changes.
+- IntersectionObserver + programmatic scrolling = race conditions. `showSlide` must call `updateActiveSlide` directly to update state; the observer is only for manual/touch scrolling.
+- Removed `getCurrentSlideIndexFromScroll` (unused after simplifying prev/next to use tracked `activeSlide` dataset).
+
+---
+
 ## Session: 2026-03-19 15:00 — Project Setup & Skills Import
 
 **Duration**: ~30m
