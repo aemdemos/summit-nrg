@@ -92,24 +92,7 @@ export function updateActiveSlide(block, slide, options = {}) {
   });
 }
 
-/**
- * Returns the slide index that best matches the container's current scroll position
- * (the slide whose left edge is at or just to the left of scrollLeft).
- * @param {Element} container - Scrollable element
- * @param {NodeListOf<Element>} slides - Slide elements
- * @returns {number}
- */
 const MAX_SLIDES = 1000;
-
-function getCurrentSlideIndexFromScroll(container, slides) {
-  const { scrollLeft } = container;
-  const len = Math.min(slides.length, MAX_SLIDES);
-  for (let i = 0; i < len; i += 1) {
-    const slide = slides[i];
-    if (scrollLeft < slide.offsetLeft + slide.offsetWidth) return i;
-  }
-  return len - 1;
-}
 
 /**
  * Scrolls the slider to the given slide index (with wrap).
@@ -128,7 +111,7 @@ export function showSlide(block, slideIndex = 0, behavior = 'smooth', options = 
   if (slideIndex >= slides.length) realSlideIndex = 0;
   const activeSlide = slides.item(realSlideIndex);
 
-  activeSlide.querySelectorAll('a').forEach((link) => link.removeAttribute('tabindex'));
+  updateActiveSlide(block, activeSlide, options);
   container.scrollTo({
     top: 0,
     left: activeSlide.offsetLeft,
@@ -146,6 +129,15 @@ function bindEvents(block, options = {}) {
   const targetSlideAttr = opts.get('targetSlideAttr');
   const activeSlideAttr = opts.get('activeSlideAttr');
 
+  /* guard: suppress IntersectionObserver during programmatic scrolling */
+  let programmaticScroll = false;
+  const scrollTo = (index, behavior) => {
+    programmaticScroll = true;
+    showSlide(block, index, behavior, options);
+    /* release after scroll settles */
+    setTimeout(() => { programmaticScroll = false; }, 350);
+  };
+
   const slideIndicators = block.querySelector(opts.get('indicatorsContainer'));
   if (slideIndicators) {
     slideIndicators.querySelectorAll('button').forEach((button) => {
@@ -153,7 +145,7 @@ function bindEvents(block, options = {}) {
         const indicator = e.currentTarget.closest(opts.get('indicatorItemSelector'));
         if (indicator) {
           const target = parseInt(getDatasetAttr(indicator, targetSlideAttr), 10);
-          if (!Number.isNaN(target)) showSlide(block, target, 'smooth', options);
+          if (!Number.isNaN(target)) scrollTo(target, 'smooth');
         }
       });
     });
@@ -162,28 +154,21 @@ function bindEvents(block, options = {}) {
   const prevBtn = block.querySelector(opts.get('prevSelector'));
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      const container = block.querySelector(opts.get('slidesContainer'));
-      const slides = block.querySelectorAll(opts.get('slideSelector'));
-      const current = container && slides.length
-        ? getCurrentSlideIndexFromScroll(container, slides)
-        : parseInt(getDatasetAttr(block, activeSlideAttr), 10) || 0;
-      showSlide(block, current - 1, 'smooth', options);
+      const current = parseInt(getDatasetAttr(block, activeSlideAttr), 10) || 0;
+      scrollTo(current - 1, 'smooth');
     });
   }
 
   const nextBtn = block.querySelector(opts.get('nextSelector'));
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      const container = block.querySelector(opts.get('slidesContainer'));
-      const slides = block.querySelectorAll(opts.get('slideSelector'));
-      const current = container && slides.length
-        ? getCurrentSlideIndexFromScroll(container, slides)
-        : parseInt(getDatasetAttr(block, activeSlideAttr), 10) || 0;
-      showSlide(block, current + 1, 'smooth', options);
+      const current = parseInt(getDatasetAttr(block, activeSlideAttr), 10) || 0;
+      scrollTo(current + 1, 'smooth');
     });
   }
 
   const slideObserver = new IntersectionObserver((entries) => {
+    if (programmaticScroll) return;
     entries.forEach((entry) => {
       if (entry.isIntersecting) updateActiveSlide(block, entry.target, options);
     });

@@ -23,7 +23,7 @@ main .cta-banner > div::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgb(0 30 46 / 40%);
+  background: rgb(0 0 0 / 45%);
   z-index: 1;
 }
 
