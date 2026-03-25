@@ -1339,7 +1339,60 @@ The NRG logo SVG has two visual groups: white text paths (`.cls-1`) and colored 
 - **Phase 5**: #27 (arrow icons), #28 (stray text)
 
 ### Carry-Forward
-- [ ] Phase 3: Header search icon (#16)
+- [x] ~~Phase 3: Header search icon (#16)~~ — completed same session
 - [ ] Phase 4: Footer fixes (#23, #24, #25, #30)
 - [ ] Phase 5: Polish (#27, #28)
-- [ ] Merge PR #31 to close Phase 1 issues
+- [x] ~~Merge PR #31 to close Phase 1 issues~~ — merged
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 3: Header Search Icon (#16)
+
+**Duration**: ~20m
+**Branch**: `phase2-updates`
+**Focus**: Add search icon with expandable input to header tools area
+
+### Context
+Issue #16 reported a missing search magnifying glass icon in the header utility area. The original nrg.com has a 14px SVG magnifying glass button (with 10px padding) positioned before the "Investors" link. Clicking it reveals a hidden search input form with "Enter search..." placeholder.
+
+### Actions
+- [x] Inspected original nrg.com search icon — 14px SVG, `stroke: #fff`, inside a `<button>` with 10px padding, toggles a hidden `<form>` with search input
+- [x] Confirmed `icons/search.svg` already existed in the project (24x24 viewBox magnifying glass)
+- [x] Added `<span class="icon icon-search">` inside an `<a href="/search">` to nav tools section in both `nav.plain.html` (root) and `content/nav.plain.html`
+- [x] Created `buildSearchToggle()` function in `header.js`:
+  - Replaces the search `<a>` link with a `<button>` toggle + `<form>` with search input
+  - Button toggles `aria-expanded` and `.expanded` class on container
+  - Input auto-focuses when expanded
+  - Form submit prevented (demo-only, no actual search)
+- [x] Added search CSS to `header.css`:
+  - `.nav-search` container with flex alignment
+  - `.nav-search-toggle` button: transparent bg, 10px padding, 14px icon
+  - Icon fill transitions: white (transparent header) → `var(--text-color)` (scrolled)
+  - `.nav-search-form` dropdown: absolute positioned, white bg, rounded corners, shadow
+  - Input: 200px width, 1px border, focus highlights with brand-primary
+- [x] Verified on preview: icon visible, click expands input, scrolled state works
+- [x] ESLint + Stylelint pass clean
+- [x] Committed and pushed
+
+### Commits
+- `364f5d8` — Add search icon with expandable input to header (closes #16)
+
+### Files Changed
+- `blocks/header/header.js` — Added `buildSearchToggle()` function, updated nav-tools search handling
+- `blocks/header/header.css` — Replaced generic icon styles with search toggle + dropdown styles
+- `nav.plain.html` — Added search icon span in tools section
+
+### Problems Encountered
+- **Problem**: Server served old nav content without search icon
+  - **Root cause**: Two `nav.plain.html` files exist — `/workspace/nav.plain.html` (served by dev server) and `/workspace/content/nav.plain.html` (git-ignored). Only updated the content copy initially.
+  - **Resolution**: Updated the root `nav.plain.html` as well
+  - **Time lost**: ~3m
+
+- **Problem**: `npm run lint` failed with `eslint: not found`
+  - **Root cause**: `node_modules` not installed (fresh session)
+  - **Resolution**: Ran `npm install` then used `npx eslint` and `npx stylelint` directly
+  - **Time lost**: ~2m
+
+### Carry-Forward
+- [ ] Phase 4: Footer fixes (#23, #24, #25, #30)
+- [ ] Phase 5: Polish (#27, #28)
