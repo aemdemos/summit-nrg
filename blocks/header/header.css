@@ -362,17 +362,67 @@ header nav .nav-tools a.button.primary:hover {
   border-color: #8e0053;
 }
 
-/* search icon in tools */
-header nav .nav-tools .icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
+/* search toggle */
+header nav .nav-search {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
-header nav .nav-tools .icon svg {
-  width: 20px;
-  height: 20px;
+header nav .nav-search-toggle {
+  background: none;
+  border: 0;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+header nav .nav-search-toggle .icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+}
+
+header nav .nav-search-toggle .icon svg {
+  width: 14px;
+  height: 14px;
   fill: #fff;
+  transition: fill 0.3s ease;
+}
+
+header .nav-wrapper.scrolled nav .nav-search-toggle .icon svg {
+  fill: var(--text-color);
+}
+
+header nav .nav-search-form {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  padding: 8px;
+  z-index: 1;
+}
+
+header nav .nav-search.expanded .nav-search-form {
+  display: block;
+}
+
+header nav .nav-search-form input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: 'Effra W01 Regular', arial, helvetica, sans-serif;
+  width: 200px;
+  outline: none;
+}
+
+header nav .nav-search-form input:focus {
+  border-color: var(--brand-primary);
 }
 
 /* breadcrumbs */

@@ -1319,3 +1319,205 @@ The NRG logo SVG has two visual groups: white text paths (`.cls-1`) and colored 
 - [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
 - [ ] Update DA content to use new columns section for sub-bar (requires author access)
 - [ ] Consider removing `IMAGE_FALLBACKS` from scripts.js once DA content is updated to use local paths
+
+---
+
+## Session: 2026-03-25 — Phase Review & Planning
+
+**Duration**: ~5m
+**Branch**: `phase1-updates`
+**Focus**: Review remaining open issues and confirm next phases
+
+### Actions
+- [x] Listed all 11 open GitHub issues with priorities
+- [x] Confirmed Phase 2 (image hosting #22, #29) was already completed within Phase 1
+- [x] Identified that #15, #21, #22, #29 will auto-close when PR #31 merges
+
+### Open Issues Summary (post-merge)
+- **Phase 3**: #16 (header search icon)
+- **Phase 4**: #23 (footer email form), #24 (privacy button), #25 (footer layout), #30 (footer CTA styling)
+- **Phase 5**: #27 (arrow icons), #28 (stray text)
+
+### Carry-Forward
+- [x] ~~Phase 3: Header search icon (#16)~~ — completed same session
+- [ ] Phase 4: Footer fixes (#23, #24, #25, #30)
+- [ ] Phase 5: Polish (#27, #28)
+- [x] ~~Merge PR #31 to close Phase 1 issues~~ — merged
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 3: Header Search Icon (#16)
+
+**Duration**: ~20m
+**Branch**: `phase2-updates`
+**Focus**: Add search icon with expandable input to header tools area
+
+### Context
+Issue #16 reported a missing search magnifying glass icon in the header utility area. The original nrg.com has a 14px SVG magnifying glass button (with 10px padding) positioned before the "Investors" link. Clicking it reveals a hidden search input form with "Enter search..." placeholder.
+
+### Actions
+- [x] Inspected original nrg.com search icon — 14px SVG, `stroke: #fff`, inside a `<button>` with 10px padding, toggles a hidden `<form>` with search input
+- [x] Confirmed `icons/search.svg` already existed in the project (24x24 viewBox magnifying glass)
+- [x] Added `<span class="icon icon-search">` inside an `<a href="/search">` to nav tools section in both `nav.plain.html` (root) and `content/nav.plain.html`
+- [x] Created `buildSearchToggle()` function in `header.js`:
+  - Replaces the search `<a>` link with a `<button>` toggle + `<form>` with search input
+  - Button toggles `aria-expanded` and `.expanded` class on container
+  - Input auto-focuses when expanded
+  - Form submit prevented (demo-only, no actual search)
+- [x] Added search CSS to `header.css`:
+  - `.nav-search` container with flex alignment
+  - `.nav-search-toggle` button: transparent bg, 10px padding, 14px icon
+  - Icon fill transitions: white (transparent header) → `var(--text-color)` (scrolled)
+  - `.nav-search-form` dropdown: absolute positioned, white bg, rounded corners, shadow
+  - Input: 200px width, 1px border, focus highlights with brand-primary
+- [x] Verified on preview: icon visible, click expands input, scrolled state works
+- [x] ESLint + Stylelint pass clean
+- [x] Committed and pushed
+
+### Commits
+- `364f5d8` — Add search icon with expandable input to header (closes #16)
+
+### Files Changed
+- `blocks/header/header.js` — Added `buildSearchToggle()` function, updated nav-tools search handling
+- `blocks/header/header.css` — Replaced generic icon styles with search toggle + dropdown styles
+- `nav.plain.html` — Added search icon span in tools section
+
+### Problems Encountered
+- **Problem**: Server served old nav content without search icon
+  - **Root cause**: Two `nav.plain.html` files exist — `/workspace/nav.plain.html` (served by dev server) and `/workspace/content/nav.plain.html` (git-ignored). Only updated the content copy initially.
+  - **Resolution**: Updated the root `nav.plain.html` as well
+  - **Time lost**: ~3m
+
+- **Problem**: `npm run lint` failed with `eslint: not found`
+  - **Root cause**: `node_modules` not installed (fresh session)
+  - **Resolution**: Ran `npm install` then used `npx eslint` and `npx stylelint` directly
+  - **Time lost**: ~2m
+
+### Carry-Forward
+- [ ] Phase 4: Footer fixes (#23, #24, #25, #30)
+- [ ] Phase 5: Polish (#27, #28)
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 4: Footer Fixes (#23, #24, #25, #30)
+
+**Duration**: ~15m
+**Branch**: `phase2-updates`
+**Focus**: Add email signup form and privacy choices button to footer; verify layout and Contact us button
+
+### Context
+Phase 4 addressed four footer issues: two-column layout (#25), Contact us button styling (#30), email signup form (#23), and "Your Privacy Choices" button (#24).
+
+### Actions
+- [x] Extracted original nrg.com footer measurements:
+  - Email input: 306×48px, 2px solid white border, 25px radius, white bg
+  - Submit button: magenta circular button inside the input field
+  - Contact us button: transparent bg, 1px solid white, 25px radius, 306×48px
+  - Legal links: flex list with "Your Privacy Choices" as final button
+- [x] Compared original vs local footer screenshots
+- [x] Confirmed layout (#25) already correct — two-column flex at 900px breakpoint, 50/50 split
+- [x] Confirmed Contact us button (#30) already correct — white outline pill on dark background matches original
+- [x] Created `buildEmailForm()` in `footer.js`:
+  - Builds `<form>` with email `<input>` (placeholder "Enter Email") + circular magenta submit `<button>`
+  - Appends to CTA section's `.default-content-wrapper`
+  - Submit prevented (demo-only)
+- [x] Created `buildPrivacyButton()` in `footer.js`:
+  - Finds the legal links paragraph (contains `a[href*="legal.html"]`)
+  - Appends " · " separator + `<button>` with "Your Privacy Choices" text
+- [x] Added CSS for email form: white rounded input with magenta circular submit positioned inside
+- [x] Added CSS for privacy button: unstyled button matching legal link text appearance
+- [x] Verified on preview: email form visible with correct styling, privacy button in legal links
+- [x] ESLint + Stylelint pass clean
+- [x] Committed and pushed
+
+### Commits
+- `1365a78` — Add email signup form and privacy choices button to footer (closes #23, #24)
+
+### Files Changed
+- `blocks/footer/footer.js` — Added `buildEmailForm()` and `buildPrivacyButton()` functions
+- `blocks/footer/footer.css` — Added email form styles and privacy choices button styles
+
+### Decisions
+- Issues #25 and #30 required no code changes — existing implementation already matched the original site
+- Email form uses `role="search"` and `aria-label` for accessibility
+- Submit button uses `→` arrow character for the magenta circular submit icon
+
+### Carry-Forward
+- [ ] Phase 5: Polish (#27 arrow icons, #28 stray text)
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 5: Polish (#27, #28)
+
+**Duration**: ~20m
+**Branch**: `phase2-updates`
+**Focus**: Replace text arrow characters with SVG arrow icons; fix stray accessibility text in product grid
+
+### Context
+Issue #27 reported that feature panel CTA links used a literal `→` Unicode character instead of a styled arrow icon. Issue #28 reported stray `→ → → → →` text appearing in the product grid's accessibility tree from hidden panels' `::after` pseudo-element text content.
+
+### Actions
+- [x] Inspected original nrg.com arrow implementation:
+  - Uses `::after` with `content: ""` (empty) + `background-image: url(arrow-right-brand.svg)`
+  - SVG is a Tabler icon set right arrow, 24×24, stroke `#b8006b` (brand magenta)
+  - No text content = purely decorative, not announced by screen readers
+- [x] Confirmed our implementation used `content: '→'` (text character) in three blocks:
+  - `feature-panel.css` — `.feature-panel-content a::after`
+  - `product-grid.css` — `.product-grid-panel-text a::after`
+  - `news-carousel.css` — `.news-carousel-footer a::after`
+- [x] Confirmed no literal `→` characters in content HTML — all from CSS pseudo-elements
+- [x] Confirmed stray `→ → → → →` in product grid was `::after` text from hidden panels leaking into accessibility tree (panels correctly had `display: none` but pseudo-element text was still reported)
+- [x] Created `icons/arrow-right-brand.svg` — magenta Tabler right arrow matching original
+- [x] Updated all three CSS files: replaced `content: '→'` with `content: ''; background: url('/icons/arrow-right-brand.svg')` pattern
+- [x] Verified on preview: SVG arrows render correctly in feature panels, product grid, and news carousel
+- [x] Verified accessibility tree: no more `→` text in any link, no stray arrow text in product grid
+- [x] Stylelint passes clean
+- [x] Committed and pushed
+
+### Commits
+- `6dbccd6` — Replace text arrow characters with SVG arrow icons (closes #27, #28)
+
+### Files Changed
+- `icons/arrow-right-brand.svg` — New magenta arrow SVG icon
+- `blocks/feature-panel/feature-panel.css` — SVG background arrow replacing text arrow
+- `blocks/product-grid/product-grid.css` — SVG background arrow replacing text arrow
+- `blocks/news-carousel/news-carousel.css` — SVG background arrow replacing text arrow
+
+### Decisions
+- Used SVG background-image approach (matching original nrg.com) rather than CSS border-based chevron
+- Single SVG file shared across all three blocks for consistency
+- Arrow is purely decorative (`content: ''`) — not announced by screen readers
+
+### Carry-Forward
+- All phases complete (Phase 1–5)
+- All open issues addressed: #16, #23, #24, #25, #27, #28, #30
+- Ready for PR from `phase2-updates` → `main`
+
+---
+
+## Session: 2026-03-25 (cont.) — Phase 2 PR Creation
+
+**Duration**: ~5m
+**Branch**: `phase2-updates`
+**Focus**: Create pull request for all Phase 2–5 work
+
+### Actions
+- [x] Fetched remote main to get accurate diff (local main was behind after PR #31 merge)
+- [x] Confirmed 7 commits, 10 files changed (+415, −19) vs `origin/main`
+- [x] Referenced PR #31 format for consistency
+- [x] Created PR #32 via GitHub REST API: "Phase 2: Header search, footer enhancements, and arrow icon polish"
+  - Fixes #16 (search icon), #23 (email form), #24 (privacy choices), #27 (arrow icons), #28 (stray text)
+  - Also addresses #25 (footer layout) and #30 (contact button) — verified already correct
+
+### Commits (included in PR)
+- `364f5d8` — Add search icon with expandable input to header (closes #16)
+- `1365a78` — Add email signup form and privacy choices button to footer (closes #23, #24)
+- `6dbccd6` — Replace text arrow characters with SVG arrow icons (closes #27, #28)
+- Plus 4 journal commits
+
+### Pull Request
+- PR #32: https://github.com/aemdemos/summit-nrg/pull/32
+
+### Carry-Forward
+- All phases and issues complete
+- PR #32 awaiting review/merge
