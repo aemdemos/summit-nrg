@@ -49,9 +49,9 @@ main .feature-panel h2 {
 
 /* description */
 main .feature-panel .feature-panel-content p {
-  font-family: var(--body-font-family);
-  font-size: 18px;
-  line-height: 1.5;
+  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 28px;
   color: var(--text-color);
   margin-bottom: 16px;
 }
@@ -111,6 +111,7 @@ main .feature-panel .feature-panel-row:nth-child(even) {
 
   main .feature-panel .feature-panel-image {
     min-height: 480px;
+    max-height: 480px;
   }
 
   main .feature-panel .feature-panel-content {
