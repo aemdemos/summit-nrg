@@ -142,9 +142,11 @@ main .product-grid .product-grid-panel-text a:any-link {
 }
 
 main .product-grid .product-grid-panel-text a::after {
-  content: '→';
-  color: var(--brand-primary);
-  font-size: 20px;
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 18px;
+  background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
 }
 
 main .product-grid .product-grid-panel-text a:hover {

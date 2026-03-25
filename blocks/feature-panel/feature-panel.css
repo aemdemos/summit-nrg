@@ -78,9 +78,11 @@ main .feature-panel .feature-panel-content a:any-link {
 }
 
 main .feature-panel .feature-panel-content a::after {
-  content: '→';
-  color: var(--brand-primary);
-  font-size: 20px;
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 18px;
+  background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
 }
 
 main .feature-panel .feature-panel-content a:hover {
