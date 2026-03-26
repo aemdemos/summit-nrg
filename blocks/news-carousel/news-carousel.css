@@ -196,14 +196,20 @@ main .news-carousel .news-carousel-slide-content a.button:hover {
   color: #8e0053;
 }
 
-/* ---------- footer link ---------- */
-main .news-carousel .news-carousel-footer {
+/* ---------- "Discover more insights" link (default content after block) ---------- */
+main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper {
   display: flex;
   justify-content: flex-end;
-  padding: 5px 0 31px;
+  padding: 5px 24px 31px;
+  margin: 0;
+  max-width: 1440px;
 }
 
-main .news-carousel .news-carousel-footer a:any-link {
+main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper p {
+  margin: 0;
+}
+
+main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper a:any-link {
   font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
   font-size: 18px;
   color: var(--text-color);
@@ -213,7 +219,7 @@ main .news-carousel .news-carousel-footer a:any-link {
   gap: 8px;
 }
 
-main .news-carousel .news-carousel-footer a::after {
+main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper a::after {
   content: '';
   display: inline-block;
   width: 24px;
@@ -221,7 +227,7 @@ main .news-carousel .news-carousel-footer a::after {
   background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
 }
 
-main .news-carousel .news-carousel-footer a:hover {
+main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper a:hover {
   color: var(--brand-primary);
 }
 
@@ -275,9 +281,10 @@ main .news-carousel .news-carousel-footer a:hover {
     line-height: 56px;
   }
 
-  /* shift footer elements into content column */
-  main .news-carousel .news-carousel-footer {
+  /* shift footer link into content column */
+  main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper {
     margin-left: calc(40% + 40px);
     width: calc(60% - 40px);
+    padding: 5px 0 31px;
   }
 }

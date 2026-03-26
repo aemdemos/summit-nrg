@@ -1974,3 +1974,222 @@ Built a separate `.product-grid-accordion` DOM alongside existing desktop tabs:
 
 ### Carry-Forward
 - PR #64 merged; `phase5-updates` branch ready for new PR
+
+---
+
+## Session: Phase 6 — Fine-Detail Parity Audit & Issue Creation
+
+**Date**: 2026-03-26
+**Branch**: `phase6-updates`
+
+### Summary
+
+Performed a comprehensive section-by-section visual differential between https://www.nrg.com/ and https://main--summit-nrg--aemdemos.aem.page/ at both 1440px desktop and 375px mobile viewports. Used parallel sub-agents to inspect hero, feature panels, product grids, news carousel, careers CTA, and footer sections with pixel-level measurements.
+
+### Actions
+
+- [x] Captured full-page screenshots of both sites at 1440px (~5m) — pass
+- [x] Ran 4 parallel comparison agents: hero, feature panels, product grids + news carousel, footer + careers CTA (~10m) — pass
+- [x] Ran mobile (375px) comparison agent (~10m) — pass
+- [x] Consolidated findings into prioritized issue list (~5m) — pass
+- [x] Created 15 GitHub issues (#66–#80) with detailed measurements and fix suggestions (~10m) — pass
+
+### Issues Created
+
+**P1 (Bug):**
+- #66 — Mobile nav utility links overflow viewport at 375px
+
+**P2 (Noticeable):**
+- #67 — Feature panel link hover states (color, underline, arrow animation)
+- #68 — Feature panel card 2 wrong background color (#f4f4f4 vs white)
+- #69 — Feature panel heading/text spacing mismatches
+- #70 — News carousel "See article" should be outlined button
+- #71 — Footer left column padding causes heading wrap
+- #76 — Mobile sub-bar buttons should be full-width
+- #77 — Mobile footer nav columns use white bg instead of dark navy
+
+**P3 (Polish):**
+- #72 — Footer separator style mismatch
+- #73 — Footer nav column gap (24px vs 60px)
+- #74 — Sub-bar background should be transparent
+- #75 — Product grid panel image 47px narrower
+- #78 — Mobile careers CTA too short
+- #79 — Footer legal links line-height too tall
+- #80 — Mobile hero image should be taller
+
+### Carry-Forward
+- 15 open issues (#66–#80) ready for implementation on `phase6-updates`
+- P1 #66 (mobile nav overflow) should be fixed first
+- PR #65 (Phase 5 accordion) still open for review
+
+---
+
+## Session: Phase 6 (cont.) — Structural Refactor Issues (#81–#83)
+
+**Date**: 2026-03-26
+**Branch**: `phase6-updates`
+
+### Summary
+
+Created three additional GitHub issues for structural/authoring refactors requested by the user. These address content modeling improvements for Universal Editor (UE) compatibility and EDS authoring best practices.
+
+### Issues Created
+
+- **#81** — Product Grid: Copy SVG icons locally & use EDS `:icon-name:` notation
+  - Eliminate the first column (icon images), move to 2-column structure
+  - Copy 11 external SVG icons to `/icons/` directory
+  - Use EDS icon notation (`:icon-name:`) in content instead of separate image column
+  - Update JS to read icons from `<span class="icon">` elements in content column
+
+- **#82** — News Carousel: Extract "Discover more insights" link from block table
+  - Move footer link from being the 6th row (with empty image column) to default section content after the block
+  - Prevents UE from interpreting it as a blank 6th slide
+  - Simplify JS by removing footer-row detection logic
+
+- **#83** — Hero Block: Refactor to single-cell authoring with CSS positioning
+  - Collapse 2-column structure (image | content) into single cell
+  - Image and content coexist in one cell; CSS handles all positioning
+  - Simpler authoring model aligned with EDS conventions
+
+### Key Decisions
+
+- All three refactors prioritize **author-friendliness** over backward compatibility
+- UE compatibility is a forward-looking concern — the customer may adopt UE in the future
+- EDS icon notation (`:icon-name:`) is preferred over image columns for inline icons
+
+### Carry-Forward
+- Structural refactors (#81–#83) need implementation next
+- 15 remaining parity issues (#66–#80) on `phase6-updates`
+
+---
+
+## Session: Phase 6 (cont.) — Implement Structural Refactors (#81–#83)
+
+**Date**: 2026-03-26
+**Branch**: `phase6-updates`
+**Commit**: `7ede29c`
+
+### Summary
+
+Implemented all three structural/authoring refactors in order of complexity: hero (simplest), news carousel, product grid (most complex). All verified at 1440px desktop and 375px mobile with no visual regressions.
+
+### Changes
+
+**#83 — Hero: Single-cell authoring**
+- `hero.js`: Rewrote to handle single-column structure. Finds `<picture>` in the single cell, removes it from flow, promotes to background inside `.hero-content-area`. Eliminated column-splitting logic.
+- `content/index.plain.html`: Collapsed 2-column row into single cell (image + h1 + p + buttons in one `<div>`).
+- `hero.css`: No changes needed — existing positioning rules work unchanged.
+
+**#82 — News carousel: Extract footer link**
+- `news-carousel.js`: Removed `footerRow` detection logic and `.news-carousel-footer` creation. All rows are now slides. Added bottom divider unconditionally.
+- `news-carousel.css`: Replaced `.news-carousel-footer` selectors with `.news-carousel-wrapper + .default-content-wrapper` to target the link as default section content. Desktop media query shifts it into the content column with `margin-left: calc(40% + 40px)`.
+- `content/index.plain.html`: Moved `<p><a>Discover more insights</a></p>` from block table row 6 to default content after the block.
+- Key learning: EDS wraps default content in `.default-content-wrapper` — initial CSS targeted `+ p` which didn't match.
+
+**#81 — Product grid: Local SVG icons + 2-column**
+- Downloaded 11 SVG icons from nrg.com/scene7 to `/icons/` directory.
+- `product-grid.js`: Updated to read 2 columns (`cols[0]` = image, `cols[1]` = content). Extracts `<span class="icon">` from content column for tab/accordion icons.
+- `content/index.plain.html`: Removed icon image column, added `<span class="icon icon-{name}">` in content column before `<h3>`.
+- Key learning: `:icon-name:` text notation is an authoring convention converted by AEM backend — for static HTML, must use `<span class="icon">` directly. `decorateIcons()` in `aem.js` adds `<img>` to existing `.icon` spans.
+
+### Icons Added
+energy-plans, smart-home, sustainable-living, ev-driving, backup-power, home-services, power, natural-gas, load-management, sustainability-renewables, energy-brokers
+
+### Verification
+- Desktop (1440px): All three blocks render identically to before refactor
+- Mobile (375px): Hero, accordion, and carousel footer all work correctly
+- Accordion expand/collapse with magenta icon filter confirmed
+- Lint: 0 errors (1 pre-existing warning in news-carousel.js)
+
+### Carry-Forward
+- 15 remaining parity issues (#66–#80) on `phase6-updates`
+- P1 #66 (mobile nav overflow) should be fixed first
+- Issues #81–#83 closed
+
+---
+
+## Session — Phase 6 continuation: Product grid icon notation fix
+**Date:** 2026-03-26
+**Branch:** `phase6-updates`
+**Commit:** `89141ad`
+
+### Context
+User feedback that product-grid icons were missing after the #81 refactor. The content had been updated to use `<span class="icon">` markup, but user explicitly requested using the EDS `:icon-name:` authoring notation (e.g., `:energy-plans:`) instead.
+
+### Changes
+
+**product-grid.js** — Added `convertIconNotation()` helper and `decorateIcons()` call:
+- `convertIconNotation(block)`: Scans `<p>` elements for `:icon-name:` text pattern (regex `/^:([a-z0-9-]+):$/`), converts matching elements to `<span class="icon icon-{name}"></span>`.
+- Calls `decorateIcons(block)` from `aem.js` after conversion to load SVG images into the spans.
+- Runs at the top of `decorate()` before row extraction — existing `.icon` querySelector logic then works as before.
+- No-op in production where AEM backend has already converted the notation.
+
+**content/index.plain.html** — Reverted icon markup from `<span class="icon icon-{name}">` back to `:icon-name:` text notation for all 11 product icons (content is gitignored).
+
+### Key Learning
+- EDS `:icon-name:` text → `<span class="icon">` conversion is done by the **AEM backend**, not client-side JS.
+- `decorateIcons()` in `aem.js` only adds `<img>` to existing `<span class="icon">` elements.
+- For local static HTML dev, blocks that use icon notation need their own conversion step.
+- This pattern (convertIconNotation + decorateIcons) can be reused by any block that needs icon notation support in local dev.
+
+### Verification
+- Desktop (1440px): All 6 residential + 5 business tab icons rendering with SVGs
+- Mobile (375px): Accordion icons rendering, expand/collapse working, magenta active tint confirmed
+- Lint: Clean (0 errors)
+
+### Follow-up: Icon size fix
+**Commit:** `f1f23f0`
+
+User reported icons were incorrectly sized after the notation fix. Root cause: global `.icon` class in `styles.css` constrains icon spans to `width: 24px; height: 24px`, and `.icon img` uses `width: 100%; height: 100%`. This overrode the product-grid's intended sizing.
+
+**product-grid.css** — Added explicit `.icon` and `.icon img` overrides within:
+- `.product-grid-accordion-icon .icon` → 48x48 (mobile)
+- `.product-grid-tab-icon .icon` → 40x40 (600px+), 48x48 (900px+)
+
+Original site icons confirmed at 48x48px on desktop. Verified match at 1440px desktop and 375px mobile.
+
+**Key Learning:** When using EDS icon spans inside custom block layouts, always override the global `.icon` dimensions — the default 24x24 from `styles.css` will constrain SVGs regardless of parent container sizing.
+
+### Follow-up: Tab vertical spacing fix
+**Commit:** `016ed07`
+
+User reported product-grid tab list was taller than the original, both as a whole and per-tab.
+
+**Root cause (two issues):**
+1. Tab list used `justify-content: center` — original uses `space-evenly` to distribute tabs across the full 560px container height
+2. Each tab button had `padding: 16px 0` (from our CSS) plus `margin: 12px 0` (inherited from global `button` style in `styles.css` line 226), making each tab 104px tall vs the original's ~93px evenly-distributed slots
+
+**product-grid.css** at 900px breakpoint:
+- `.product-grid-tabs`: Changed `justify-content: center` → `space-evenly`
+- `.product-grid-tab`: Changed `padding: 16px 0` → `padding: 0; margin: 0`
+
+**Measurements after fix:**
+- Container height: 560px (was 624px, original 560px)
+- Tab content height: 48px with zero padding/margin
+- `space-evenly` distributes ~93px per slot across 560px
+
+**Key Learning:** Global `button` style in `styles.css` adds `margin: 12px 0` to all buttons — must explicitly reset with `margin: 0` when buttons are used as layout elements (tabs, accordion headers).
+
+### Follow-up: Footer email signup button alignment fix
+**Commit:** `6aad971`
+
+User reported the footer email signup submit arrow button was misaligned — it sat below the input field rather than centered within it.
+
+**Root cause (two issues):**
+1. Button was sized 40x40px — original is 34x34px
+2. Global `button` style in `styles.css` applies `margin: 12px 0` to all buttons, pushing the absolutely-positioned button below the 48px input (button bottom 750 > input bottom 742)
+
+**footer.css** fix:
+- Changed `width: 40px; height: 40px` → `width: 34px; height: 34px`
+- Added `margin: 0` to override the global button margin
+
+**Measurements after fix:**
+- Button: 34x34px, vertically centered via `top: 50%; transform: translateY(-50%)`
+- Input: 306x48px — button properly contained within input bounds
+- Original: 34x34px with `margin: 7px 0 0 -42px` positioning — different technique, same visual result
+
+**Key Learning:** This is the third time the global `button { margin: 12px 0 }` in `styles.css` has caused alignment issues (product-grid tabs, product-grid accordion headers, footer submit button). Any button used for non-standard purposes needs explicit `margin: 0`.
+
+### Carry-Forward
+- 15 remaining parity issues (#66–#80) on `phase6-updates`
+- P1 #66 (mobile nav overflow) should be fixed first
