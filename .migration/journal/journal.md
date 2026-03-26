@@ -1892,3 +1892,37 @@ User-requested refinements after reviewing the Phase 4 preview. Two targeted fix
 - **#62 (Mobile product grid accordion)** — still deferred
 - PR #64 open for review
 - User's message about background color was cut off mid-sentence — may need follow-up
+
+---
+
+## Session: Phase 4.4 — News Carousel Section Padding
+
+**Date**: 2026-03-26
+**Branch**: `phase4-updates`
+**Commit**: `8c19a66`
+
+### Context
+
+User reported the news-carousel section didn't have enough visible gray background at the top and bottom compared to the original. This was the background color issue partially mentioned in Phase 4.3.
+
+### Root Cause
+
+In Phase 4.2, section padding was set to `0` to reduce the overall section height. This eliminated the gray background breathing room that the original has above the heading and below the footer link.
+
+### Measurements
+
+| Metric | Original | Before Fix | After Fix |
+|--------|----------|-----------|-----------|
+| Section padding-top | 45px | 0px | 45px |
+| Section padding-bottom | 45px | 0px | 45px |
+| Space above H2 | 45px | 0px | 45px |
+| Space after "Discover more" | 76px | 5px | 76px |
+
+### Fix
+
+1. **`styles/styles.css`**: Restored `padding: 45px 0` on `.news-carousel-container` (was `padding: 0`)
+2. **`blocks/news-carousel/news-carousel.css`**: Increased footer bottom padding from `5px 0` to `5px 0 31px` — the extra 31px combined with the 45px section padding-bottom gives 76px total, matching the original
+
+### Carry-Forward
+- **#62 (Mobile product grid accordion)** — still deferred
+- PR #64 open for review
