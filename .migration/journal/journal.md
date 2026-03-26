@@ -1775,3 +1775,154 @@ Four systematic audit methodology gaps identified:
 - 9 P1 issues (#42–#50) need implementation — all on `phase3-updates` branch
 - Branch has 3 commits: Phase 3.1 (P1 fixes), Phase 3.2 (P2 fixes), Phase 3.3 (audit docs)
 - No PR created yet — waiting for issue fixes before merging to main
+
+---
+
+## Session: Phase 4.2 — Parity Fix Implementation & PR
+
+**Date**: 2026-03-26
+**Branch**: `phase4-updates`
+**Commit**: `e9ad455`
+**PR**: [#64](https://github.com/aemdemos/summit-nrg/pull/64)
+
+### Context
+
+Continued executing the Phase 4 remediation plan from `phase4-parity-audit.md`. The prior session (Phase 4.1) ran the pixel-level parity audit, filed 12 GitHub issues (#52–#63), and closed #52/#53 as false positives. This session implemented fixes for the remaining 9 issues and submitted a PR.
+
+### Work Completed
+
+#### Header Typography (#54)
+- Contact button font-size → 18px
+- Utility nav links → 15px
+- Search icon → 20px
+
+#### News Carousel — Major Restructuring (#56, #57, #58, #63)
+- **Section height (#56)**: Reduced from ~841px to ~659px (target 660px) by removing section padding and using `margin-top: -77px` overlap technique on slides container
+- **Arrow buttons (#57)**: Changed from 40px gray-bordered to 36px white-filled circles
+- **"See article" CTA (#58)**: Changed from Effra Regular outline button to Effra Medium plain text link with `::after` arrow icon
+- **Top bar layout (#63)**: Added category text extraction in JS (metaTexts array + MutationObserver), restructured nav bar with category span, shifted dividers/nav/footer into right content column using `margin-left: calc(40% + 40px)` on desktop
+
+#### Product Grid Gradient (#55)
+- Added `background-image: linear-gradient(90deg, #f9f9f9 30%, transparent 70%)` to desktop `.product-grid`
+
+#### CTA Banner Height (#59)
+- Desktop `min-height` corrected from 619px → 600px
+
+#### Footer Text (#60, #61)
+- #60: Already correct (min-width: 306px from Phase 3) — closed as-is
+- #61: Body text corrected from 18px → 16px/24px line-height
+
+### Key Techniques
+
+| Technique | Where Used | Why |
+|-----------|-----------|-----|
+| Negative margin overlap | news-carousel slides container | Image starts at same Y as nav bar, matching original's layout |
+| `calc()` column alignment | news-carousel dividers, nav, footer | Right-align elements to 60% content column on desktop |
+| Meta text extraction + MutationObserver | news-carousel JS | Show/update category in nav bar on slide change |
+| `::after` pseudo-element | news-carousel CTA links | Arrow icon appended to plain text links |
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `blocks/header/header.css` | Typography size corrections |
+| `blocks/news-carousel/news-carousel.css` | Major layout restructuring (desktop column alignment, button styles, CTA link, dividers) |
+| `blocks/news-carousel/news-carousel.js` | Category text in nav bar with MutationObserver |
+| `blocks/product-grid/product-grid.css` | Gradient background on desktop |
+| `blocks/cta-banner/cta-banner.css` | Desktop min-height fix |
+| `blocks/footer/footer.css` | Body text size correction |
+| `styles/styles.css` | Section padding removal for carousel |
+
+### Issues Resolved
+
+| Issue | Delta | Resolution |
+|-------|-------|-----------|
+| #52, #53 | False positives | Closed in prior session |
+| #54 | Header typography | Fixed |
+| #55 | Product grid gradient | Fixed |
+| #56 | Carousel section height | Fixed |
+| #57 | Carousel arrow buttons | Fixed |
+| #58 | Carousel "See article" font | Fixed |
+| #59 | CTA banner height | Fixed |
+| #60 | Footer button width | Already correct |
+| #61 | Footer body text | Fixed |
+| #63 | Carousel top bar layout | Fixed |
+
+### Lint Status
+- ESLint: 1 warning (false positive — object injection on `metaTexts[active]`), 0 errors
+- Stylelint: Clean
+
+### Carry-Forward
+- **#62 (Mobile product grid accordion)** — deferred, requires new JS for expand/collapse on mobile
+- PR #64 open for review — preview at https://phase4-updates--summit-nrg--aemdemos.aem.page/
+
+---
+
+## Session: Phase 4.3 — Minor Parity Tweaks
+
+**Date**: 2026-03-26
+**Branch**: `phase4-updates`
+**Commit**: `4af2756`
+
+### Context
+
+User-requested refinements after reviewing the Phase 4 preview. Two targeted fixes based on visual comparison with the original NRG.com homepage.
+
+### Work Completed
+
+#### Remove section divider before news carousel
+- **Root cause**: `styles.css` lines 310-317 applied a `::after` pseudo-element with `border-bottom: 1px solid #c5c6c9` to all `.product-grid-container` sections
+- The original site has `<hr>` separators between the feature panel and first product grid, and between the two product grids, but NOT before the news carousel
+- **Fix**: Added `main .section.product-grid-container:has(+ .news-carousel-container)::after { display: none; }` to suppress the divider only on the product-grid section immediately preceding the news carousel
+- Divider between the two product-grid sections is preserved
+
+#### Tighten footer nav columns
+- Original "About" and "Our offerings" columns have 24px gap
+- Migrated version had 60px gap in desktop media query
+- **Fix**: Changed `gap: 60px` to `gap: 24px` in `footer .footer .footer-nav-columns` desktop rule
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `styles/styles.css` | Added `:has()` rule to hide divider before news carousel |
+| `blocks/footer/footer.css` | Reduced nav columns desktop gap from 60px to 24px |
+
+### Carry-Forward
+- **#62 (Mobile product grid accordion)** — still deferred
+- PR #64 open for review
+- User's message about background color was cut off mid-sentence — may need follow-up
+
+---
+
+## Session: Phase 4.4 — News Carousel Section Padding
+
+**Date**: 2026-03-26
+**Branch**: `phase4-updates`
+**Commit**: `8c19a66`
+
+### Context
+
+User reported the news-carousel section didn't have enough visible gray background at the top and bottom compared to the original. This was the background color issue partially mentioned in Phase 4.3.
+
+### Root Cause
+
+In Phase 4.2, section padding was set to `0` to reduce the overall section height. This eliminated the gray background breathing room that the original has above the heading and below the footer link.
+
+### Measurements
+
+| Metric | Original | Before Fix | After Fix |
+|--------|----------|-----------|-----------|
+| Section padding-top | 45px | 0px | 45px |
+| Section padding-bottom | 45px | 0px | 45px |
+| Space above H2 | 45px | 0px | 45px |
+| Space after "Discover more" | 76px | 5px | 76px |
+
+### Fix
+
+1. **`styles/styles.css`**: Restored `padding: 45px 0` on `.news-carousel-container` (was `padding: 0`)
+2. **`blocks/news-carousel/news-carousel.css`**: Increased footer bottom padding from `5px 0` to `5px 0 31px` — the extra 31px combined with the 45px section padding-bottom gives 76px total, matching the original
+
+### Carry-Forward
+- **#62 (Mobile product grid accordion)** — still deferred
+- PR #64 open for review
