@@ -323,7 +323,7 @@ main .product-grid .product-grid-accordion-body .product-grid-panel-text a::afte
   /* tab list — left column */
   main .product-grid .product-grid-tabs {
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 0;
     width: 396px;
     flex-shrink: 0;
@@ -333,7 +333,8 @@ main .product-grid .product-grid-accordion-body .product-grid-panel-text a::afte
 
   main .product-grid .product-grid-tab {
     gap: 16px;
-    padding: 16px 0;
+    padding: 0;
+    margin: 0;
     font-size: 24px;
   }
 
