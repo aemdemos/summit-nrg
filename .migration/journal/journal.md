@@ -1974,3 +1974,91 @@ Built a separate `.product-grid-accordion` DOM alongside existing desktop tabs:
 
 ### Carry-Forward
 - PR #64 merged; `phase5-updates` branch ready for new PR
+
+---
+
+## Session: Phase 6 — Fine-Detail Parity Audit & Issue Creation
+
+**Date**: 2026-03-26
+**Branch**: `phase6-updates`
+
+### Summary
+
+Performed a comprehensive section-by-section visual differential between https://www.nrg.com/ and https://main--summit-nrg--aemdemos.aem.page/ at both 1440px desktop and 375px mobile viewports. Used parallel sub-agents to inspect hero, feature panels, product grids, news carousel, careers CTA, and footer sections with pixel-level measurements.
+
+### Actions
+
+- [x] Captured full-page screenshots of both sites at 1440px (~5m) — pass
+- [x] Ran 4 parallel comparison agents: hero, feature panels, product grids + news carousel, footer + careers CTA (~10m) — pass
+- [x] Ran mobile (375px) comparison agent (~10m) — pass
+- [x] Consolidated findings into prioritized issue list (~5m) — pass
+- [x] Created 15 GitHub issues (#66–#80) with detailed measurements and fix suggestions (~10m) — pass
+
+### Issues Created
+
+**P1 (Bug):**
+- #66 — Mobile nav utility links overflow viewport at 375px
+
+**P2 (Noticeable):**
+- #67 — Feature panel link hover states (color, underline, arrow animation)
+- #68 — Feature panel card 2 wrong background color (#f4f4f4 vs white)
+- #69 — Feature panel heading/text spacing mismatches
+- #70 — News carousel "See article" should be outlined button
+- #71 — Footer left column padding causes heading wrap
+- #76 — Mobile sub-bar buttons should be full-width
+- #77 — Mobile footer nav columns use white bg instead of dark navy
+
+**P3 (Polish):**
+- #72 — Footer separator style mismatch
+- #73 — Footer nav column gap (24px vs 60px)
+- #74 — Sub-bar background should be transparent
+- #75 — Product grid panel image 47px narrower
+- #78 — Mobile careers CTA too short
+- #79 — Footer legal links line-height too tall
+- #80 — Mobile hero image should be taller
+
+### Carry-Forward
+- 15 open issues (#66–#80) ready for implementation on `phase6-updates`
+- P1 #66 (mobile nav overflow) should be fixed first
+- PR #65 (Phase 5 accordion) still open for review
+
+---
+
+## Session: Phase 6 (cont.) — Structural Refactor Issues (#81–#83)
+
+**Date**: 2026-03-26
+**Branch**: `phase6-updates`
+
+### Summary
+
+Created three additional GitHub issues for structural/authoring refactors requested by the user. These address content modeling improvements for Universal Editor (UE) compatibility and EDS authoring best practices.
+
+### Issues Created
+
+- **#81** — Product Grid: Copy SVG icons locally & use EDS `:icon-name:` notation
+  - Eliminate the first column (icon images), move to 2-column structure
+  - Copy 11 external SVG icons to `/icons/` directory
+  - Use EDS icon notation (`:icon-name:`) in content instead of separate image column
+  - Update JS to read icons from `<span class="icon">` elements in content column
+
+- **#82** — News Carousel: Extract "Discover more insights" link from block table
+  - Move footer link from being the 6th row (with empty image column) to default section content after the block
+  - Prevents UE from interpreting it as a blank 6th slide
+  - Simplify JS by removing footer-row detection logic
+
+- **#83** — Hero Block: Refactor to single-cell authoring with CSS positioning
+  - Collapse 2-column structure (image | content) into single cell
+  - Image and content coexist in one cell; CSS handles all positioning
+  - Simpler authoring model aligned with EDS conventions
+
+### Key Decisions
+
+- All three refactors prioritize **author-friendliness** over backward compatibility
+- UE compatibility is a forward-looking concern — the customer may adopt UE in the future
+- EDS icon notation (`:icon-name:`) is preferred over image columns for inline icons
+
+### Carry-Forward
+- 18 open issues (#66–#83) ready for implementation on `phase6-updates`
+- P1 #66 (mobile nav overflow) should be fixed first
+- Structural refactors (#81–#83) should be done before fine-tuning CSS issues
+- PR #65 (Phase 5 accordion) still open for review

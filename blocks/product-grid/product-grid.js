@@ -1,7 +1,8 @@
 /**
  * Decorates the product-grid block into an interactive tabbed layout (desktop)
  * and an accordion layout (mobile).
- * Each row = one product tab: [icon, hero-image, content (h3 + p + link)].
+ * Each row = one product tab: [hero-image, content (:icon: + h3 + p + link)].
+ * Icons use EDS notation (:icon-name:) auto-decorated as <span class="icon">.
  * @param {Element} block The block element
  */
 export default function decorate(block) {
@@ -11,12 +12,16 @@ export default function decorate(block) {
   const tabs = [];
   rows.forEach((row) => {
     const cols = [...row.children];
-    const icon = cols[0]?.querySelector('picture') || cols[0]?.querySelector('img');
-    const image = cols[1]?.querySelector('picture') || cols[1]?.querySelector('img');
-    const content = cols[2];
+    const image = cols[0]?.querySelector('picture') || cols[0]?.querySelector('img');
+    const content = cols[1];
+
+    /* Extract the EDS icon span from the content column */
+    const iconSpan = content?.querySelector('.icon');
+    if (iconSpan) iconSpan.closest('p')?.remove();
+
     const title = content?.querySelector('h3')?.textContent || '';
     tabs.push({
-      icon, image, content, title,
+      icon: iconSpan, image, content, title,
     });
   });
 
@@ -100,8 +105,7 @@ export default function decorate(block) {
     if (tab.icon) {
       const mobileIcon = document.createElement('span');
       mobileIcon.className = 'product-grid-accordion-icon';
-      const iconImg = tab.icon.cloneNode(true);
-      mobileIcon.append(iconImg);
+      mobileIcon.append(tab.icon.cloneNode(true));
       header.append(mobileIcon);
     }
 

@@ -3,27 +3,11 @@ import { createSliderControls, initSlider, showSlide } from '../../scripts/slide
 /**
  * Decorates the news-carousel block.
  * Each row = one article slide: [image, content (meta + h2 + p + cta)].
- * Last row without an image is treated as a footer link.
+ * The "Discover more insights" link lives outside the block as default content.
  * @param {Element} block The block element
  */
 export default function decorate(block) {
-  const rows = [...block.children];
-  if (!rows.length) return;
-
-  /* ── separate slides from optional footer ── */
-  const slides = [];
-  let footerRow = null;
-
-  rows.forEach((row) => {
-    const cols = [...row.children];
-    const hasImage = cols[0]?.querySelector('picture') || cols[0]?.querySelector('img');
-    if (hasImage) {
-      slides.push(row);
-    } else {
-      footerRow = row;
-    }
-  });
-
+  const slides = [...block.children];
   if (!slides.length) return;
 
   block.textContent = '';
@@ -108,20 +92,10 @@ export default function decorate(block) {
   slidesContainer.append(slidesList);
   block.append(slidesContainer);
 
-  /* ── footer link ── */
-  if (footerRow) {
-    const bottomDivider = document.createElement('hr');
-    bottomDivider.className = 'news-carousel-divider';
-    block.append(bottomDivider);
-
-    const footer = document.createElement('div');
-    footer.className = 'news-carousel-footer';
-    const link = footerRow.querySelector('a');
-    if (link) {
-      footer.append(link);
-    }
-    block.append(footer);
-  }
+  /* ── bottom divider ── */
+  const bottomDivider = document.createElement('hr');
+  bottomDivider.className = 'news-carousel-divider';
+  block.append(bottomDivider);
 
   /* ── init slider ── */
   const sliderOpts = {
