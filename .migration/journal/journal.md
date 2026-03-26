@@ -1855,3 +1855,40 @@ Continued executing the Phase 4 remediation plan from `phase4-parity-audit.md`. 
 ### Carry-Forward
 - **#62 (Mobile product grid accordion)** — deferred, requires new JS for expand/collapse on mobile
 - PR #64 open for review — preview at https://phase4-updates--summit-nrg--aemdemos.aem.page/
+
+---
+
+## Session: Phase 4.3 — Minor Parity Tweaks
+
+**Date**: 2026-03-26
+**Branch**: `phase4-updates`
+**Commit**: `4af2756`
+
+### Context
+
+User-requested refinements after reviewing the Phase 4 preview. Two targeted fixes based on visual comparison with the original NRG.com homepage.
+
+### Work Completed
+
+#### Remove section divider before news carousel
+- **Root cause**: `styles.css` lines 310-317 applied a `::after` pseudo-element with `border-bottom: 1px solid #c5c6c9` to all `.product-grid-container` sections
+- The original site has `<hr>` separators between the feature panel and first product grid, and between the two product grids, but NOT before the news carousel
+- **Fix**: Added `main .section.product-grid-container:has(+ .news-carousel-container)::after { display: none; }` to suppress the divider only on the product-grid section immediately preceding the news carousel
+- Divider between the two product-grid sections is preserved
+
+#### Tighten footer nav columns
+- Original "About" and "Our offerings" columns have 24px gap
+- Migrated version had 60px gap in desktop media query
+- **Fix**: Changed `gap: 60px` to `gap: 24px` in `footer .footer .footer-nav-columns` desktop rule
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `styles/styles.css` | Added `:has()` rule to hide divider before news carousel |
+| `blocks/footer/footer.css` | Reduced nav columns desktop gap from 60px to 24px |
+
+### Carry-Forward
+- **#62 (Mobile product grid accordion)** — still deferred
+- PR #64 open for review
+- User's message about background color was cut off mid-sentence — may need follow-up
