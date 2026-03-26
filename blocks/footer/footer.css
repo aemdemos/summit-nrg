@@ -258,7 +258,7 @@ footer .footer .footer-nav-col h3 {
   /* nav columns side by side */
   footer .footer .footer-nav-columns {
     flex-direction: row;
-    gap: 60px;
+    gap: 24px;
   }
 
   footer .footer .footer-nav-col {

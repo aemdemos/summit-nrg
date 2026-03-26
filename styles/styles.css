@@ -316,6 +316,11 @@ main .section.product-grid-container::after {
   border-bottom: 1px solid #c5c6c9;
 }
 
+/* no divider before the news-carousel section */
+main .section.product-grid-container:has(+ .news-carousel-container)::after {
+  display: none;
+}
+
 /* --- NRG section backgrounds and vertical spacing --- */
 main .section.product-grid-container {
   background-color: var(--background-color);
