@@ -22,116 +22,124 @@ main .product-grid {
   gap: 0;
 }
 
-/* ---------- tab list (left side on desktop) ---------- */
-main .product-grid .product-grid-tabs {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 8px;
-  padding: 16px 24px;
-  background-color: var(--light-color);
+/* ---------- desktop tabs + panels (hidden on mobile) ---------- */
+main .product-grid .product-grid-tabs,
+main .product-grid .product-grid-content {
+  display: none;
 }
 
-main .product-grid .product-grid-tab {
-  display: inline-flex;
+/* ---------- mobile accordion ---------- */
+main .product-grid .product-grid-accordion {
+  display: block;
+}
+
+main .product-grid .product-grid-accordion-item {
+  border-top: 1px solid #c5c6c9;
+}
+
+main .product-grid .product-grid-accordion-item:first-child {
+  border-top: none;
+}
+
+main .product-grid .product-grid-accordion-header {
+  display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
+  width: 100%;
+  padding: 24px 0;
   border: none;
   background: none;
   cursor: pointer;
-  font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
-  font-size: 18px;
-  color: var(--text-color);
-  white-space: nowrap;
+  gap: 16px;
+  text-align: left;
 }
 
-main .product-grid .product-grid-tab.active {
-  font-family: var(--body-font-family);
-  color: var(--text-color);
-}
-
-/* tab icon */
-main .product-grid .product-grid-tab-icon {
+main .product-grid .product-grid-accordion-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
 }
 
-main .product-grid .product-grid-tab-icon img {
-  width: 40px;
-  height: 40px;
+main .product-grid .product-grid-accordion-icon img {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
-/* active tab icon gets magenta filter */
-main .product-grid .product-grid-tab.active .product-grid-tab-icon img {
+main .product-grid .product-grid-accordion-label {
+  flex: 1;
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+main .product-grid .product-grid-accordion-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+main .product-grid .product-grid-accordion-chevron img {
+  width: 24px;
+  height: 24px;
+}
+
+/* chevron rotates when open */
+main .product-grid .product-grid-accordion-item.open .product-grid-accordion-chevron {
+  transform: rotate(180deg);
+}
+
+/* active item icon gets magenta filter */
+main .product-grid .product-grid-accordion-item.open .product-grid-accordion-icon img {
   filter: brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5743%) hue-rotate(314deg) brightness(73%) contrast(107%);
 }
 
-/* ---------- content panels (right side on desktop) ---------- */
-main .product-grid .product-grid-content {
-  position: relative;
-  min-height: 400px;
-}
-
-main .product-grid .product-grid-panel {
+/* accordion body (collapsed by default) */
+main .product-grid .product-grid-accordion-body {
   display: none;
-  position: relative;
+  padding: 0 0 8px;
 }
 
-main .product-grid .product-grid-panel.active {
+main .product-grid .product-grid-accordion-item.open .product-grid-accordion-body {
   display: block;
 }
 
-/* panel image */
-main .product-grid .product-grid-panel-image {
-  position: relative;
-  overflow: hidden;
+/* accordion body text content */
+main .product-grid .product-grid-accordion-body .product-grid-panel-text {
+  padding: 0;
+  background: none;
 }
 
-main .product-grid .product-grid-panel-image picture {
-  display: block;
-}
-
-main .product-grid .product-grid-panel-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* panel text card */
-main .product-grid .product-grid-panel-text {
-  padding: 24px;
-  background-color: #fff;
-}
-
-main .product-grid .product-grid-panel-text h3 {
+main .product-grid .product-grid-accordion-body .product-grid-panel-text h3 {
   font-family: var(--body-font-family);
-  font-size: 24px;
-  line-height: 1.33;
+  font-size: 30px;
+  line-height: 36px;
   color: var(--text-color);
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
 
-main .product-grid .product-grid-panel-text p {
+main .product-grid .product-grid-accordion-body .product-grid-panel-text p {
   font-family: var(--body-font-family);
   font-size: 18px;
-  line-height: 1.33;
+  line-height: 24px;
   color: var(--text-color);
-  margin: 0 0 16px;
+  margin: 5px 0 18px;
 }
 
-main .product-grid .product-grid-panel-text ul {
+main .product-grid .product-grid-accordion-body .product-grid-panel-text ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-main .product-grid .product-grid-panel-text a:any-link {
+main .product-grid .product-grid-accordion-body .product-grid-panel-text a:any-link {
   font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
   font-size: 18px;
   color: var(--text-color);
@@ -141,7 +149,7 @@ main .product-grid .product-grid-panel-text a:any-link {
   gap: 8px;
 }
 
-main .product-grid .product-grid-panel-text a::after {
+main .product-grid .product-grid-accordion-body .product-grid-panel-text a::after {
   content: '';
   display: inline-block;
   width: 24px;
@@ -149,11 +157,145 @@ main .product-grid .product-grid-panel-text a::after {
   background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
 }
 
-main .product-grid .product-grid-panel-text a:hover {
-  color: var(--brand-primary);
+/* ---------- desktop (>= 600px): hide accordion, show tabs ---------- */
+@media (width >= 600px) {
+  main .product-grid .product-grid-accordion {
+    display: none;
+  }
+
+  main .product-grid .product-grid-tabs {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 8px;
+    padding: 16px 24px;
+    background-color: var(--light-color);
+  }
+
+  main .product-grid .product-grid-content {
+    display: block;
+    position: relative;
+    min-height: 400px;
+  }
+
+  main .product-grid .product-grid-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
+    font-size: 18px;
+    color: var(--text-color);
+    white-space: nowrap;
+  }
+
+  main .product-grid .product-grid-tab.active {
+    font-family: var(--body-font-family);
+    color: var(--text-color);
+  }
+
+  /* tab icon */
+  main .product-grid .product-grid-tab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  main .product-grid .product-grid-tab-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  /* active tab icon gets magenta filter */
+  main .product-grid .product-grid-tab.active .product-grid-tab-icon img {
+    filter: brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5743%) hue-rotate(314deg) brightness(73%) contrast(107%);
+  }
+
+  /* ---------- content panels ---------- */
+  main .product-grid .product-grid-panel {
+    display: none;
+    position: relative;
+  }
+
+  main .product-grid .product-grid-panel.active {
+    display: block;
+  }
+
+  /* panel image */
+  main .product-grid .product-grid-panel-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  main .product-grid .product-grid-panel-image picture {
+    display: block;
+  }
+
+  main .product-grid .product-grid-panel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* panel text card */
+  main .product-grid .product-grid-panel-text {
+    padding: 24px;
+    background-color: #fff;
+  }
+
+  main .product-grid .product-grid-panel-text h3 {
+    font-family: var(--body-font-family);
+    font-size: 24px;
+    line-height: 1.33;
+    color: var(--text-color);
+    margin: 0 0 12px;
+  }
+
+  main .product-grid .product-grid-panel-text p {
+    font-family: var(--body-font-family);
+    font-size: 18px;
+    line-height: 1.33;
+    color: var(--text-color);
+    margin: 0 0 16px;
+  }
+
+  main .product-grid .product-grid-panel-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  main .product-grid .product-grid-panel-text a:any-link {
+    font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
+    font-size: 18px;
+    color: var(--text-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  main .product-grid .product-grid-panel-text a::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 18px;
+    background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
+  }
+
+  main .product-grid .product-grid-panel-text a:hover {
+    color: var(--brand-primary);
+  }
 }
 
-/* ---------- desktop ---------- */
+/* ---------- desktop (>= 900px) ---------- */
 @media (width >= 900px) {
   main .product-grid-container h2 {
     font-size: 42px;
