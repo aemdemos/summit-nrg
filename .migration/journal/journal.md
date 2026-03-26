@@ -1926,3 +1926,51 @@ In Phase 4.2, section padding was set to `0` to reduce the overall section heigh
 ### Carry-Forward
 - **#62 (Mobile product grid accordion)** — still deferred
 - PR #64 open for review
+
+---
+
+## Session: Phase 5 — Mobile Product Grid Accordion (#62)
+
+**Date**: 2026-03-26
+**Branch**: `phase5-updates`
+**Commit**: `587539b`
+
+### Context
+
+Issue #62 was the last open P1 parity gap: on mobile (375px), the original NRG.com converts the product grid tabs into an accordion pattern with icon + label + chevron per row, where tapping a row expands the text content. Our version showed the desktop horizontal tab buttons stacked vertically on mobile with no expand/collapse.
+
+### Original Mobile Accordion Specs
+
+| Property | Value |
+|----------|-------|
+| Row layout | `display: flex`, `padding: 24px 0` |
+| Icon | 48×48px |
+| Label | 20px, Effra W01 Regular, rgb(0,30,46) |
+| Chevron | 24×24 inside 32×32 container, magenta |
+| Separator | `1px solid #c5c6c9` border-top (except first) |
+| Expanded h2 | 30px/36px |
+| Expanded p | 18px/24px, margin 5px 0 18px |
+| Link | 18px, "View more →" |
+| Behavior | Only one item open at a time, chevron rotates 180° |
+
+### Implementation
+
+Built a separate `.product-grid-accordion` DOM alongside existing desktop tabs:
+
+1. **`icons/chevron-down.svg`** — new magenta chevron icon
+2. **`blocks/product-grid/product-grid.js`** — added accordion DOM construction (header with icon + label + chevron, collapsible body with cloned panel text). Click handler toggles open/close with single-item exclusivity.
+3. **`blocks/product-grid/product-grid.css`** — restructured to mobile-first:
+   - Mobile (default): accordion visible, tabs/content hidden
+   - `>= 600px`: accordion hidden, tabs/content visible (previous tablet behavior)
+   - `>= 900px`: desktop two-column layout (unchanged)
+
+### Verification
+
+- All accordion measurements match the original exactly (row height, icon size, font size, padding, borders, expanded content dimensions)
+- Desktop layout completely unchanged (accordion `display: none` at ≥ 600px)
+- Both product grids (home: 6 items, business: 5 items) work correctly
+- JS and CSS pass ESLint/Stylelint cleanly
+- Issue #62 closed
+
+### Carry-Forward
+- PR #64 merged; `phase5-updates` branch ready for new PR
