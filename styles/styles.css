@@ -324,7 +324,7 @@ main .section.product-grid-container {
 
 main .section.news-carousel-container {
   background-color: var(--light-color);
-  padding: 45px 0;
+  padding: 0;
 }
 
 /* --- Sub-bar: compact columns section below hero --- */

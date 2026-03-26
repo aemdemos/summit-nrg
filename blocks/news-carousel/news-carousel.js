@@ -68,9 +68,21 @@ export default function decorate(block) {
     slidesList.append(slide);
   });
 
-  /* ── navigation bar (counter + prev/next) ── */
+  /* ── collect category text from each slide's meta ── */
+  const metaTexts = [];
+  slidesList.querySelectorAll('.news-carousel-slide').forEach((slide) => {
+    const meta = slide.querySelector('.news-carousel-meta');
+    metaTexts.push(meta ? meta.textContent.trim() : '');
+  });
+
+  /* ── navigation bar (category + counter + prev/next) ── */
   const navBar = document.createElement('div');
   navBar.className = 'news-carousel-nav';
+
+  const category = document.createElement('span');
+  category.className = 'news-carousel-category';
+  category.textContent = metaTexts[0] || '';
+  navBar.append(category);
 
   const counter = document.createElement('span');
   counter.className = 'news-carousel-counter';
@@ -125,10 +137,11 @@ export default function decorate(block) {
   /* force initial position to slide 0 */
   showSlide(block, 0, 'auto', sliderOpts);
 
-  /* ── update counter on slide change ── */
+  /* ── update counter and category on slide change ── */
   const observer = new MutationObserver(() => {
     const active = parseInt(block.dataset.activeSlide, 10) || 0;
     counter.textContent = `${active + 1} of ${slides.length}`;
+    category.textContent = metaTexts[active] || '';
   });
   observer.observe(block, { attributes: true, attributeFilter: ['data-active-slide'] });
 }
