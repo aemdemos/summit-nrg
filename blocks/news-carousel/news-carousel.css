@@ -200,7 +200,7 @@ main .news-carousel .news-carousel-slide-content a.button:hover {
 main .news-carousel .news-carousel-footer {
   display: flex;
   justify-content: flex-end;
-  padding: 5px 0;
+  padding: 5px 0 31px;
 }
 
 main .news-carousel .news-carousel-footer a:any-link {
