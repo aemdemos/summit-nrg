@@ -1,3 +1,24 @@
+import { decorateIcons } from '../../scripts/aem.js';
+
+/**
+ * Convert any :icon-name: text nodes inside the element into
+ * <span class="icon icon-{name}"></span> so that decorateIcons() can load them.
+ * In production the AEM backend does this conversion; locally we handle it here.
+ * @param {Element} el The element to scan
+ */
+function convertIconNotation(el) {
+  el.querySelectorAll('p').forEach((p) => {
+    const text = p.textContent.trim();
+    const match = text.match(/^:([a-z0-9-]+):$/);
+    if (match) {
+      const span = document.createElement('span');
+      span.className = `icon icon-${match[1]}`;
+      p.textContent = '';
+      p.append(span);
+    }
+  });
+}
+
 /**
  * Decorates the product-grid block into an interactive tabbed layout (desktop)
  * and an accordion layout (mobile).
@@ -6,6 +27,10 @@
  * @param {Element} block The block element
  */
 export default function decorate(block) {
+  /* Convert :icon-name: text to <span class="icon"> for local dev */
+  convertIconNotation(block);
+  decorateIcons(block);
+
   const rows = [...block.children];
   if (!rows.length) return;
 
