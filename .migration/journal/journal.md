@@ -5,6 +5,36 @@
 
 ---
 
+## Session: 2026-03-27 — "Discover more insights" Link Alignment Fix
+
+**Duration**: ~10m
+**Branch**: `phase7-updates`
+**Commit**: `0c3cfa6`
+
+### Summary
+
+User reported the "Discover more insights" link below the news carousel was too far to the right compared to the original site. Measured both sites at 1440px viewport:
+
+| Site | Link right edge | Gap from viewport |
+|------|----------------|-------------------|
+| Original | 1396px | 44px |
+| Ours (before) | 1416px | 24px |
+| Ours (after) | 1396px | 44px |
+
+### Root Cause
+
+The desktop rule for `.news-carousel-container > .news-carousel-wrapper + .default-content-wrapper` had `padding: 5px 24px 31px 0`. With `justify-content: flex-end`, the link's right edge sat at the 24px padding boundary (1416px). The original site positions the link 44px from the right viewport edge.
+
+### Fix
+
+Increased right padding from 24px to 44px in the desktop media query:
+
+| File | Change |
+|------|--------|
+| `blocks/news-carousel/news-carousel.css` | Desktop padding changed from `5px 24px 31px 0` to `5px 44px 31px 0` |
+
+---
+
 ## Session: 2026-03-27 — Nav Hover Underline Spacing Fix
 
 **Duration**: ~5m
