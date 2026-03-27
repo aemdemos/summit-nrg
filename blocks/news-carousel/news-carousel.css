@@ -285,8 +285,7 @@ main .news-carousel-container > .news-carousel-wrapper + .default-content-wrappe
   }
 
   main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper {
-    margin-left: calc(40% + 40px);
-    width: calc(60% - 40px);
+    margin: 0 auto;
     padding: 5px 44px 31px 0;
   }
 }
