@@ -9,27 +9,28 @@
 
 **Duration**: ~20m
 **Branch**: `phase7-updates`
-**Commits**: `e240eb0`, `1648e46`
+**Commits**: `e240eb0`, `1648e46`, `0d03cbc`
 **PR**: #88 (updated)
 
 ### Summary
 
-Two user-reported footer fixes on desktop:
+Three user-reported footer fixes on desktop:
 
 1. **Footer height mismatch** — Original is 600px, ours was 533px. Added `min-height: 600px` to the footer flex row in the desktop media query.
-2. **Right column content offset** — Original has `padding: 0 0 0 142px` (content flush at top). Ours had `48px` top padding pushing the "About" heading 48px down. Changed desktop footer-nav padding from `48px 48px 48px 142px` to `0 48px 48px 142px`.
+2. **Right column top alignment** — User asked to nudge right column content down to match original. Initial attempt (removing top padding to 0px) went the wrong direction. Corrected by increasing top padding from 48px to 72px, matching the left column's 72px top padding so the "About" heading aligns horizontally with the "Ready to talk..." heading.
 
 ### Measurements
 
-| Metric | Original | Before Fix | After Fix |
-|--------|----------|------------|-----------|
+| Metric | Original | Before | After |
+|--------|----------|--------|-------|
 | Footer height | 600px | 533px | 600px |
-| "About" H3 offset from footer top | 0px | 48px | 0px |
+| Right col top padding | ~72px visual | 48px | 72px |
 
 ### Key Learnings
 
-- The original footer's 600px height is a minimum constraint, not purely content-driven — both columns have empty breathing room at the bottom.
-- The right column's nav content sits flush at the top with no top padding, while the left CTA column uses 72px top padding.
+- The original footer's 600px height is a minimum constraint, not purely content-driven — both columns have breathing room at the bottom.
+- Visual alignment matters more than raw DOM measurements — the original reports 0px padding on the right column, but the content visually aligns with the left column's 72px offset due to font/element sizing.
+- Always take side-by-side screenshots before and after changes to verify direction of adjustment.
 
 ---
 
