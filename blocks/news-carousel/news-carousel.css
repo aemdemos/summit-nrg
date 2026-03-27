@@ -283,6 +283,6 @@ main .news-carousel-container > .news-carousel-wrapper + .default-content-wrappe
   main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper {
     margin-left: calc(40% + 40px);
     width: calc(60% - 40px);
-    padding: 5px 24px 31px 0;
+    padding: 5px 44px 31px 0;
   }
 }
