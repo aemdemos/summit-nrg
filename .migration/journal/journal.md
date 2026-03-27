@@ -5,6 +5,36 @@
 
 ---
 
+## Session: 2026-03-27 — News Carousel Bottom Divider + Link Alignment Fix
+
+**Duration**: ~15m
+**Branch**: `phase7-updates`
+**Commit**: `07ac4d4`
+
+### Summary
+
+User reported "Discover more insights" link still appeared too far right. Investigation revealed:
+1. The link itself was already at 1396px (matching original) from the previous fix
+2. The **bottom divider line** extended to 1416px while the original's ends at 1396px
+3. This visual mismatch between divider and link made the whole area look misaligned
+
+Fixed by adding a CSS rule targeting only the bottom divider (`.news-carousel-slides-container + .news-carousel-divider`) with `width: calc(60% - 60px)` to match the link's right edge.
+
+### Final Measurements (all at 1440px viewport)
+
+| Element | Original | Ours (after) |
+|---------|----------|-------------|
+| Link right edge | 1396px | 1396px |
+| Bottom divider right | ~1396px | 1396px |
+| Top divider right | ~1416px | 1416px |
+| Nav arrows right | ~1416px | 1416px |
+
+### Key Learning
+
+When debugging alignment issues, check ALL visible elements in the area — not just the target element. The bottom divider extending further right than the link created a visual frame-of-reference problem that made the (correctly-positioned) link appear misaligned.
+
+---
+
 ## Session: 2026-03-27 — "Discover more insights" Link Alignment Fix
 
 **Duration**: ~10m
