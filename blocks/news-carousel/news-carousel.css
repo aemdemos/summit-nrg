@@ -165,35 +165,33 @@ main .news-carousel .news-carousel-slide-content p {
   margin: 0 0 16px;
 }
 
-/* CTA — plain text link (matches original) */
+/* #70: CTA — outlined button to match original (not plain link) */
 main .news-carousel .news-carousel-slide-content .button-wrapper {
   margin: 8px 0 0;
 }
 
 main .news-carousel .news-carousel-slide-content a.button:any-link {
   background-color: transparent;
-  border: none;
+  border: 1px solid var(--brand-primary);
   color: var(--brand-primary);
-  border-radius: 0;
-  padding: 9px 0;
+  border-radius: var(--border-radius);
+  padding: 9px 53px;
   font-family: 'Effra W01 Medium', arial, helvetica, sans-serif;
   font-size: 18px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  letter-spacing: 0.2px;
 }
 
 main .news-carousel .news-carousel-slide-content a.button::after {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 14px;
-  background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
+  content: none;
 }
 
 main .news-carousel .news-carousel-slide-content a.button:hover {
-  background-color: transparent;
-  color: #8e0053;
+  background-color: var(--brand-primary);
+  color: #fff;
 }
 
 /* ---------- "Discover more insights" link (default content after block) ---------- */
@@ -281,10 +279,10 @@ main .news-carousel-container > .news-carousel-wrapper + .default-content-wrappe
     line-height: 56px;
   }
 
-  /* shift footer link into content column */
+  /* #86: align "Discover more insights" right edge with bottom HR */
   main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper {
     margin-left: calc(40% + 40px);
     width: calc(60% - 40px);
-    padding: 5px 0 31px;
+    padding: 5px 24px 31px 0;
   }
 }

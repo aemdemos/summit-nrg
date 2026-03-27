@@ -1,7 +1,9 @@
 /* hero design tokens */
 :root {
   /* layout */
-  --hero-min-height: 400px;
+
+  /* #80: taller hero on mobile (598px vs 520px) */
+  --hero-min-height: 500px;
   --hero-min-height-desktop: 600px;
   --hero-padding: 40px 24px;
   --hero-padding-desktop: 100px 24px 0;

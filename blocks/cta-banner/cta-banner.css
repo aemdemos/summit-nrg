@@ -9,12 +9,14 @@ main .cta-banner-container > .cta-banner-wrapper {
 }
 
 /* ---------- block layout ---------- */
+
+/* #78: taller CTA on mobile to match original (645px vs 400px) */
 main .cta-banner > div {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 560px;
   overflow: hidden;
 }
 
