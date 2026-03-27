@@ -2277,7 +2277,26 @@ Wrapped up phase 6 by verifying the footer signup button fix from the prior sess
 
 Created `phase7-updates` branch from `main` for the next round of CSS parity fixes. Awaiting user direction on which issues to tackle first.
 
+---
+
+## Session: 2026-03-27c — Phase 7 Issue Triage & New Issues
+
+**Duration**: ~20m
+**Branch**: `phase7-updates`
+
+### Summary
+
+Created `phase7-updates` branch from `main`. Verified all 15 existing open issues (#66–#80) are legitimate and no stale issues need closing. Created 3 new issues (#85–#87) based on user-reported parity problems, each with measured values from both original and migrated sites.
+
+### New Issues Created
+
+| # | Title | Key Measurement |
+|---|-------|-----------------|
+| #85 | Nav dropdown shows chevron arrows instead of hover underline | Original: `border-bottom: 3px solid transparent` + transition; Ours: `::after` chevron |
+| #86 | "Discover more insights" link misaligned with carousel HR | Original link right: 1395.98px (flush with HR); Ours: 1440px (+44px) |
+| #87 | Footer "Our offerings" column too far right | Original gap: 60px, auto-sized cols; Ours: 24px gap, equal-width cols |
+
 ### Carry-Forward
-- 15 open issues (#66–#80), all CSS-only fixes
-- Recommended: batch by block starting with footer (5 issues)
+- 18 open issues total (#66–#80 + #85–#87)
+- Awaiting user approval before starting implementation
 - Lint: clean (0 errors)
