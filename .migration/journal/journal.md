@@ -5,26 +5,31 @@
 
 ---
 
-## Session: 2026-03-27 — Phase 7 Follow-up: Footer Height Fix
+## Session: 2026-03-27 — Phase 7 Follow-up: Footer Height & Alignment Fixes
 
-**Duration**: ~15m
+**Duration**: ~20m
 **Branch**: `phase7-updates`
-**Commit**: `e240eb0`
+**Commits**: `e240eb0`, `1648e46`
 **PR**: #88 (updated)
 
 ### Summary
 
-Fixed footer height mismatch reported by user. Measured original NRG.com footer at 600px vs our 533px on desktop. Added `min-height: 600px` to the footer flex row in the desktop media query — a single-line CSS fix.
+Two user-reported footer fixes on desktop:
+
+1. **Footer height mismatch** — Original is 600px, ours was 533px. Added `min-height: 600px` to the footer flex row in the desktop media query.
+2. **Right column content offset** — Original has `padding: 0 0 0 142px` (content flush at top). Ours had `48px` top padding pushing the "About" heading 48px down. Changed desktop footer-nav padding from `48px 48px 48px 142px` to `0 48px 48px 142px`.
 
 ### Measurements
 
-- **Original**: footer 600px, left col padding `72px 0 0 144px`, right col padding `0 0 0 142px`
-- **Ours before**: 533px (67px short)
-- **Ours after**: 600px (exact match)
+| Metric | Original | Before Fix | After Fix |
+|--------|----------|------------|-----------|
+| Footer height | 600px | 533px | 600px |
+| "About" H3 offset from footer top | 0px | 48px | 0px |
 
 ### Key Learnings
 
-- The original footer's height is driven by a minimum constraint, not purely by content. Both columns have empty space at the bottom — the left has ~110px and the right ~70px of breathing room below content.
+- The original footer's 600px height is a minimum constraint, not purely content-driven — both columns have empty breathing room at the bottom.
+- The right column's nav content sits flush at the top with no top padding, while the left CTA column uses 72px top padding.
 
 ---
 
