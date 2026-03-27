@@ -252,6 +252,7 @@ footer .footer .footer-nav-col h3 {
 @media (width >= 900px) {
   footer .footer > div {
     flex-direction: row;
+    min-height: 600px;
   }
 
   /* #71: reduce right padding so 'Get the latest' heading doesn't wrap */
