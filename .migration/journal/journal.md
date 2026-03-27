@@ -5,6 +5,43 @@
 
 ---
 
+## Session: 2026-03-27 — Phase 7: Visual Parity Fixes for 18 Open Issues
+
+**Duration**: ~45m
+**Branch**: `phase7-updates`
+**Commit**: `8b79835`
+**PR**: #88
+
+### Summary
+
+Implemented CSS-only fixes for all 18 open GitHub issues (#66–#80, #85–#87) in a single commit across 8 files. Fixed stylelint duplicate selector errors by merging properties into original rule locations. All lint clean (0 errors). Created PR #88 with comparison URLs.
+
+### Changes (by block)
+
+| Block | Issues | Key Fixes |
+|-------|--------|-----------|
+| Footer | #71, #72, #73, #77, #79, #87 | CTA padding, separator 32px, 60px column gap with `flex: 0 0 auto`, dark navy mobile bg, 14px legal links |
+| Feature Panel | #67, #68, #69 | Hover underline on links, white bg both rows, heading 12px / description 24px margins |
+| Header | #66, #85 | Mobile tools wrap 13px/12px gap, hover underline replaces chevron arrows |
+| Sub-bar | #74, #76 | Transparent bg, full-width mobile buttons |
+| News Carousel | #70, #86 | Outlined pill "See article" buttons, insights link 24px right padding |
+| Product Grid | #75 | Removed wrapper horizontal padding |
+| Hero | #80 | Mobile min-height 500px |
+| CTA Banner | #78 | Mobile min-height 560px |
+
+### Key Learnings
+
+- When adding properties to an existing selector, merge into the original rule rather than creating a duplicate — stylelint `no-duplicate-selectors` catches this.
+- Footer mobile/desktop theme switching works well with `color: inherit` / `currentcolor` on child elements, with the parent toggling between dark and light backgrounds via media query.
+- `flex: 0 0 auto` gives content-driven column widths (matching original's uneven nav columns), while `flex: 1` forces equal widths.
+
+### Carry-Forward
+
+- All 18 issues will auto-close when PR #88 is merged.
+- Visual verification screenshots captured at 1440px desktop and 375px mobile.
+
+---
+
 ## Session: 2026-03-25 — Phase 3.5: Feature Panel Width Fix
 
 **Duration**: ~15m
