@@ -333,8 +333,10 @@ main .section.news-carousel-container {
 }
 
 /* --- Sub-bar: compact columns section below hero --- */
+
+/* #74: transparent bg to match original (not light gray) */
 main .section.sub-bar {
-  background-color: var(--light-color);
+  background-color: transparent;
   margin: 0;
   padding: 0;
 }
@@ -350,12 +352,16 @@ main .section.sub-bar .button-wrapper {
   margin: 8px 0 0;
 }
 
+/* #76: full-width buttons on mobile */
 main .section.sub-bar a.button.secondary:any-link {
   color: var(--brand-primary);
   border-color: var(--brand-primary);
   padding: 9px 53px;
   letter-spacing: 1px;
   white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 main .section.sub-bar a.button.secondary:hover {
@@ -386,5 +392,9 @@ main .section.sub-bar a.button.secondary:hover {
 
   main .section.sub-bar .button-wrapper {
     margin: 0;
+  }
+
+  main .section.sub-bar a.button.secondary:any-link {
+    width: auto;
   }
 }

@@ -5,6 +5,184 @@
 
 ---
 
+## Session: 2026-03-27 — Discover Link Wrapper Max-Width Fix
+
+**Duration**: ~20m
+**Branch**: `phase7-updates`
+**Commit**: `3ba582f`
+
+### Summary
+
+User reported "Discover more insights" link was still misaligned (3rd report). Previous fixes only measured at exactly 1440px viewport. Root cause: the link's `.default-content-wrapper` used `margin-left: calc(40% + 40px)` and `width: calc(60% - 40px)`, where percentages were computed relative to the **section** (full viewport width), not the block's 1440px-constrained wrapper. At viewports wider than 1440px (e.g. user's ~1665px display), this pushed the link 113px past the carousel block's right edge.
+
+### Fix
+
+Replaced `margin-left: calc(40% + 40px); width: calc(60% - 40px)` with `margin: 0 auto`. The base style already has `max-width: 1440px`, so the wrapper now centers at the same width as the carousel wrapper. With `justify-content: flex-end` and `padding-right: 44px`, the link right edge stays aligned with the bottom divider at **all** viewport widths.
+
+### Verification (at 1665px viewport)
+
+| Element | Original | Ours (after) |
+|---------|----------|-------------|
+| Outer container | 112.5 → 1552.5 (1440px) | 112.5 → 1552.5 (1440px) |
+| Discover link right | 1508px | 1508.5px |
+| Bottom divider right | 1508px | 1508.5px |
+
+### Key Learning
+
+When CSS uses `calc()` with percentages, always verify what the percentage is relative to. Percentage margins/widths resolve against the **containing block** (parent), not the element's siblings. The link wrapper's parent was the section (full viewport), not the `max-width: 1440px` carousel wrapper — a classic containment mismatch that only manifests at wider viewports.
+
+---
+
+## Session: 2026-03-27 — News Carousel Bottom Divider + Link Alignment Fix
+
+**Duration**: ~15m
+**Branch**: `phase7-updates`
+**Commit**: `07ac4d4`
+
+### Summary
+
+User reported "Discover more insights" link still appeared too far right. Investigation revealed:
+1. The link itself was already at 1396px (matching original) from the previous fix
+2. The **bottom divider line** extended to 1416px while the original's ends at 1396px
+3. This visual mismatch between divider and link made the whole area look misaligned
+
+Fixed by adding a CSS rule targeting only the bottom divider (`.news-carousel-slides-container + .news-carousel-divider`) with `width: calc(60% - 60px)` to match the link's right edge.
+
+### Final Measurements (all at 1440px viewport)
+
+| Element | Original | Ours (after) |
+|---------|----------|-------------|
+| Link right edge | 1396px | 1396px |
+| Bottom divider right | ~1396px | 1396px |
+| Top divider right | ~1416px | 1416px |
+| Nav arrows right | ~1416px | 1416px |
+
+### Key Learning
+
+When debugging alignment issues, check ALL visible elements in the area — not just the target element. The bottom divider extending further right than the link created a visual frame-of-reference problem that made the (correctly-positioned) link appear misaligned.
+
+---
+
+## Session: 2026-03-27 — "Discover more insights" Link Alignment Fix
+
+**Duration**: ~10m
+**Branch**: `phase7-updates`
+**Commit**: `0c3cfa6`
+
+### Summary
+
+User reported the "Discover more insights" link below the news carousel was too far to the right compared to the original site. Measured both sites at 1440px viewport:
+
+| Site | Link right edge | Gap from viewport |
+|------|----------------|-------------------|
+| Original | 1396px | 44px |
+| Ours (before) | 1416px | 24px |
+| Ours (after) | 1396px | 44px |
+
+### Root Cause
+
+The desktop rule for `.news-carousel-container > .news-carousel-wrapper + .default-content-wrapper` had `padding: 5px 24px 31px 0`. With `justify-content: flex-end`, the link's right edge sat at the 24px padding boundary (1416px). The original site positions the link 44px from the right viewport edge.
+
+### Fix
+
+Increased right padding from 24px to 44px in the desktop media query:
+
+| File | Change |
+|------|--------|
+| `blocks/news-carousel/news-carousel.css` | Desktop padding changed from `5px 24px 31px 0` to `5px 44px 31px 0` |
+
+---
+
+## Session: 2026-03-27 — Nav Hover Underline Spacing Fix
+
+**Duration**: ~5m
+**Branch**: `phase7-updates`
+**Commit**: `7503626`
+
+### Summary
+
+User requested the desktop nav hover underline appear ~10px lower, giving it a subtle slide-down effect as it fades in. Added `padding-bottom: 10px` to the top-level nav `<li>` items in the desktop media query, pushing the `border-bottom` underline further below the text.
+
+### Changes
+
+| File | Change |
+|------|--------|
+| `blocks/header/header.css` | Added `padding-bottom: 10px` to `.default-content-wrapper > ul > li` rule (desktop) |
+
+### Verification
+
+- Scrolled page to trigger white scrolled nav state
+- Hovered "About" nav item — underline appears with visible gap below text
+- Screenshot confirmed correct spacing
+
+---
+
+## Session: 2026-03-27 — Phase 7 Follow-up: Footer Height & Alignment Fixes
+
+**Duration**: ~20m
+**Branch**: `phase7-updates`
+**Commits**: `e240eb0`, `1648e46`, `0d03cbc`
+**PR**: #88 (updated)
+
+### Summary
+
+Three user-reported footer fixes on desktop:
+
+1. **Footer height mismatch** — Original is 600px, ours was 533px. Added `min-height: 600px` to the footer flex row in the desktop media query.
+2. **Right column top alignment** — User asked to nudge right column content down to match original. Initial attempt (removing top padding to 0px) went the wrong direction. Corrected by increasing top padding from 48px to 72px, matching the left column's 72px top padding so the "About" heading aligns horizontally with the "Ready to talk..." heading.
+
+### Measurements
+
+| Metric | Original | Before | After |
+|--------|----------|--------|-------|
+| Footer height | 600px | 533px | 600px |
+| Right col top padding | ~72px visual | 48px | 72px |
+
+### Key Learnings
+
+- The original footer's 600px height is a minimum constraint, not purely content-driven — both columns have breathing room at the bottom.
+- Visual alignment matters more than raw DOM measurements — the original reports 0px padding on the right column, but the content visually aligns with the left column's 72px offset due to font/element sizing.
+- Always take side-by-side screenshots before and after changes to verify direction of adjustment.
+
+---
+
+## Session: 2026-03-27 — Phase 7: Visual Parity Fixes for 18 Open Issues
+
+**Duration**: ~45m
+**Branch**: `phase7-updates`
+**Commit**: `8b79835`
+**PR**: #88
+
+### Summary
+
+Implemented CSS-only fixes for all 18 open GitHub issues (#66–#80, #85–#87) in a single commit across 8 files. Fixed stylelint duplicate selector errors by merging properties into original rule locations. All lint clean (0 errors). Created PR #88 with comparison URLs.
+
+### Changes (by block)
+
+| Block | Issues | Key Fixes |
+|-------|--------|-----------|
+| Footer | #71, #72, #73, #77, #79, #87 | CTA padding, separator 32px, 60px column gap with `flex: 0 0 auto`, dark navy mobile bg, 14px legal links |
+| Feature Panel | #67, #68, #69 | Hover underline on links, white bg both rows, heading 12px / description 24px margins |
+| Header | #66, #85 | Mobile tools wrap 13px/12px gap, hover underline replaces chevron arrows |
+| Sub-bar | #74, #76 | Transparent bg, full-width mobile buttons |
+| News Carousel | #70, #86 | Outlined pill "See article" buttons, insights link 24px right padding |
+| Product Grid | #75 | Removed wrapper horizontal padding |
+| Hero | #80 | Mobile min-height 500px |
+| CTA Banner | #78 | Mobile min-height 560px |
+
+### Key Learnings
+
+- When adding properties to an existing selector, merge into the original rule rather than creating a duplicate — stylelint `no-duplicate-selectors` catches this.
+- Footer mobile/desktop theme switching works well with `color: inherit` / `currentcolor` on child elements, with the parent toggling between dark and light backgrounds via media query.
+- `flex: 0 0 auto` gives content-driven column widths (matching original's uneven nav columns), while `flex: 1` forces equal widths.
+
+### Carry-Forward
+
+- All 18 issues will auto-close when PR #88 is merged.
+- Visual verification screenshots captured at 1440px desktop and 375px mobile.
+
+---
+
 ## Session: 2026-03-25 — Phase 3.5: Feature Panel Width Fix
 
 **Duration**: ~15m
@@ -2266,7 +2444,37 @@ Wrapped up phase 6 by verifying the footer signup button fix from the prior sess
 - Wrote daily update with issue categorization and phase 7 recommendation
 - Calculated total project effort: ~24h across 36 sessions
 
+---
+
+## Session: 2026-03-27b — Phase 7 Branch Setup
+
+**Duration**: ~5m
+**Branch**: `phase7-updates`
+
+### Summary
+
+Created `phase7-updates` branch from `main` for the next round of CSS parity fixes. Awaiting user direction on which issues to tackle first.
+
+---
+
+## Session: 2026-03-27c — Phase 7 Issue Triage & New Issues
+
+**Duration**: ~20m
+**Branch**: `phase7-updates`
+
+### Summary
+
+Created `phase7-updates` branch from `main`. Verified all 15 existing open issues (#66–#80) are legitimate and no stale issues need closing. Created 3 new issues (#85–#87) based on user-reported parity problems, each with measured values from both original and migrated sites.
+
+### New Issues Created
+
+| # | Title | Key Measurement |
+|---|-------|-----------------|
+| #85 | Nav dropdown shows chevron arrows instead of hover underline | Original: `border-bottom: 3px solid transparent` + transition; Ours: `::after` chevron |
+| #86 | "Discover more insights" link misaligned with carousel HR | Original link right: 1395.98px (flush with HR); Ours: 1440px (+44px) |
+| #87 | Footer "Our offerings" column too far right | Original gap: 60px, auto-sized cols; Ours: 24px gap, equal-width cols |
+
 ### Carry-Forward
-- 15 open issues (#66–#80), all CSS-only fixes
-- Recommended: batch by block starting with footer (5 issues)
+- 18 open issues total (#66–#80 + #85–#87)
+- Awaiting user approval before starting implementation
 - Lint: clean (0 errors)

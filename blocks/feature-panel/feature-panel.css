@@ -9,6 +9,7 @@ main .feature-panel-container > .feature-panel-wrapper {
 main .feature-panel .feature-panel-row {
   display: flex;
   flex-direction: column;
+  background-color: #fff;
 }
 
 /* image column */
@@ -45,16 +46,16 @@ main .feature-panel h2 {
   font-size: var(--heading-font-size-xl);
   line-height: 1.14;
   color: var(--text-color);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-/* description */
+/* #69: description — tighter spacing to match original */
 main .feature-panel .feature-panel-content p {
   font-family: 'Effra W01 Light', arial, helvetica, sans-serif;
   font-size: 20px;
   line-height: 28px;
   color: var(--text-color);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 /* CTA links */
@@ -86,17 +87,10 @@ main .feature-panel .feature-panel-content a::after {
   background: url('/icons/arrow-right-brand.svg') no-repeat center / contain;
 }
 
+/* #67: hover adds underline + color change to match original */
 main .feature-panel .feature-panel-content a:hover {
   color: var(--brand-primary);
-}
-
-/* alternating background — odd rows white, even rows light */
-main .feature-panel .feature-panel-row:nth-child(odd) {
-  background-color: #fff;
-}
-
-main .feature-panel .feature-panel-row:nth-child(even) {
-  background-color: var(--light-color);
+  text-decoration: underline;
 }
 
 /* ---------- desktop ---------- */

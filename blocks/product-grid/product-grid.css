@@ -9,10 +9,12 @@ main .product-grid-container h2 {
 }
 
 /* ---------- container overrides ---------- */
+
+/* #75: remove horizontal padding so panel images can fill full width */
 main .product-grid-container > .product-grid-wrapper {
   max-width: 1236px;
   margin: 0 auto;
-  padding: 45px 24px;
+  padding: 45px 0;
 }
 
 /* ---------- product-grid block ---------- */
