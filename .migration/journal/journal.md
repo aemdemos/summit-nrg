@@ -5,6 +5,29 @@
 
 ---
 
+## Session: 2026-03-27 — Phase 7 Follow-up: Footer Height Fix
+
+**Duration**: ~15m
+**Branch**: `phase7-updates`
+**Commit**: `e240eb0`
+**PR**: #88 (updated)
+
+### Summary
+
+Fixed footer height mismatch reported by user. Measured original NRG.com footer at 600px vs our 533px on desktop. Added `min-height: 600px` to the footer flex row in the desktop media query — a single-line CSS fix.
+
+### Measurements
+
+- **Original**: footer 600px, left col padding `72px 0 0 144px`, right col padding `0 0 0 142px`
+- **Ours before**: 533px (67px short)
+- **Ours after**: 600px (exact match)
+
+### Key Learnings
+
+- The original footer's height is driven by a minimum constraint, not purely by content. Both columns have empty space at the bottom — the left has ~110px and the right ~70px of breathing room below content.
+
+---
+
 ## Session: 2026-03-27 — Phase 7: Visual Parity Fixes for 18 Open Issues
 
 **Duration**: ~45m
