@@ -264,7 +264,7 @@ footer .footer .footer-nav-col h3 {
   /* desktop: restore light background and dark text */
   footer .footer .footer-nav {
     width: 50%;
-    padding: 48px 48px 48px 142px;
+    padding: 0 48px 48px 142px;
     background-color: var(--light-color);
     color: var(--text-color);
   }
