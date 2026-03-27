@@ -2190,6 +2190,63 @@ User reported the footer email signup submit arrow button was misaligned — it 
 
 **Key Learning:** This is the third time the global `button { margin: 12px 0 }` in `styles.css` has caused alignment issues (product-grid tabs, product-grid accordion headers, footer submit button). Any button used for non-standard purposes needs explicit `margin: 0`.
 
+---
+
+## Daily Update: 2026-03-27
+
+**Branch**: `main` (after PR #84 merge)
+**Merged PRs**: 8 total (latest: PR #84 — phase 6 structural refactors and visual parity fixes)
+
+### Current State
+
+The NRG homepage migration is functional end-to-end at desktop (1440px) and mobile (375px) viewports. All major sections render: hero, sub-bar, feature panels, product grids (with icon tabs on desktop / accordion on mobile), news carousel, careers CTA, and full footer with email signup. Lint passes clean (0 errors, 2 pre-existing warnings).
+
+### What Was Completed (Phase 6, PR #84)
+
+| Commit | Fix |
+|--------|-----|
+| `7ede29c` | Structural refactors for hero, news carousel, product grid (#81 #82 #83) |
+| `89141ad` | `:icon-name:` notation conversion for product-grid icons |
+| `f1f23f0` | Product-grid icon sizing overrides (48x48 vs global 24x24) |
+| `016ed07` | Product-grid tab spacing (`space-evenly`, margin reset) |
+| `6aad971` | Footer signup button alignment (34x34, margin reset) |
+
+### Open Issues (15 remaining — all CSS-only)
+
+**Desktop (7):**
+- #67 Feature panel link hover states
+- #68 Feature panel card 2 background color
+- #69 Feature panel heading/text spacing
+- #70 News carousel 'See article' button style
+- #72 Footer separator between CTA sections
+- #73 Footer nav column gap (60px not 24px)
+- #79 Footer legal links line-height (32→21px)
+
+**Mobile (6):**
+- #66 Nav utility links overflow at 375px
+- #74 Sub-bar background (transparent, not gray)
+- #76 Sub-bar buttons full-width
+- #77 Footer nav columns white→dark navy background
+- #78 Careers CTA section height (400→645px)
+- #80 Hero image height (520→598px)
+
+**Cross-viewport (2):**
+- #71 Footer left column padding wraps heading
+- #75 Product grid panel image width (792→839px)
+
+### Recommended Phase 7 Approach
+
+Batch by block to minimize context switching:
+1. **Footer** (#71, #72, #73, #77, #79) — 5 issues in `footer.css`
+2. **Feature panel** (#67, #68, #69) — 3 issues in `feature-panel.css`
+3. **Mobile layout** (#66, #74, #76, #78, #80) — 5 issues across header/sub-bar/hero
+4. **News carousel** (#70) + **Product grid** (#75) — 1 each
+
+### Recurring Pattern
+
+Global `button { margin: 12px 0 }` in `styles.css` line 226 has caused 3 separate bugs across product-grid tabs, accordion headers, and footer submit button. Consider adding a warning comment.
+
 ### Carry-Forward
-- 15 remaining parity issues (#66–#80) on `phase6-updates`
-- P1 #66 (mobile nav overflow) should be fixed first
+- 15 open issues (#66–#80), all CSS-only fixes
+- Recommended: batch by block starting with footer (5 issues)
+- Lint: clean (0 errors)
