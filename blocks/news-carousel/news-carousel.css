@@ -279,7 +279,11 @@ main .news-carousel-container > .news-carousel-wrapper + .default-content-wrappe
     line-height: 56px;
   }
 
-  /* #86: align "Discover more insights" right edge with bottom HR */
+  /* bottom divider + "Discover more insights" — inset 20px from content column */
+  main .news-carousel .news-carousel-slides-container + .news-carousel-divider {
+    width: calc(60% - 60px);
+  }
+
   main .news-carousel-container > .news-carousel-wrapper + .default-content-wrapper {
     margin-left: calc(40% + 40px);
     width: calc(60% - 40px);
