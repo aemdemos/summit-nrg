@@ -5,6 +5,34 @@
 
 ---
 
+## Session: 2026-03-27 — Discover Link Wrapper Max-Width Fix
+
+**Duration**: ~20m
+**Branch**: `phase7-updates`
+**Commit**: `3ba582f`
+
+### Summary
+
+User reported "Discover more insights" link was still misaligned (3rd report). Previous fixes only measured at exactly 1440px viewport. Root cause: the link's `.default-content-wrapper` used `margin-left: calc(40% + 40px)` and `width: calc(60% - 40px)`, where percentages were computed relative to the **section** (full viewport width), not the block's 1440px-constrained wrapper. At viewports wider than 1440px (e.g. user's ~1665px display), this pushed the link 113px past the carousel block's right edge.
+
+### Fix
+
+Replaced `margin-left: calc(40% + 40px); width: calc(60% - 40px)` with `margin: 0 auto`. The base style already has `max-width: 1440px`, so the wrapper now centers at the same width as the carousel wrapper. With `justify-content: flex-end` and `padding-right: 44px`, the link right edge stays aligned with the bottom divider at **all** viewport widths.
+
+### Verification (at 1665px viewport)
+
+| Element | Original | Ours (after) |
+|---------|----------|-------------|
+| Outer container | 112.5 → 1552.5 (1440px) | 112.5 → 1552.5 (1440px) |
+| Discover link right | 1508px | 1508.5px |
+| Bottom divider right | 1508px | 1508.5px |
+
+### Key Learning
+
+When CSS uses `calc()` with percentages, always verify what the percentage is relative to. Percentage margins/widths resolve against the **containing block** (parent), not the element's siblings. The link wrapper's parent was the section (full viewport), not the `max-width: 1440px` carousel wrapper — a classic containment mismatch that only manifests at wider viewports.
+
+---
+
 ## Session: 2026-03-27 — News Carousel Bottom Divider + Link Alignment Fix
 
 **Duration**: ~15m
