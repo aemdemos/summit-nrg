@@ -5,6 +5,30 @@
 
 ---
 
+## Session: 2026-03-27 — Nav Hover Underline Spacing Fix
+
+**Duration**: ~5m
+**Branch**: `phase7-updates`
+**Commit**: `7503626`
+
+### Summary
+
+User requested the desktop nav hover underline appear ~10px lower, giving it a subtle slide-down effect as it fades in. Added `padding-bottom: 10px` to the top-level nav `<li>` items in the desktop media query, pushing the `border-bottom` underline further below the text.
+
+### Changes
+
+| File | Change |
+|------|--------|
+| `blocks/header/header.css` | Added `padding-bottom: 10px` to `.default-content-wrapper > ul > li` rule (desktop) |
+
+### Verification
+
+- Scrolled page to trigger white scrolled nav state
+- Hovered "About" nav item — underline appears with visible gap below text
+- Screenshot confirmed correct spacing
+
+---
+
 ## Session: 2026-03-27 — Phase 7 Follow-up: Footer Height & Alignment Fixes
 
 **Duration**: ~20m
