@@ -51,7 +51,7 @@ footer .footer .footer-cta .default-content-wrapper h3:nth-of-type(2)::before {
   left: 0;
   width: 306px;
   height: 2px;
-  background-color: rgb(255 255 255 / 30%);
+  background-color: rgb(128 128 128);
 }
 
 /* CTA button — white outline pill */
