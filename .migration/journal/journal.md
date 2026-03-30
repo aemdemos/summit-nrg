@@ -5,6 +5,26 @@
 
 ---
 
+## Session: 2026-03-30 — Footer CTA Alignment & Divider Fixes
+
+**Duration**: ~25m
+**Branch**: `phase8-updates`
+**Commits**: `f32d2f1`, `a0c8d69`
+
+### Summary
+
+Two footer CTA column fixes on the `phase8-updates` branch:
+
+1. **Proportional left padding** (`f32d2f1`): Changed desktop `.footer-cta` padding-left from fixed `144px` to `10%`. The original NRG site uses 20% of column width (= 10% of viewport) so content scales proportionally at wider viewports. Verified exact match at 1440px (144px), 1920px (192px), and 2560px (256px).
+
+2. **Divider width & thickness** (`a0c8d69`): The HR between "Contact us" button and "Get the latest" section was spanning the full content wrapper (1000px at 2560px). Replaced the `border-top: 1px` on the second h3 with a `::before` pseudo-element: 306px wide (matching button width) and 2px thick (matching original HR).
+
+### Files Changed
+
+- `blocks/footer/footer.css` — proportional padding + constrained divider pseudo-element
+
+---
+
 ## Session: 2026-03-30 — Footer CTA Proportional Padding Fix
 
 **Duration**: ~20m
