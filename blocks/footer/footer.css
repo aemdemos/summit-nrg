@@ -258,7 +258,7 @@ footer .footer .footer-nav-col h3 {
   /* #71: reduce right padding so 'Get the latest' heading doesn't wrap */
   footer .footer .footer-cta {
     width: 50%;
-    padding: 72px 24px 72px 144px;
+    padding: 72px 24px 72px 10%;
   }
 
   /* desktop: restore light background and dark text */
