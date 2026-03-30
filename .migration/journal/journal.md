@@ -5,6 +5,34 @@
 
 ---
 
+## Session: 2026-03-30 — Footer CTA Proportional Padding Fix
+
+**Duration**: ~20m
+**Branch**: `phase8-updates`
+**Commit**: `f32d2f1`
+
+### Summary
+
+Fixed the footer left purple (CTA) column alignment for wide viewports. The original NRG site uses proportional left padding (20% of column width = 10% of viewport) that scales with screen width. Our version used a fixed `144px` which matched at 1440px but drifted left on wider screens (1920px, 2560px+).
+
+**Root cause**: `padding-left: 144px` (fixed) vs original's proportional padding.
+
+**Fix**: Changed desktop `.footer-cta` padding from `72px 24px 72px 144px` to `72px 24px 72px 10%`.
+
+### Verification
+
+| Viewport | Original padding-left | Ours (after fix) | Match |
+|----------|----------------------|-------------------|-------|
+| 1440px   | 144px | 144px (10% of 1440) | Exact |
+| 1920px   | 192px | 192px (10% of 1920) | Exact |
+| 2560px   | 256px | 256px (10% of 2560) | Exact |
+
+### Files Changed
+
+- `blocks/footer/footer.css` — 1 line changed (desktop media query, line 261)
+
+---
+
 ## Session: 2026-03-30 — Daily Update + Phase 8 Branch Setup
 
 **Duration**: ~10m
