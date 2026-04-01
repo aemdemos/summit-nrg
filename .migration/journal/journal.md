@@ -25,7 +25,7 @@ Made footer social media icons match the original NRG site exactly. Two phases:
 
 5. **Right column spacing** (`195d812`): Measured all element gaps between original and ours. Fixed nav-columns margin-bottom (44→22px), "Follow us on" h3 margin-bottom (12→0px), social icons paragraph margin (24→0px with 12px padding), icon gap (8→7px). All gaps now match original within 1-2px.
 
-Also created PR #89 for phase8-updates (footer CTA alignment fixes) and set up phase9-updates branch.
+Also created PR #89 for phase8-updates and PR #90 for phase9-updates.
 
 ### Files Changed
 
