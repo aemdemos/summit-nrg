@@ -182,7 +182,7 @@ footer .footer .footer-nav .icon svg {
   height: 24px;
 }
 
-footer .footer .footer-nav .icon svg path {
+footer .footer .footer-nav .icon svg path:not([fill="none"]) {
   fill: currentcolor;
 }
 
