@@ -5,11 +5,11 @@
 
 ---
 
-## Session: 2026-04-01 — Footer Social Icons: Inline SVGs & Visual Parity
+## Session: 2026-04-01 — Footer Social Icons & Right Column Spacing
 
-**Duration**: ~60m
+**Duration**: ~90m
 **Branch**: `phase9-updates`
-**Commits**: `46736ab`, `454f274`, `2aa70cc`, `35ca060`, `9437866`
+**Commits**: `46736ab`, `454f274`, `2aa70cc`, `9437866`, `195d812`
 
 ### Summary
 
@@ -23,12 +23,14 @@ Made footer social media icons match the original NRG site exactly. Two phases:
 
 4. **Add circle borders** (`9437866`): Original applies `border: 1px solid rgb(0,30,46)` and `border-radius: 25px` directly to the `<svg>` elements — discovered via screenshot comparison. Added matching CSS to render circular outlines around each icon. SVG sized to 30x30 to match original.
 
+5. **Right column spacing** (`195d812`): Measured all element gaps between original and ours. Fixed nav-columns margin-bottom (44→22px), "Follow us on" h3 margin-bottom (12→0px), social icons paragraph margin (24→0px with 12px padding), icon gap (8→7px). All gaps now match original within 1-2px.
+
 Also created PR #89 for phase8-updates (footer CTA alignment fixes) and set up phase9-updates branch.
 
 ### Files Changed
 
 - `blocks/footer/footer.js` — added `inlineIcons()` function
-- `blocks/footer/footer.css` — SVG path fill, removed circle borders
+- `blocks/footer/footer.css` — SVG circle borders, path fill, spacing fixes
 - `icons/facebook.svg`, `icons/instagram.svg`, `icons/linkedin.svg`, `icons/twitter.svg`, `icons/youtube.svg` — fill updated to `#001e2e`
 
 ---
