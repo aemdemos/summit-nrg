@@ -5,6 +5,90 @@
 
 ---
 
+## Session: 2026-04-01 — Footer Divider Color Fix & Deploy Investigation
+
+**Duration**: ~10m
+**Branch**: `phase8-updates`
+**Commit**: `75b6e80`
+
+### Summary
+
+1. **Divider color fix** (`75b6e80`): Changed footer CTA divider pseudo-element color from `rgb(255 255 255 / 30%)` to `rgb(128 128 128)` to match the original's solid gray HR color.
+
+2. **Deploy investigation**: User reported changes not appearing on live site (`main--summit-nrg--aemdemos.aem.page`). Verified all commits are pushed to `phase8-updates` remote branch. Found no PR exists for phase8 → main yet. The phase8 changes haven't been merged to `main`, which explains why the live site doesn't reflect them.
+
+### Files Changed
+
+- `blocks/footer/footer.css` — divider color update
+
+### Status
+
+- All 3 phase8 commits pushed to remote `phase8-updates` branch
+- PR to merge into `main` still needs to be created
+
+---
+
+## Session: 2026-03-30 — Footer CTA Alignment & Divider Fixes
+
+**Duration**: ~25m
+**Branch**: `phase8-updates`
+**Commits**: `f32d2f1`, `a0c8d69`
+
+### Summary
+
+Two footer CTA column fixes on the `phase8-updates` branch:
+
+1. **Proportional left padding** (`f32d2f1`): Changed desktop `.footer-cta` padding-left from fixed `144px` to `10%`. The original NRG site uses 20% of column width (= 10% of viewport) so content scales proportionally at wider viewports. Verified exact match at 1440px (144px), 1920px (192px), and 2560px (256px).
+
+2. **Divider width & thickness** (`a0c8d69`): The HR between "Contact us" button and "Get the latest" section was spanning the full content wrapper (1000px at 2560px). Replaced the `border-top: 1px` on the second h3 with a `::before` pseudo-element: 306px wide (matching button width) and 2px thick (matching original HR).
+
+### Files Changed
+
+- `blocks/footer/footer.css` — proportional padding + constrained divider pseudo-element
+
+---
+
+## Session: 2026-03-30 — Footer CTA Proportional Padding Fix
+
+**Duration**: ~20m
+**Branch**: `phase8-updates`
+**Commit**: `f32d2f1`
+
+### Summary
+
+Fixed the footer left purple (CTA) column alignment for wide viewports. The original NRG site uses proportional left padding (20% of column width = 10% of viewport) that scales with screen width. Our version used a fixed `144px` which matched at 1440px but drifted left on wider screens (1920px, 2560px+).
+
+**Root cause**: `padding-left: 144px` (fixed) vs original's proportional padding.
+
+**Fix**: Changed desktop `.footer-cta` padding from `72px 24px 72px 144px` to `72px 24px 72px 10%`.
+
+### Verification
+
+| Viewport | Original padding-left | Ours (after fix) | Match |
+|----------|----------------------|-------------------|-------|
+| 1440px   | 144px | 144px (10% of 1440) | Exact |
+| 1920px   | 192px | 192px (10% of 1920) | Exact |
+| 2560px   | 256px | 256px (10% of 2560) | Exact |
+
+### Files Changed
+
+- `blocks/footer/footer.css` — 1 line changed (desktop media query, line 261)
+
+---
+
+## Session: 2026-03-30 — Daily Update + Phase 8 Branch Setup
+
+**Duration**: ~10m
+**Branch**: `main` → `phase8-updates`
+
+### Summary
+
+Ran daily update: 0 open issues, 0 open PRs, lint clean (0 errors, 2 pre-existing warnings), Stylelint clean. Captured full-page desktop (1440px) and mobile (375px) screenshots. Total project effort: ~26.5h across 46 sessions. Project is in maintenance mode with all known issues resolved.
+
+Created `phase8-updates` branch for next round of work.
+
+---
+
 ## Daily Update: 2026-03-30
 
 **Branch**: `main`

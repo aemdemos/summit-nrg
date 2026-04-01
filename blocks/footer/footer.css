@@ -37,11 +37,21 @@ footer .footer .footer-cta p {
   margin: 0 0 16px;
 }
 
-/* #72: divider between CTA and newsletter — match original (full-width HR) */
+/* #72: divider between CTA and newsletter — match original HR (306px wide, 2px thick) */
 footer .footer .footer-cta .default-content-wrapper h3:nth-of-type(2) {
-  border-top: 1px solid rgb(255 255 255 / 30%);
-  padding-top: 32px;
+  position: relative;
+  padding-top: 34px;
   margin-top: 32px;
+}
+
+footer .footer .footer-cta .default-content-wrapper h3:nth-of-type(2)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 306px;
+  height: 2px;
+  background-color: rgb(128 128 128);
 }
 
 /* CTA button — white outline pill */
@@ -258,7 +268,7 @@ footer .footer .footer-nav-col h3 {
   /* #71: reduce right padding so 'Get the latest' heading doesn't wrap */
   footer .footer .footer-cta {
     width: 50%;
-    padding: 72px 24px 72px 144px;
+    padding: 72px 24px 72px 10%;
   }
 
   /* desktop: restore light background and dark text */
