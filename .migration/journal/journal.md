@@ -9,7 +9,7 @@
 
 **Duration**: ~40m
 **Branch**: `phase9-updates`
-**Commits**: `46736ab`, `454f274`
+**Commits**: `46736ab`, `454f274`, `2aa70cc`
 
 ### Summary
 
@@ -18,6 +18,8 @@ Made footer social media icons match the original NRG site exactly. Two phases:
 1. **Remove red circles** (`46736ab`): Removed magenta `border: 1px solid currentcolor` and `border-radius: 50%` from social icon links. Changed color to `rgb(0 30 46)` matching original's dark navy.
 
 2. **Inline SVGs for CSS control** (`454f274`): Discovered icons were loaded as `<img>` tags (AEM default), which prevents CSS fill control. Added `inlineIcons()` function to `footer.js` that fetches SVG files and replaces `<img>` with inline `<svg>` elements. Updated CSS to target `svg path { fill: currentcolor }` for proper mobile (white) / desktop (dark navy) rendering. SVG files updated with hardcoded `fill="#001e2e"` as fallback.
+
+3. **Fix solid square rendering** (`2aa70cc`): The `svg path { fill: currentcolor }` rule was overriding ALL paths including the transparent bounding box (`fill="none"`), turning icons into solid squares. Fixed with `:not([fill="none"])` selector.
 
 Also created PR #89 for phase8-updates (footer CTA alignment fixes) and set up phase9-updates branch.
 
