@@ -170,23 +170,41 @@ footer .footer .footer-nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* social icons */
+/* social icons — circled inline SVGs matching original */
 footer .footer .footer-nav .icon {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }
 
 footer .footer .footer-nav .icon svg {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(0 30 46);
+  border-radius: 25px;
+}
+
+footer .footer .footer-nav .icon svg path:not([fill="none"]) {
+  fill: rgb(0 30 46);
+}
+
+/* fallback for icons still loading as <img> */
+footer .footer .footer-nav .icon img {
   width: 24px;
   height: 24px;
-  fill: currentcolor;
+  filter: brightness(0) invert(1);
+}
+
+/* "Follow us on" heading — tighter spacing than column headings */
+footer .footer .footer-nav > .default-content-wrapper > h3 {
+  margin-bottom: 0;
 }
 
 footer .footer .footer-nav p:has(.icon) {
   display: flex;
-  gap: 8px;
-  margin: 0 0 24px;
+  gap: 7px;
+  margin: 0;
+  padding: 12px 0;
 }
 
 footer .footer .footer-nav p:has(.icon) a:any-link {
@@ -195,8 +213,8 @@ footer .footer .footer-nav p:has(.icon) a:any-link {
   justify-content: center;
   width: 30px;
   height: 30px;
-  border: 1px solid currentcolor;
-  border-radius: 50%;
+  border: none;
+  color: inherit;
 }
 
 /* #79: legal links — line-height 21px to match original (was 32px from 1.8) */
@@ -247,7 +265,7 @@ footer .footer .footer-nav-columns {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  margin-bottom: 44px;
+  margin-bottom: 22px;
 }
 
 footer .footer .footer-nav-col {
@@ -287,5 +305,10 @@ footer .footer .footer-nav-col h3 {
 
   footer .footer .footer-nav-col {
     flex: 0 0 auto;
+  }
+
+  /* desktop: dark icons on light background (no filter) */
+  footer .footer .footer-nav .icon img {
+    filter: none;
   }
 }

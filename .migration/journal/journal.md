@@ -5,6 +5,72 @@
 
 ---
 
+## Session: 2026-04-01 — Footer Social Icons & Right Column Spacing
+
+**Duration**: ~90m
+**Branch**: `phase9-updates`
+**Commits**: `46736ab`, `454f274`, `2aa70cc`, `9437866`, `195d812`
+
+### Summary
+
+Made footer social media icons match the original NRG site exactly. Two phases:
+
+1. **Remove red circles** (`46736ab`): Removed magenta `border: 1px solid currentcolor` and `border-radius: 50%` from social icon links. Changed color to `rgb(0 30 46)` matching original's dark navy.
+
+2. **Inline SVGs for CSS control** (`454f274`): Discovered icons were loaded as `<img>` tags (AEM default), which prevents CSS fill control. Added `inlineIcons()` function to `footer.js` that fetches SVG files and replaces `<img>` with inline `<svg>` elements. Updated CSS to target `svg path { fill: currentcolor }` for proper mobile (white) / desktop (dark navy) rendering. SVG files updated with hardcoded `fill="#001e2e"` as fallback.
+
+3. **Fix solid square rendering** (`2aa70cc`): The `svg path { fill: currentcolor }` rule was overriding ALL paths including the transparent bounding box (`fill="none"`), turning icons into solid squares. Fixed with `:not([fill="none"])` selector.
+
+4. **Add circle borders** (`9437866`): Original applies `border: 1px solid rgb(0,30,46)` and `border-radius: 25px` directly to the `<svg>` elements — discovered via screenshot comparison. Added matching CSS to render circular outlines around each icon. SVG sized to 30x30 to match original.
+
+5. **Right column spacing** (`195d812`): Measured all element gaps between original and ours. Fixed nav-columns margin-bottom (44→22px), "Follow us on" h3 margin-bottom (12→0px), social icons paragraph margin (24→0px with 12px padding), icon gap (8→7px). All gaps now match original within 1-2px.
+
+Also created PR #89 for phase8-updates and PR #90 for phase9-updates.
+
+### Files Changed
+
+- `blocks/footer/footer.js` — added `inlineIcons()` function
+- `blocks/footer/footer.css` — SVG circle borders, path fill, spacing fixes
+- `icons/facebook.svg`, `icons/instagram.svg`, `icons/linkedin.svg`, `icons/twitter.svg`, `icons/youtube.svg` — fill updated to `#001e2e`
+
+---
+
+## Session: 2026-04-01 — Footer Social Icons Fix (Remove Red Circles)
+
+**Duration**: ~25m
+**Branch**: `phase9-updates`
+**Commit**: `46736ab`
+
+### Summary
+
+Fixed footer social media icons to match the original NRG site. Our version had red/magenta circles around each icon (`border: 1px solid currentcolor` with brand-primary inherited, `border-radius: 50%`). The original renders plain dark navy SVGs with no surrounding circles.
+
+**Changes:**
+- Removed `border: 1px solid currentcolor` and `border-radius: 50%` from social icon links
+- Changed SVG fill and link color from `rgb(184, 0, 107)` (magenta) to `rgb(0, 30, 46)` (dark navy) matching original
+
+### Files Changed
+
+- `blocks/footer/footer.css` — social icon link styles (lines 192-200)
+
+---
+
+## Session: 2026-04-01 — PR #89 Created & Phase 9 Branch Setup
+
+**Duration**: ~5m
+**Branch**: `phase8-updates` → `phase9-updates`
+
+### Summary
+
+Created PR #89 (`phase8-updates` → `main`) with three footer CTA fixes: proportional left padding, divider width/thickness, and divider color. Set up `phase9-updates` branch for next round of work.
+
+### Actions
+
+- Created PR #89: https://github.com/aemdemos/summit-nrg/pull/89
+- Created `phase9-updates` branch from `phase8-updates`
+
+---
+
 ## Session: 2026-04-01 — Footer Divider Color Fix & Deploy Investigation
 
 **Duration**: ~10m

@@ -90,6 +90,30 @@ function buildPrivacyButton(navSection) {
 }
 
 /**
+ * Replaces icon <img> tags with inline SVGs so CSS fill works.
+ * @param {Element} section The section containing icons
+ */
+async function inlineIcons(section) {
+  const imgs = section.querySelectorAll('.icon img[src$=".svg"]');
+  const fetches = [...imgs].map(async (img) => {
+    try {
+      const resp = await fetch(img.src);
+      if (!resp.ok) return;
+      const text = await resp.text();
+      // eslint-disable-next-line secure-coding/no-xxe-injection -- browser DOMParser is safe
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'image/svg+xml');
+      const svg = doc.querySelector('svg');
+      if (!svg) return;
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      img.replaceWith(svg);
+    } catch { /* keep img fallback */ }
+  });
+  await Promise.all(fetches);
+}
+
+/**
  * loads and decorates the footer
  * @param {Element} block The footer block element
  */
@@ -111,6 +135,7 @@ export default async function decorate(block) {
     buildEmailForm(sections[0]);
     buildNavColumns(sections[1]);
     buildPrivacyButton(sections[1]);
+    inlineIcons(sections[1]);
   }
 
   sections.forEach((section) => footer.append(section));
