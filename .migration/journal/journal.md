@@ -7,9 +7,9 @@
 
 ## Session: 2026-04-01 — Footer Social Icons: Inline SVGs & Visual Parity
 
-**Duration**: ~40m
+**Duration**: ~60m
 **Branch**: `phase9-updates`
-**Commits**: `46736ab`, `454f274`, `2aa70cc`
+**Commits**: `46736ab`, `454f274`, `2aa70cc`, `35ca060`, `9437866`
 
 ### Summary
 
@@ -20,6 +20,8 @@ Made footer social media icons match the original NRG site exactly. Two phases:
 2. **Inline SVGs for CSS control** (`454f274`): Discovered icons were loaded as `<img>` tags (AEM default), which prevents CSS fill control. Added `inlineIcons()` function to `footer.js` that fetches SVG files and replaces `<img>` with inline `<svg>` elements. Updated CSS to target `svg path { fill: currentcolor }` for proper mobile (white) / desktop (dark navy) rendering. SVG files updated with hardcoded `fill="#001e2e"` as fallback.
 
 3. **Fix solid square rendering** (`2aa70cc`): The `svg path { fill: currentcolor }` rule was overriding ALL paths including the transparent bounding box (`fill="none"`), turning icons into solid squares. Fixed with `:not([fill="none"])` selector.
+
+4. **Add circle borders** (`9437866`): Original applies `border: 1px solid rgb(0,30,46)` and `border-radius: 25px` directly to the `<svg>` elements — discovered via screenshot comparison. Added matching CSS to render circular outlines around each icon. SVG sized to 30x30 to match original.
 
 Also created PR #89 for phase8-updates (footer CTA alignment fixes) and set up phase9-updates branch.
 
