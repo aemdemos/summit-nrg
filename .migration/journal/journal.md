@@ -5,6 +5,22 @@
 
 ---
 
+## Session: 2026-04-01 — PR #89 Created & Phase 9 Branch Setup
+
+**Duration**: ~5m
+**Branch**: `phase8-updates` → `phase9-updates`
+
+### Summary
+
+Created PR #89 (`phase8-updates` → `main`) with three footer CTA fixes: proportional left padding, divider width/thickness, and divider color. Set up `phase9-updates` branch for next round of work.
+
+### Actions
+
+- Created PR #89: https://github.com/aemdemos/summit-nrg/pull/89
+- Created `phase9-updates` branch from `phase8-updates`
+
+---
+
 ## Session: 2026-04-01 — Footer Divider Color Fix & Deploy Investigation
 
 **Duration**: ~10m
