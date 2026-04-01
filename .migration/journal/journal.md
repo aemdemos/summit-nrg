@@ -5,6 +5,29 @@
 
 ---
 
+## Session: 2026-04-01 — Footer Divider Color Fix & Deploy Investigation
+
+**Duration**: ~10m
+**Branch**: `phase8-updates`
+**Commit**: `75b6e80`
+
+### Summary
+
+1. **Divider color fix** (`75b6e80`): Changed footer CTA divider pseudo-element color from `rgb(255 255 255 / 30%)` to `rgb(128 128 128)` to match the original's solid gray HR color.
+
+2. **Deploy investigation**: User reported changes not appearing on live site (`main--summit-nrg--aemdemos.aem.page`). Verified all commits are pushed to `phase8-updates` remote branch. Found no PR exists for phase8 → main yet. The phase8 changes haven't been merged to `main`, which explains why the live site doesn't reflect them.
+
+### Files Changed
+
+- `blocks/footer/footer.css` — divider color update
+
+### Status
+
+- All 3 phase8 commits pushed to remote `phase8-updates` branch
+- PR to merge into `main` still needs to be created
+
+---
+
 ## Session: 2026-03-30 — Footer CTA Alignment & Divider Fixes
 
 **Duration**: ~25m
