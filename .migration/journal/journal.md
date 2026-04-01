@@ -5,6 +5,26 @@
 
 ---
 
+## Session: 2026-04-01 — Footer Social Icons Fix (Remove Red Circles)
+
+**Duration**: ~25m
+**Branch**: `phase9-updates`
+**Commit**: `46736ab`
+
+### Summary
+
+Fixed footer social media icons to match the original NRG site. Our version had red/magenta circles around each icon (`border: 1px solid currentcolor` with brand-primary inherited, `border-radius: 50%`). The original renders plain dark navy SVGs with no surrounding circles.
+
+**Changes:**
+- Removed `border: 1px solid currentcolor` and `border-radius: 50%` from social icon links
+- Changed SVG fill and link color from `rgb(184, 0, 107)` (magenta) to `rgb(0, 30, 46)` (dark navy) matching original
+
+### Files Changed
+
+- `blocks/footer/footer.css` — social icon link styles (lines 192-200)
+
+---
+
 ## Session: 2026-04-01 — PR #89 Created & Phase 9 Branch Setup
 
 **Duration**: ~5m
