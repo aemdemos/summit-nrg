@@ -195,10 +195,16 @@ footer .footer .footer-nav .icon img {
   filter: brightness(0) invert(1);
 }
 
+/* "Follow us on" heading — tighter spacing than column headings */
+footer .footer .footer-nav > .default-content-wrapper > h3 {
+  margin-bottom: 0;
+}
+
 footer .footer .footer-nav p:has(.icon) {
   display: flex;
-  gap: 8px;
-  margin: 0 0 24px;
+  gap: 7px;
+  margin: 0;
+  padding: 12px 0;
 }
 
 footer .footer .footer-nav p:has(.icon) a:any-link {
@@ -259,7 +265,7 @@ footer .footer .footer-nav-columns {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  margin-bottom: 44px;
+  margin-bottom: 22px;
 }
 
 footer .footer .footer-nav-col {
