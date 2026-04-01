@@ -170,20 +170,22 @@ footer .footer .footer-nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* social icons — plain inline SVGs, no circles (matches original) */
+/* social icons — circled inline SVGs matching original */
 footer .footer .footer-nav .icon {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }
 
 footer .footer .footer-nav .icon svg {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(0 30 46);
+  border-radius: 25px;
 }
 
 footer .footer .footer-nav .icon svg path:not([fill="none"]) {
-  fill: currentcolor;
+  fill: rgb(0 30 46);
 }
 
 /* fallback for icons still loading as <img> */
