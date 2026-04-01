@@ -170,7 +170,7 @@ footer .footer .footer-nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* social icons */
+/* social icons — plain SVGs, no circles (matches original) */
 footer .footer .footer-nav .icon {
   display: inline-block;
   width: 24px;
@@ -180,7 +180,7 @@ footer .footer .footer-nav .icon {
 footer .footer .footer-nav .icon svg {
   width: 24px;
   height: 24px;
-  fill: currentcolor;
+  fill: rgb(0 30 46);
 }
 
 footer .footer .footer-nav p:has(.icon) {
@@ -195,8 +195,8 @@ footer .footer .footer-nav p:has(.icon) a:any-link {
   justify-content: center;
   width: 30px;
   height: 30px;
-  border: 1px solid currentcolor;
-  border-radius: 50%;
+  border: none;
+  color: rgb(0 30 46);
 }
 
 /* #79: legal links — line-height 21px to match original (was 32px from 1.8) */
